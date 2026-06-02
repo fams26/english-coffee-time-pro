@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Dashboard - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --success: #10B981;
+            --warning: #F59E0B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        /* MAIN */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* PROFILE SECTION */
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .profile-info h2 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        /* LEVELS SECTION */
+        .levels-section {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .levels-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .level-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 30px rgba(44, 82, 130, 0.1);
+        }
+
+        .level-card.current {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.02) 0%, rgba(44, 82, 130, 0.02) 100%);
+        }
+
+        .level-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .level-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .level-badge {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .level-status {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .modules-grid {
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .module-card {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .module-card:hover {
+            background: white;
+            border-color: var(--accent);
+        }
+
+        .module-icon {
+            font-size: 32px;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .module-progress {
+            font-size: 11px;
+            color: var(--text-light);
+        }
+
+        .module-status {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-completed {
+            color: var(--success);
+        }
+
+        .status-in-progress {
+            color: var(--warning);
+        }
+
+        .status-pending {
+            color: var(--text-light);
+        }
+
+        .level-progress {
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        /* LOCKED LEVEL */
+        .level-locked {
+            opacity: 0.6;
+        }
+
+        .level-locked .level-header {
+            background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+        }
+
+        .lock-message {
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        /* FLOATING ACTION BUTTON */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(44, 82, 130, 0.3);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            background: #1e3a5f;
+        }
+
+        @media (max-width: 768px) {
+            .profile-section {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stats {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-content">
+        <div class="logo">☕ English Coffee Time</div>
+        <div class="user-menu">
+            <div>
+                <div class="user-name" id="userName">Usuario</div>
+                <div style="font-size: 12px; color: var(--text-light);" id="userLevel">Nivel: B1</div>
+            </div>
+            <button class="btn-logout" onclick="logout()">Salir</button>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+    
+    <!-- PROFILE SECTION -->
+    <div class="profile-section">
+        <div class="profile-info">
+            <h2>Tu Progreso en Inglés</h2>
+            <p>Sigue tu camino de aprendizaje a través de los niveles MCER</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="modulesCompleted">0</div>
+                    <div class="stat-label">Módulos Completados</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="currentLevelDisplay">B1</div>
+                    <div class="stat-label">Nivel Actual</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="averageScore">0</div>
+                    <div class="stat-label">Promedio de Puntuación</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LEVELS SECTION -->
+    <section class="levels-section">
+        <h3 class="section-title">Tu Ruta de Aprendizaje</h3>
+
+        <!-- NIVEL A1 -->
+        <div class="level-card" id="levelA1Card">
+            <div class="level-header">
+                <div>
+                    <div class="level-title">Nivel A1 - Principiante</div>
+                    <div class="level-status">6 módulos disponibles</div>
+                </div>
+                <div class="level-badge" id="badgeA1">⏳ No iniciado</div>
+            </div>
+            <div class="modules-grid" id="modulesA1"></div>
+            <div class="level-progress" id="progressA1" style="display:none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFillA1" style="width: 0%;"></div>
+                </div>
+                <div class="progress-text" id="progressTextA1">0% completado</div>
+            </div>
+            <div class="lock-message" id="lockA1" style="display:none;">
+                🔐 Completa tu test inicial para acceder
+            </div>
+        </div>
+
+        <!-- NIVEL A2 -->
+        <div class="level-card" id="levelA2Card">
+            <div class="level-header">
+                <div>
+                    <div class="level-title">Nivel A2 - Elemental</div>
+                    <div class="level-status">6 módulos disponibles</div>
+                </div>
+                <div class="level-badge" id="badgeA2">🔒 Bloqueado</div>
+            </div>
+            <div class="lock-message">
+                🔐 Completa todos los módulos A1 para desbloquear
+            </div>
+        </div>
+
+        <!-- NIVEL B1 -->
+        <div class="level-card" id="levelB1Card">
+            <div class="level-header">
+                <div>
+                    <div class="level-title">Nivel B1 - Intermedio</div>
+                    <div class="level-status">6 módulos disponibles</div>
+                </div>
+                <div class="level-badge" id="badgeB1">🔒 Bloqueado</div>
+            </div>
+            <div class="lock-message">
+                🔐 Completa todos los módulos A2 para desbloquear
+            </div>
+        </div>
+
+        <!-- NIVEL B2 -->
+        <div class="level-card" id="levelB2Card">
+            <div class="level-header">
+                <div>
+                    <div class="level-title">Nivel B2 - Intermedio Alto</div>
+                    <div class="level-status">6 módulos disponibles</div>
+                </div>
+                <div class="level-badge" id="badgeB2">🔒 Bloqueado</div>
+            </div>
+            <div class="lock-message">
+                🔐 Completa todos los módulos B1 para desbloquear
+            </div>
+        </div>
+
+        <!-- NIVEL C1 -->
+        <div class="level-card" id="levelC1Card">
+            <div class="level-header">
+                <div>
+                    <div class="level-title">Nivel C1 - Avanzado</div>
+                    <div class="level-status">6 módulos disponibles</div>
+                </div>
+                <div class="level-badge" id="badgeC1">🔒 Bloqueado</div>
+            </div>
+            <div class="lock-message">
+                🔐 Completa todos los módulos B2 para desbloquear
+            </div>
+        </div>
+
+        <!-- NIVEL C2 -->
+        <div class="level-card" id="levelC2Card">
+            <div class="level-header">
+                <div>
+                    <div class="level-title">Nivel C2 - Dominio</div>
+                    <div class="level-status">6 módulos disponibles</div>
+                </div>
+                <div class="level-badge" id="badgeC2">🔒 Bloqueado</div>
+            </div>
+            <div class="lock-message">
+                🔐 Completa todos los módulos C1 para desbloquear
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+<!-- FLOATING ACTION BUTTON -->
+<a href="test-module.html" class="fab" title="Hacer un módulo">
+    📝
+</a>
+
+<script>
+    const moduleIcons = {
+        reading: '📖',
+        grammar: '📝',
+        vocabulary: '📚',
+        listening: '🎧',
+        writing: '✍️',
+        speaking: '🗣️'
+    };
+
+    const moduleNames = {
+        reading: 'Reading',
+        grammar: 'Grammar',
+        vocabulary: 'Vocabulary',
+        listening: 'Listening',
+        writing: 'Writing',
+        speaking: 'Speaking'
+    };
+
+    function initDashboard() {
+        const user = JSON.parse(localStorage.getItem('user')) || {};
+        const currentLevel = user.nivel || 'A1';
+
+        document.getElementById('userName').textContent = user.name || 'Usuario';
+        document.getElementById('userLevel').textContent = `Nivel: ${currentLevel}`;
+        document.getElementById('currentLevelDisplay').textContent = currentLevel;
+
+        // Cargar módulos del nivel actual
+        loadLevel('A1');
+        
+        // Mostrar solo el nivel actual como desbloqueado
+        if (currentLevel !== 'A1') {
+            document.getElementById('levelA1Card').classList.remove('current');
+            document.getElementById('lockA1').style.display = 'none';
+            document.getElementById('modulesA1').parentElement.style.display = 'block';
+        } else {
+            document.getElementById('levelA1Card').classList.add('current');
+        }
+
+        // Marcar nivel actual como desbloqueado
+        const levelCard = document.getElementById(`level${currentLevel}Card`);
+        if (levelCard) {
+            levelCard.classList.add('current');
+            const badge = levelCard.querySelector('.level-badge');
+            if (badge) {
+                badge.textContent = '🔄 En progreso';
+                badge.className = 'level-badge';
+            }
+            const modules = levelCard.querySelector('.modules-grid');
+            if (modules) {
+                modules.style.display = 'grid';
+                loadLevel(currentLevel);
+            }
+        }
+    }
+
+    function loadLevel(level) {
+        const modules = Object.keys(moduleIcons);
+        const container = document.getElementById(`modules${level}`);
+        
+        if (!container) return;
+
+        container.innerHTML = '';
+        
+        modules.forEach(moduleType => {
+            const moduleCard = document.createElement('div');
+            moduleCard.className = 'module-card';
+            moduleCard.onclick = () => goToModule(level, moduleType);
+            
+            moduleCard.innerHTML = `
+                <div class="module-icon">${moduleIcons[moduleType]}</div>
+                <div class="module-name">${moduleNames[moduleType]}</div>
+                <div class="module-progress">${level}</div>
+                <div class="module-status status-pending">⏳ Pendiente</div>
+            `;
+            
+            container.appendChild(moduleCard);
+        });
+
+        // Mostrar progress
+        const progressDiv = document.getElementById(`progress${level}`);
+        if (progressDiv) {
+            progressDiv.style.display = 'block';
+        }
+    }
+
+    function goToModule(level, moduleType) {
+        localStorage.setItem('currentModule', JSON.stringify({
+            level: level,
+            moduleType: moduleType
+        }));
+        window.location.href = 'test-module.html';
+    }
+
+    function logout() {
+        if (confirm('¿Seguro que deseas salir?')) {
+            localStorage.removeItem('user');
+            window.location.href = '../index.html';
+        }
+    }
+
+    initDashboard();
+</script>
+
+</body>
+</html>

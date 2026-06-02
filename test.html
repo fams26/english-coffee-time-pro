@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Coffee Time - CAT Test</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">English Coffee Time</h1>
+            <p class="logo-subtitle">TEST ADAPTATIVO CAT</p>
+        </div>
+
+        <!-- Start Section -->
+        <div id="startSection" class="card">
+            <div class="card-header">
+                <h3>Bienvenido al Test de Nivel</h3>
+            </div>
+            <p style="color: var(--color-text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                Este es un test adaptativo de 45 minutos que evaluará tu nivel de inglés bajo el marco MCER (A1 a C2). 
+                El test se adaptará automáticamente a tus respuestas para medir con precisión tu nivel actual.
+            </p>
+
+            <form id="startForm">
+                <div class="form-group">
+                    <label>Nombre completo *</label>
+                    <input type="text" id="studentName" placeholder="Ej: Juan García" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Correo electrónico *</label>
+                    <input type="email" id="studentEmail" placeholder="Ej: juan@email.com" required>
+                </div>
+
+                <div style="background: var(--color-background-secondary); padding: 1rem; border-radius: var(--border-radius-md); margin: 1.5rem 0; border-left: 3px solid var(--color-accent);">
+                    <p style="font-size: 13px; color: var(--color-text-secondary);">
+                        <strong>📝 Instrucciones:</strong> Responde todas las preguntas de forma honesta. No hay respuestas "correctas o incorrectas" en términos de calificación. El test se adaptará a tu nivel automáticamente.
+                    </p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Comenzar Test</button>
+                <p style="text-align: center; margin-top: 1rem; font-size: 13px; color: var(--color-text-secondary);">
+                    <a href="index.html" style="color: var(--color-primary); text-decoration: none;">Volver al inicio</a>
+                </p>
+            </form>
+        </div>
+
+        <!-- Test Section -->
+        <div id="testSection" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding: 1rem; background: var(--color-background-secondary); border-radius: var(--border-radius-md); border-left: 4px solid var(--color-primary);">
+                <div>
+                    <span class="badge badge-primary" id="phaseBadge">Fase 1</span>
+                    <span style="margin-left: 1rem; color: var(--color-text-secondary); font-size: 14px;">
+                        Pregunta <span id="questionNum">1</span> de <span id="totalQuestions">15</span>
+                    </span>
+                </div>
+                <div style="text-align: right;">
+                    <div style="color: var(--color-text-secondary); font-size: 14px;">Tiempo: <span id="timer" style="font-weight: 600;">45:00</span></div>
+                    <div style="color: var(--color-accent); font-weight: 600; margin-top: 0.25rem;">Nivel: <span id="levelDisplay">B1</span></div>
+                </div>
+            </div>
+
+            <div id="questionContainer" class="card"></div>
+
+            <div id="loadingIndicator" style="display: none; text-align: center; padding: 2rem;">
+                <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                <p style="color: var(--color-text-secondary);">Evaluando tu respuesta...</p>
+            </div>
+
+            <div id="errorMessage" style="display: none;"></div>
+        </div>
+
+        <!-- Report Section -->
+        <div id="reportSection" style="display: none;">
+            <div style="background: var(--color-primary); color: white; padding: 2rem; border-radius: var(--border-radius-lg); text-align: center; margin-bottom: 2rem;">
+                <h1 style="font-size: 24px; margin-bottom: 1rem;">Tu Resultado Final</h1>
+                <div style="font-size: 56px; font-weight: 700; color: var(--color-accent); margin: 1rem 0;" id="finalLevel">B1</div>
+                <p>Evaluación completada exitosamente</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem;">Gramática</div>
+                    <div style="font-size: 28px; font-weight: 600; color: var(--color-accent);" id="grammarScore">75%</div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem;">Vocabulario</div>
+                    <div style="font-size: 28px; font-weight: 600; color: var(--color-accent);" id="vocabScore">80%</div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem;">Fluidez</div>
+                    <div style="font-size: 28px; font-weight: 600; color: var(--color-accent);" id="fluencyScore">70%</div>
+                </div>
+                <div class="card" style="text-align: center;">
+                    <div style="font-size: 12px; color: var(--color-text-secondary); text-transform: uppercase; font-weight: 600; margin-bottom: 0.5rem;">Comprensión</div>
+                    <div style="font-size: 28px; font-weight: 600; color: var(--color-accent);" id="comprehensionScore">78%</div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3>Fortalezas Identificadas</h3>
+                </div>
+                <ul style="list-style: none;">
+                    <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--color-success); border-radius: var(--border-radius-md); padding-left: 1rem;">
+                        <span id="strength1">Dominio de vocabulario en contextos cotidianos.</span>
+                    </li>
+                    <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--color-success); border-radius: var(--border-radius-md); padding-left: 1rem;">
+                        <span id="strength2">Capacidad de comunicación básica.</span>
+                    </li>
+                    <li style="padding: 0.75rem; background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--color-success); border-radius: var(--border-radius-md); padding-left: 1rem;">
+                        <span id="strength3">Comprensión de textos simples.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3>Áreas de Mejora</h3>
+                </div>
+                <ul style="list-style: none;">
+                    <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--color-danger); border-radius: var(--border-radius-md); padding-left: 1rem;">
+                        <span id="weakness1">Mejora en estructuras gramaticales básicas.</span>
+                    </li>
+                    <li style="padding: 0.75rem; margin-bottom: 0.5rem; background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--color-danger); border-radius: var(--border-radius-md); padding-left: 1rem;">
+                        <span id="weakness2">Fluidez y pronunciación en conversaciones naturales.</span>
+                    </li>
+                    <li style="padding: 0.75rem; background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--color-danger); border-radius: var(--border-radius-md); padding-left: 1rem;">
+                        <span id="weakness3">Comprensión auditiva de acentos variados.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3>Plan de Acción</h3>
+                </div>
+                <div id="actionPlan"></div>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary btn-block" onclick="downloadReport()">Descargar Reporte PDF</button>
+                <button class="btn btn-block" onclick="location.href='index.html'">Volver al Inicio</button>
+            </div>
+        </div>
+
+        <div class="footer mt-3">
+            <p>© 2025 English Coffee Time. Todos los derechos reservados.</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/test.js"></script>
+</body>
+</html>

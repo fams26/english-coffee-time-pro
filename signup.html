@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - English Coffee Time</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg-light: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-light);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+        }
+
+        .left {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 100%);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .left h1 {
+            font-size: 36px;
+            margin-bottom: 1rem;
+        }
+
+        .left p {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .benefits {
+            text-align: left;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+        }
+
+        .benefit-text {
+            font-size: 14px;
+        }
+
+        .right {
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .form-container h2 {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-container p {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(44, 82, 130, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkbox-group input {
+            margin-top: 0.25rem;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .checkbox-group a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #1e3a5f;
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            text-align: center;
+            color: var(--text-light);
+            margin: 1.5rem 0;
+            font-size: 12px;
+        }
+
+        .btn-google {
+            width: 100%;
+            padding: 0.75rem;
+            background: white;
+            color: var(--text-dark);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-google:hover {
+            background: var(--bg-light);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .login-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 13px;
+            display: none;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 13px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .left {
+                display: none;
+            }
+
+            .right {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- LEFT SIDE -->
+    <div class="left">
+        <div>
+            <h1>Domina Inglés</h1>
+            <p>Únete a miles de estudiantes que ya están aprendiendo con English Coffee Time</p>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text"><strong>36 módulos</strong> estructurados</div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text"><strong>3000+ preguntas</strong> con explicaciones</div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text"><strong>Certificados</strong> verificables</div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text"><strong>Plan personalizado</strong> para ti</div>
+                </div>
+                <div class="benefit">
+                    <div class="benefit-icon">✓</div>
+                    <div class="benefit-text"><strong>7 días gratis</strong> sin tarjeta</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="right">
+        <div class="form-container">
+            <h2>Crear Cuenta</h2>
+            <p>Empieza tu prueba gratuita de 7 días hoy</p>
+
+            <div class="error" id="errorMsg"></div>
+            <div class="success" id="successMsg"></div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" name="name" required placeholder="Tu nombre">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required placeholder="tu@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required placeholder="Mínimo 6 caracteres">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Acepto los <a href="#" target="_blank">Términos de Servicio</a> y <a href="#" target="_blank">Política de Privacidad</a></label>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    Crear Cuenta Gratuita
+                    <span class="loading" id="loadingSpinner">⏳</span>
+                </button>
+            </form>
+
+            <div class="divider">O continúa con</div>
+
+            <button class="btn-google" onclick="signupWithGoogle()">
+                🔵 Continuar con Google
+            </button>
+
+            <div class="login-link">
+                ¿Ya tienes cuenta? <a href="signin.html">Inicia Sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // NOTA: Reemplaza estas credenciales con las tuyas de Supabase
+    const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
+    const SUPABASE_KEY = 'YOUR-ANON-KEY';
+
+    // Inicializar Supabase (comentado por ahora)
+    // const { createClient } = window.supabase;
+    // const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Simulación de registro (mientras configuras Supabase)
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMsg = document.getElementById('errorMsg');
+        const successMsg = document.getElementById('successMsg');
+
+        // Limpiar mensajes
+        errorMsg.style.display = 'none';
+        successMsg.style.display = 'none';
+
+        // Validación básica
+        if (password.length < 6) {
+            showError('La contraseña debe tener al menos 6 caracteres');
+            return;
+        }
+
+        // Mostrar loading
+        submitBtn.disabled = true;
+        document.getElementById('loadingSpinner').style.display = 'inline';
+
+        try {
+            // AQUÍ VA LA INTEGRACIÓN CON SUPABASE
+            // Por ahora, simulamos el registro
+
+            // Simular delay de API
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            // Simular registro exitoso
+            showSuccess('¡Cuenta creada! Redirigiendo al dashboard...');
+            
+            // Guardar en localStorage (temporal)
+            localStorage.setItem('user', JSON.stringify({
+                name: name,
+                email: email,
+                created_at: new Date().toISOString()
+            }));
+
+            // Redirigir después de 2 segundos
+            setTimeout(() => {
+                window.location.href = 'app/dashboard.html';
+            }, 2000);
+
+        } catch (error) {
+            showError(error.message || 'Error al crear cuenta. Intenta de nuevo.');
+        } finally {
+            submitBtn.disabled = false;
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+    });
+
+    function showError(msg) {
+        const errorMsg = document.getElementById('errorMsg');
+        errorMsg.textContent = msg;
+        errorMsg.style.display = 'block';
+    }
+
+    function showSuccess(msg) {
+        const successMsg = document.getElementById('successMsg');
+        successMsg.textContent = msg;
+        successMsg.style.display = 'block';
+    }
+
+    function signupWithGoogle() {
+        alert('Integración Google Sign-In (próximamente)');
+        // Implementar con Google OAuth
+    }
+</script>
+
+</body>
+</html>

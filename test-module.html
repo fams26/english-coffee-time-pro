@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-info {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .module-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+
+        .module-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            margin-bottom: 2rem;
+        }
+
+        .question-number {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(44, 82, 130, 0.03);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(44, 82, 130, 0.05);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1e3a5f;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .result-container {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .result-feedback {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 768px) {
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">☕ English Coffee Time</div>
+        <div class="progress-info">
+            <span id="currentQuestion">Pregunta 1</span> de <span id="totalQuestions">5</span>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="module-container">
+        <!-- MODULE VIEW -->
+        <div id="moduleView">
+            <h1 class="module-title" id="moduleTitle">Módulo de Lectura A1</h1>
+            <p class="module-description" id="moduleDescription">Comprensión de textos simples</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <form id="moduleForm">
+                <div class="question-card">
+                    <div class="question-number" id="questionNumber">Pregunta 1</div>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="options" id="optionsContainer"></div>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+                        ← Anterior
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+                        Siguiente →
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- RESULT VIEW -->
+        <div id="resultView" style="display:none;">
+            <div class="result-container">
+                <div class="result-icon" id="resultIcon">🎉</div>
+                <h1 class="result-title">Módulo Completado</h1>
+                <div class="result-score" id="resultScore">85%</div>
+                <div class="result-feedback" id="resultFeedback">
+                    Excelente trabajo. Continúa con el próximo módulo.
+                </div>
+                <button class="btn btn-primary" onclick="backToDashboard()" style="padding: 1rem 2rem;">
+                    Volver al Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // PREGUNTAS PLACEHOLDER (se cargan desde modules.json en producción)
+    const moduleQuestions = [
+        {
+            q: "What is the main topic?",
+            o: ["Option 1", "Option 2", "Option 3", "Option 4"],
+            c: 0
+        },
+        {
+            q: "Which answer is correct?",
+            o: ["Answer A", "Answer B", "Answer C", "Answer D"],
+            c: 1
+        },
+        {
+            q: "Choose the best option:",
+            o: ["First", "Second", "Third", "Fourth"],
+            c: 2
+        },
+        {
+            q: "What does this mean?",
+            o: ["Meaning 1", "Meaning 2", "Meaning 3", "Meaning 4"],
+            c: 1
+        },
+        {
+            q: "Select the correct answer:",
+            o: ["Wrong 1", "Wrong 2", "Correct", "Wrong 3"],
+            c: 2
+        }
+    ];
+
+    let currentQuestion = 0;
+    let answers = new Array(moduleQuestions.length).fill(null);
+
+    function initModule() {
+        const module = JSON.parse(localStorage.getItem('currentModule')) || {};
+        
+        document.getElementById('moduleTitle').textContent = `${module.level} - ${module.moduleType}`;
+        document.getElementById('moduleDescription').textContent = `Aprende ${module.moduleType} en nivel ${module.level}`;
+        document.getElementById('totalQuestions').textContent = moduleQuestions.length;
+
+        loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+        const question = moduleQuestions[index];
+        
+        document.getElementById('questionNumber').textContent = `Pregunta ${index + 1}`;
+        document.getElementById('currentQuestion').textContent = `Pregunta ${index + 1}`;
+        document.getElementById('questionText').textContent = question.q;
+        
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = '';
+        
+        question.o.forEach((option, i) => {
+            const div = document.createElement('div');
+            div.className = 'option' + (answers[index] === i ? ' selected' : '');
+            div.innerHTML = `
+                <label style="display: flex; align-items: center; cursor: pointer; width: 100%; margin: 0;">
+                    <input type="radio" name="answer" value="${i}" ${answers[index] === i ? 'checked' : ''} onchange="selectAnswer(${i})">
+                    <span>${option}</span>
+                </label>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        const progress = ((index + 1) / moduleQuestions.length) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+
+        document.getElementById('prevBtn').disabled = index === 0;
+        document.getElementById('nextBtn').textContent = index === moduleQuestions.length - 1 ? 'Finalizar' : 'Siguiente →';
+    }
+
+    function selectAnswer(optionIndex) {
+        answers[currentQuestion] = optionIndex;
+        document.querySelectorAll('.option').forEach((el, i) => {
+            el.classList.toggle('selected', i === optionIndex);
+        });
+    }
+
+    function nextQuestion() {
+        if (answers[currentQuestion] === null) {
+            alert('Por favor selecciona una respuesta');
+            return;
+        }
+
+        if (currentQuestion === moduleQuestions.length - 1) {
+            submitModule();
+        } else {
+            currentQuestion++;
+            loadQuestion(currentQuestion);
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            loadQuestion(currentQuestion);
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function submitModule() {
+        let correct = 0;
+        moduleQuestions.forEach((q, i) => {
+            if (answers[i] === q.c) correct++;
+        });
+
+        const score = Math.round((correct / moduleQuestions.length) * 100);
+        
+        document.getElementById('moduleView').style.display = 'none';
+        document.getElementById('resultView').style.display = 'block';
+        document.getElementById('resultScore').textContent = score + '%';
+
+        if (score >= 80) {
+            document.getElementById('resultIcon').textContent = '🎉';
+            document.getElementById('resultFeedback').textContent = '¡Excelente! Dominas este tema.';
+        } else if (score >= 60) {
+            document.getElementById('resultIcon').textContent = '👍';
+            document.getElementById('resultFeedback').textContent = 'Buen trabajo. Sigue practicando.';
+        } else {
+            document.getElementById('resultIcon').textContent = '💪';
+            document.getElementById('resultFeedback').textContent = 'Sigue practicando. Puedes mejorar.';
+        }
+
+        // Guardar progreso
+        const user = JSON.parse(localStorage.getItem('user'));
+        const module = JSON.parse(localStorage.getItem('currentModule'));
+        
+        if (!user.progress) user.progress = [];
+        
+        user.progress.push({
+            level: module.level,
+            moduleType: module.moduleType,
+            score: score,
+            date: new Date().toISOString()
+        });
+
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    function backToDashboard() {
+        window.location.href = 'dashboard-student.html';
+    }
+
+    initModule();
+</script>
+
+</body>
+</html>

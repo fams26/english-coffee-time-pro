@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Ubicación - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+        }
+
+        /* HEADER */
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-info {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .test-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.07);
+        }
+
+        .test-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .test-description {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 14px;
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        /* QUESTION */
+        .question-card {
+            margin-bottom: 2rem;
+        }
+
+        .question-number {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .options {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: rgba(44, 82, 130, 0.03);
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.75rem;
+            cursor: pointer;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: rgba(44, 82, 130, 0.05);
+        }
+
+        /* BUTTONS */
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1e3a5f;
+        }
+
+        .btn-primary:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(44, 82, 130, 0.05);
+        }
+
+        .btn-secondary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* RESULT */
+        .result-container {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .result-title {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-level {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .result-description {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-size: 16px;
+        }
+
+        .level-info {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .level-info h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .level-info p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .test-container {
+                padding: 1.5rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-content">
+        <div class="logo">☕ English Coffee Time</div>
+        <div class="progress-info">
+            <span id="currentQuestion">Pregunta 1</span> de 30
+        </div>
+    </div>
+</header>
+
+<!-- CONTAINER -->
+<div class="container">
+    <div class="test-container">
+        <!-- TEST VIEW -->
+        <div id="testView">
+            <h1 class="test-title">Test de Ubicación</h1>
+            <p class="test-description">Responde 30 preguntas para determinar tu nivel de inglés</p>
+
+            <!-- PROGRESS BAR -->
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <!-- QUESTION -->
+            <form id="testForm">
+                <div class="question-card">
+                    <div class="question-number" id="questionNumber">Pregunta 1</div>
+                    <div class="question-text" id="questionText"></div>
+                    <div class="options" id="optionsContainer"></div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="buttons">
+                    <button type="button" class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+                        ← Anterior
+                    </button>
+                    <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+                        Siguiente →
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- RESULT VIEW -->
+        <div id="resultView" style="display:none;">
+            <div class="result-container">
+                <div class="result-icon">🎉</div>
+                <h1 class="result-title">¡Test Completado!</h1>
+                <div class="result-level" id="resultLevel">B1</div>
+                <p class="result-description">Tu nivel de inglés ha sido determinado. Ahora puedes comenzar a aprender.</p>
+
+                <div class="level-info">
+                    <h3 id="levelName">Nivel B1 - Intermedio</h3>
+                    <p id="levelDescription">Puedes mantener conversaciones en situaciones cotidianas y profesionales. Comprendes textos claros sobre temas que te interesan.</p>
+                </div>
+
+                <button class="btn btn-primary" onclick="goToDashboard()" style="padding: 1rem 2rem; font-size: 16px;">
+                    Ir al Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // PREGUNTAS DEL TEST (30 preguntas progresivas)
+    const questions = [
+        // A1 (1-5)
+        { q: "What is your name?", o: ["My name is Juan", "I am from Spain", "I work here", "I like English"], c: 0 },
+        { q: "I ___ from Colombia", o: ["am", "is", "are", "be"], c: 0 },
+        { q: "She ___ a teacher", o: ["am", "is", "are", "be"], c: 1 },
+        { q: "How old are you?", o: ["I am teacher", "I am 25 years old", "I like sports", "I am happy"], c: 1 },
+        { q: "What is this? It's a ___", o: ["book", "happy", "go", "blue"], c: 0 },
+
+        // A1-A2 (6-10)
+        { q: "I ___ to school every day", o: ["goes", "go", "going", "gone"], c: 1 },
+        { q: "They ___ in the park yesterday", o: ["play", "plays", "played", "playing"], c: 2 },
+        { q: "Can you ___ English?", o: ["speaks", "speak", "speaking", "spoke"], c: 1 },
+        { q: "I ___ coffee in the morning", o: ["drinks", "drink", "drinking", "drank"], c: 1 },
+        { q: "Where ___ you live?", o: ["do", "does", "did", "are"], c: 0 },
+
+        // A2 (11-15)
+        { q: "What did you do last weekend?", o: ["I go to beach", "I went to beach", "I am going to beach", "I will go to beach"], c: 1 },
+        { q: "I ___ to Paris three times", o: ["go", "goes", "went", "have gone"], c: 3 },
+        { q: "She said she ___ happy", o: ["is", "was", "were", "am"], c: 1 },
+        { q: "If I ___ rich, I would travel", o: ["am", "was", "were", "be"], c: 2 },
+        { q: "The book ___ on the table", o: ["is", "are", "was", "were"], c: 0 },
+
+        // A2-B1 (16-20)
+        { q: "I have been working here ___ 5 years", o: ["for", "since", "during", "while"], c: 0 },
+        { q: "He said he ___ call me tomorrow", o: ["will", "would", "can", "could"], c: 1 },
+        { q: "By next year, I ___ here for 10 years", o: ["work", "will work", "will have worked", "have worked"], c: 2 },
+        { q: "Despite ___ tired, she continued", o: ["being", "be", "is", "was"], c: 0 },
+        { q: "The meeting ___ until 3 PM", o: ["lasts", "lasted", "will last", "has lasted"], c: 2 },
+
+        // B1 (21-25)
+        { q: "I would rather ___ at home than go out", o: ["stay", "to stay", "staying", "stayed"], c: 0 },
+        { q: "He's been working ___", o: ["hardly for two hours", "for hardly two hours", "hardly two hours", "two hours hardly"], c: 0 },
+        { q: "She's not only intelligent ___ also creative", o: ["but", "and", "or", "nor"], c: 0 },
+        { q: "The presentation is scheduled ___ tomorrow", o: ["for", "to", "in", "at"], c: 0 },
+        { q: "I think it's time we ___ a decision", o: ["make", "makes", "making", "to make"], c: 0 },
+
+        // B1-B2 (26-30)
+        { q: "The economic crisis ___ by several factors", o: ["was caused", "caused", "has caused", "was causing"], c: 0 },
+        { q: "Her argument ___ as convincing and well-reasoned", o: ["was regarded", "regarded", "was regarding", "regarding"], c: 0 },
+        { q: "The policy has been ___", o: ["implemented", "implementing", "implement", "to implement"], c: 0 },
+        { q: "What _____ if you had more time?", o: ["would you do", "you would do", "will you do", "you do"], c: 0 },
+        { q: "_____ his experience, he should have known better", o: ["Given", "Giving", "Give", "To give"], c: 0 }
+    ];
+
+    // NIVEL DESCRIPTIONS
+    const levelDescriptions = {
+        'A1': {
+            name: 'Nivel A1 - Principiante',
+            desc: 'Puedes usar frases simples y cotidianas. Entiendes palabras básicas y expresiones familiares.'
+        },
+        'A2': {
+            name: 'Nivel A2 - Elemental',
+            desc: 'Puedes comunicarte en tareas simples. Entiendes el tema general de conversaciones cotidianas.'
+        },
+        'B1': {
+            name: 'Nivel B1 - Intermedio',
+            desc: 'Puedes mantener conversaciones sobre temas que te interesan. Comprendes lo esencial de discusiones claras.'
+        },
+        'B2': {
+            name: 'Nivel B2 - Intermedio Alto',
+            desc: 'Puedes discutir temas complejos y expresar opiniones. Comprendes argumentos principales en textos complejos.'
+        }
+    };
+
+    let currentQuestion = 0;
+    let answers = new Array(30).fill(null);
+    let score = 0;
+
+    function initTest() {
+        loadQuestion(0);
+    }
+
+    function loadQuestion(index) {
+        const question = questions[index];
+        
+        document.getElementById('questionNumber').textContent = `Pregunta ${index + 1}`;
+        document.getElementById('currentQuestion').textContent = `Pregunta ${index + 1}`;
+        document.getElementById('questionText').textContent = question.q;
+        
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = '';
+        
+        question.o.forEach((option, i) => {
+            const div = document.createElement('div');
+            div.className = 'option' + (answers[index] === i ? ' selected' : '');
+            div.innerHTML = `
+                <label style="display: flex; align-items: center; cursor: pointer; width: 100%; margin: 0;">
+                    <input type="radio" name="answer" value="${i}" ${answers[index] === i ? 'checked' : ''} onchange="selectAnswer(${i})">
+                    <span>${option}</span>
+                </label>
+            `;
+            optionsContainer.appendChild(div);
+        });
+
+        // Actualizar barra de progreso
+        const progress = ((index + 1) / 30) * 100;
+        document.getElementById('progressFill').style.width = progress + '%';
+
+        // Actualizar botones
+        document.getElementById('prevBtn').disabled = index === 0;
+        document.getElementById('nextBtn').textContent = index === 29 ? 'Finalizar' : 'Siguiente →';
+    }
+
+    function selectAnswer(optionIndex) {
+        answers[currentQuestion] = optionIndex;
+        document.querySelectorAll('.option').forEach((el, i) => {
+            el.classList.toggle('selected', i === optionIndex);
+        });
+    }
+
+    function nextQuestion() {
+        if (answers[currentQuestion] === null) {
+            alert('Por favor selecciona una respuesta');
+            return;
+        }
+
+        if (currentQuestion === 29) {
+            submitTest();
+        } else {
+            currentQuestion++;
+            loadQuestion(currentQuestion);
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            loadQuestion(currentQuestion);
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function submitTest() {
+        // Calcular puntuación
+        let correct = 0;
+        questions.forEach((q, i) => {
+            if (answers[i] === q.c) correct++;
+        });
+
+        score = (correct / 30) * 100;
+        
+        // Determinar nivel
+        let level;
+        if (score >= 90) level = 'C2';
+        else if (score >= 80) level = 'C1';
+        else if (score >= 65) level = 'B2';
+        else if (score >= 50) level = 'B1';
+        else if (score >= 35) level = 'A2';
+        else level = 'A1';
+
+        // Mostrar resultado
+        showResult(level, score);
+    }
+
+    function showResult(level, score) {
+        document.getElementById('testView').style.display = 'none';
+        document.getElementById('resultView').style.display = 'block';
+        document.getElementById('resultLevel').textContent = level;
+        document.getElementById('levelName').textContent = levelDescriptions[level].name;
+        document.getElementById('levelDescription').textContent = levelDescriptions[level].desc;
+
+        // Guardar nivel en usuario
+        const user = JSON.parse(localStorage.getItem('user'));
+        user.nivel = level;
+        user.score_initial_test = score;
+        user.date_initial_test = new Date().toISOString();
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    function goToDashboard() {
+        window.location.href = 'dashboard-student.html';
+    }
+
+    // Iniciar test
+    initTest();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "name": "english-coffee-time-cat",
+  "version": "1.0.0",
+  "description": "Test adaptativo de inglés basado en MCER con dashboard para profesores",
+  "main": "index.html",
+  "type": "module",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "start": "python3 -m http.server 8000",
+    "server": "npx http-server -p 8000 -o"
+  },
+  "keywords": [
+    "english",
+    "test",
+    "mcer",
+    "cat",
+    "adaptive",
+    "spanish",
+    "language-learning"
+  ],
+  "author": "Felix Garcia",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/felixgarcia/english-coffee-time-cat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/felixgarcia/english-coffee-time-cat/issues"
+  },
+  "homepage": "https://github.com/felixgarcia/english-coffee-time-cat#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

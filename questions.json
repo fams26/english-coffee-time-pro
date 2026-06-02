@@ -1,0 +1,50 @@
+{
+  "A1": {
+    "reading": [{"id": "A1_R_001", "type": "multiple_choice", "question": "Read: 'My name is John. I am a student.' What is John's profession?", "options": ["Teacher", "Student", "Doctor", "Engineer"], "correct": 1, "explanation": "The text says 'I am a student'"}, {"id": "A1_R_002", "type": "multiple_choice", "question": "Read: 'I like apples. Apples are red and sweet.' What color are the apples?", "options": ["Green", "Red", "Yellow", "Orange"], "correct": 1, "explanation": "The text says 'Apples are red'"}],
+    "grammar": [{"id": "A1_G_001", "type": "multiple_choice", "question": "He ___ to school every day.", "options": ["go", "goes", "going", "gone"], "correct": 1, "explanation": "'Goes' is correct for third person singular present simple"}, {"id": "A1_G_002", "type": "multiple_choice", "question": "I ___ from Spain.", "options": ["is", "am", "are", "be"], "correct": 1, "explanation": "'Am' is used with 'I' in present tense"}],
+    "vocabulary": [{"id": "A1_V_001", "type": "multiple_choice", "question": "What is the opposite of 'hot'?", "options": ["Warm", "Cold", "Cool", "Freezing"], "correct": 1, "explanation": "'Cold' is opposite to 'hot'"}, {"id": "A1_V_002", "type": "multiple_choice", "question": "How many days are in a week?", "options": ["5", "7", "10", "14"], "correct": 1, "explanation": "A week has 7 days"}],
+    "listening": [{"id": "A1_L_001", "type": "multiple_choice", "question": "What does the person say his name is?", "options": ["Tom", "Tim", "Tom", "Ted"], "correct": 0, "explanation": "The audio says 'My name is Tom'"}],
+    "writing": [{"id": "A1_W_001", "type": "open", "question": "Write 3-4 sentences about yourself.", "expected_length": 50, "explanation": "Simple A1 introduction expected"}],
+    "speaking": [{"id": "A1_S_001", "type": "open", "question": "Describe your daily routine.", "expected_length": 50, "explanation": "Simple routine description expected"}]
+  },
+  "A2": {
+    "reading": [{"id": "A2_R_001", "type": "multiple_choice", "question": "Read: 'Last summer, I traveled to Paris. I visited the Eiffel Tower.' Where did the person go?", "options": ["Rome", "Paris", "London", "Berlin"], "correct": 1, "explanation": "The text says 'I traveled to Paris'"}],
+    "grammar": [{"id": "A2_G_001", "type": "multiple_choice", "question": "What did you do yesterday?", "options": ["I go", "I went", "I am going", "I will go"], "correct": 1, "explanation": "Use past simple for past actions"}],
+    "vocabulary": [{"id": "A2_V_001", "type": "multiple_choice", "question": "Which is a profession?", "options": ["Eat", "Doctor", "Run", "Happy"], "correct": 1, "explanation": "'Doctor' is a profession"}],
+    "listening": [{"id": "A2_L_001", "type": "multiple_choice", "question": "What time does the shop close?", "options": ["5 PM", "6 PM", "7 PM", "8 PM"], "correct": 1, "explanation": "The audio mentions 6 PM"}],
+    "writing": [{"id": "A2_W_001", "type": "open", "question": "Write about your last vacation.", "expected_length": 80, "explanation": "Past simple narrative expected"}],
+    "speaking": [{"id": "A2_S_001", "type": "open", "question": "Talk about your job or studies.", "expected_length": 80, "explanation": "Simple present description expected"}]
+  },
+  "B1": {
+    "reading": [{"id": "B1_R_001", "type": "multiple_choice", "question": "Read: 'Climate change affects our planet. Rising temperatures cause melting glaciers.' What is a consequence?", "options": ["Fewer buildings", "Melting glaciers", "Lower temperatures", "Fewer cars"], "correct": 1, "explanation": "The text mentions melting glaciers"}],
+    "grammar": [{"id": "B1_G_001", "type": "multiple_choice", "question": "If I were you, I ___ accept that offer.", "options": ["would", "will", "did", "have"], "correct": 0, "explanation": "Conditional type II structure"}],
+    "vocabulary": [{"id": "B1_V_001", "type": "multiple_choice", "question": "What does 'break the ice' mean?", "options": ["Freeze water", "Start conversation", "Break ice", "Win competition"], "correct": 1, "explanation": "Idiom meaning: start conversation in awkward situation"}],
+    "listening": [{"id": "B1_L_001", "type": "multiple_choice", "question": "What is the main topic?", "options": ["Marketing", "Launch", "Culture", "Report"], "correct": 1, "explanation": "The audio is about a product launch"}],
+    "writing": [{"id": "B1_W_001", "type": "open", "question": "Write a formal email explaining a project delay.", "expected_length": 100, "explanation": "Formal business writing required"}],
+    "speaking": [{"id": "B1_S_001", "type": "open", "question": "Describe a problem you solved.", "expected_length": 100, "explanation": "Past narrative with logical sequence"}]
+  },
+  "B2": {
+    "reading": [{"id": "B2_R_001", "type": "multiple_choice", "question": "Read about AI's impact. What concern is mentioned?", "options": ["Not useful", "Job displacement", "Expensive", "Complicated"], "correct": 1, "explanation": "The text mentions job displacement and ethics"}],
+    "grammar": [{"id": "B2_G_001", "type": "multiple_choice", "question": "The project would have been completed if we ___ more time.", "options": ["have", "had", "has", "had had"], "correct": 1, "explanation": "Perfect conditional structure"}],
+    "vocabulary": [{"id": "B2_V_001", "type": "multiple_choice", "question": "What is a synonym for 'meticulous'?", "options": ["Careless", "Detailed", "Fast", "Lazy"], "correct": 1, "explanation": "'Meticulous' means careful and detailed"}],
+    "listening": [{"id": "B2_L_001", "type": "multiple_choice", "question": "What is the speaker's main argument?", "options": ["A", "B", "C", "D"], "correct": 2, "explanation": "The speaker mainly develops argument C"}],
+    "writing": [{"id": "B2_W_001", "type": "open", "question": "Write an essay about remote work vs office work (200+ words).", "expected_length": 200, "explanation": "Essay structure with introduction, arguments, conclusion"}],
+    "speaking": [{"id": "B2_S_001", "type": "open", "question": "Discuss advantages and disadvantages of social media.", "expected_length": 150, "explanation": "Balanced critical analysis"}]
+  },
+  "C1": {
+    "reading": [{"id": "C1_R_001", "type": "multiple_choice", "question": "What is the central theme about technology and sustainability?", "options": ["Technology only", "Sustainability only", "Conflict between both", "Simple solutions exist"], "correct": 2, "explanation": "The dichotomy refers to conflict between two aspects"}],
+    "grammar": [{"id": "C1_G_001", "type": "multiple_choice", "question": "Not only did he complete it, but he also ___ expectations.", "options": ["considerable", "considerably", "considered", "consideration"], "correct": 1, "explanation": "Needs adverb 'considerably'"}],
+    "vocabulary": [{"id": "C1_V_001", "type": "multiple_choice", "question": "What does 'obfuscate' mean?", "options": ["Clarify", "Make unclear", "Organize", "Simplify"], "correct": 1, "explanation": "'Obfuscate' means to make obscure"}],
+    "listening": [{"id": "C1_L_001", "type": "multiple_choice", "question": "What nuance does the speaker emphasize?", "options": ["A", "B", "C", "D"], "correct": 3, "explanation": "The speaker emphasizes a subtle nuance"}],
+    "writing": [{"id": "C1_W_001", "type": "open", "question": "Write academic essay on globalization (300+ words).", "expected_length": 300, "explanation": "Academic analysis with sophisticated argumentation"}],
+    "speaking": [{"id": "C1_S_001", "type": "open", "question": "Present complex argument with nuance.", "expected_length": 200, "explanation": "Articulate expression of complex ideas"}]
+  },
+  "C2": {
+    "reading": [{"id": "C2_R_001", "type": "multiple_choice", "question": "What is the author's implicit critique in this passage?", "options": ["A", "B", "C", "D"], "correct": 2, "explanation": "Literary analysis and implicit critique"}],
+    "grammar": [{"id": "C2_G_001", "type": "multiple_choice", "question": "Which shows advanced rhetorical technique?", "options": ["Simple", "Complex parallel", "Basic compound", "Fragmented"], "correct": 1, "explanation": "Advanced rhetorical structures"}],
+    "vocabulary": [{"id": "C2_V_001", "type": "multiple_choice", "question": "What is the precise meaning of 'serendipity'?", "options": ["Bad luck", "Happy accident", "Planned success", "Coincidence"], "correct": 1, "explanation": "Fortunate discovery by happy accident"}],
+    "listening": [{"id": "C2_L_001", "type": "multiple_choice", "question": "What epistemological position is defended?", "options": ["A", "B", "C", "D"], "correct": 1, "explanation": "Sophisticated epistemological stance"}],
+    "writing": [{"id": "C2_W_001", "type": "open", "question": "Write scholarly article (500+ words).", "expected_length": 500, "explanation": "Publishable academic writing"}],
+    "speaking": [{"id": "C2_S_001", "type": "open", "question": "Deliver discourse on philosophical concept.", "expected_length": 300, "explanation": "Eloquent and precise speech on profound topics"}]
+  }
+}

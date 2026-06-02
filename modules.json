@@ -1,0 +1,292 @@
+{
+  "A1": {
+    "reading": {
+      "nombre": "Reading Comprehension A1",
+      "descripcion": "Comprensión de textos muy simples",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Saludos y presentaciones",
+          "contenido": "Hello, my name is..., I am from...",
+          "recursos": [
+            {
+              "tipo": "video",
+              "titulo": "Basic English Greetings",
+              "url": "https://youtube.com/watch?v=LWMf_cUvG5I",
+              "duracion": "7 min"
+            },
+            {
+              "tipo": "pdf",
+              "titulo": "Greetings Worksheet",
+              "url": "https://example.com/greetings.pdf"
+            }
+          ]
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "Read: 'My name is John. I am from Spain.' What is John's nationality?",
+          "opciones": ["Colombian", "Spanish", "American", "British"],
+          "respuesta": 1,
+          "explicacion": "El texto dice 'I am from Spain' (Soy de España)"
+        }
+      ]
+    },
+    "grammar": {
+      "nombre": "Grammar A1",
+      "descripcion": "Presente Simple y Verbos Básicos",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Presente Simple - To Be",
+          "contenido": "I am, You are, He/She/It is",
+          "recursos": [
+            {
+              "tipo": "video",
+              "titulo": "Present Tense To Be",
+              "url": "https://youtube.com/watch?v=6ZCnYwn6-d0",
+              "duracion": "8 min"
+            }
+          ]
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "He ___ a student",
+          "opciones": ["am", "is", "are", "be"],
+          "respuesta": 1,
+          "explicacion": "'Is' es para he/she/it"
+        }
+      ]
+    },
+    "vocabulary": {
+      "nombre": "Vocabulary A1",
+      "descripcion": "Vocabulario Básico",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Números 0-100",
+          "contenido": "Cardinal numbers",
+          "recursos": [
+            {
+              "tipo": "video",
+              "titulo": "English Numbers Pronunciation",
+              "url": "https://youtube.com/watch?v=nJ-sJ5V3b8s",
+              "duracion": "5 min"
+            }
+          ]
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "How do you spell the number 25?",
+          "opciones": ["Twenty-five", "Two-five", "Twoty-five", "Twenty five"],
+          "respuesta": 0,
+          "explicacion": "25 se escribe 'twenty-five'"
+        }
+      ]
+    },
+    "listening": {
+      "nombre": "Listening A1",
+      "descripcion": "Comprensión auditiva básica",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Saludos simples",
+          "contenido": "Basic greetings dialogues",
+          "recursos": [
+            {
+              "tipo": "audio",
+              "titulo": "Simple Conversations",
+              "url": "https://example.com/audio1.mp3"
+            }
+          ]
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "[Audio: Hello, how are you?] What is the question?",
+          "opciones": ["How old are you?", "How are you?", "Where are you?", "Who are you?"],
+          "respuesta": 1,
+          "explicacion": "El audio dice 'How are you?'"
+        }
+      ]
+    },
+    "writing": {
+      "nombre": "Writing A1",
+      "descripcion": "Escritura básica",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Escribir sobre ti",
+          "contenido": "Simple presentation about yourself",
+          "recursos": []
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "Write 3 sentences about yourself",
+          "opciones": [],
+          "respuesta": -1,
+          "explicacion": "Open-ended exercise"
+        }
+      ]
+    },
+    "speaking": {
+      "nombre": "Speaking A1",
+      "descripcion": "Expresión oral básica",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Presentarte",
+          "contenido": "Introduce yourself",
+          "recursos": []
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "Introduce yourself in 30 seconds",
+          "opciones": [],
+          "respuesta": -1,
+          "explicacion": "Open-ended exercise"
+        }
+      ]
+    }
+  },
+  "B1": {
+    "reading": {
+      "nombre": "Reading Comprehension B1",
+      "descripcion": "Comprensión de artículos e historias",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Artículos de noticias",
+          "contenido": "News articles and current events",
+          "recursos": [
+            {
+              "tipo": "video",
+              "titulo": "BBC Learning English News",
+              "url": "https://youtube.com/watch?v=_q0KEz3tKqI",
+              "duracion": "5 min"
+            }
+          ]
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "What is the main topic of this article?",
+          "opciones": ["Sports", "Politics", "Technology", "Environment"],
+          "respuesta": 2,
+          "explicacion": "The article focuses on technology"
+        }
+      ]
+    },
+    "grammar": {
+      "nombre": "Grammar B1",
+      "descripcion": "Phrasal Verbs y Present Perfect",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Phrasal Verbs comunes",
+          "contenido": "Put up, Give up, Look after, etc.",
+          "recursos": [
+            {
+              "tipo": "video",
+              "titulo": "Phrasal Verbs with UP",
+              "url": "https://youtube.com/watch?v=KyUEqZi8CKk",
+              "duracion": "8 min"
+            }
+          ]
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "She decided to _____ smoking.",
+          "opciones": ["give up", "put up", "look up", "stand up"],
+          "respuesta": 0,
+          "explicacion": "'Give up' significa abandonar"
+        }
+      ]
+    },
+    "vocabulary": {
+      "nombre": "Vocabulary B1",
+      "descripcion": "Vocabulario de negocios y académico",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Vocabulario de negocios",
+          "contenido": "Business terms and expressions",
+          "recursos": []
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "What does 'deadline' mean?",
+          "opciones": ["Final day to complete something", "Death notification", "Line of dead people", "Dangerous line"],
+          "respuesta": 0,
+          "explicacion": "'Deadline' es la fecha límite para completar algo"
+        }
+      ]
+    },
+    "listening": {
+      "nombre": "Listening B1",
+      "descripcion": "Entrevistas y conversaciones profesionales",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Entrevistas laborales",
+          "contenido": "Job interviews",
+          "recursos": []
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "[Audio: Job Interview] What position is being discussed?",
+          "opciones": ["Manager", "Programmer", "Designer", "Teacher"],
+          "respuesta": 1,
+          "explicacion": "The interview is for a programming position"
+        }
+      ]
+    },
+    "writing": {
+      "nombre": "Writing B1",
+      "descripcion": "Email formal y descripción",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Email formal",
+          "contenido": "Structure and tone of formal emails",
+          "recursos": []
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "Write a formal email requesting a meeting",
+          "opciones": [],
+          "respuesta": -1,
+          "explicacion": "Open-ended exercise"
+        }
+      ]
+    },
+    "speaking": {
+      "nombre": "Speaking B1",
+      "descripcion": "Presentaciones y discusiones",
+      "temas": [
+        {
+          "numero": 1,
+          "titulo": "Presentación de tema",
+          "contenido": "Present a topic",
+          "recursos": []
+        }
+      ],
+      "preguntas": [
+        {
+          "pregunta": "Present a topic for 2-3 minutes",
+          "opciones": [],
+          "respuesta": -1,
+          "explicacion": "Open-ended exercise"
+        }
+      ]
+    }
+  }
+}

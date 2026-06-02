@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Profesor - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+        }
+
+        header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-logout {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .welcome-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .welcome-section h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 18px;
+        }
+
+        .card p {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #1e3a5f;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(44, 82, 130, 0.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+        }
+
+        .close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .student-list {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .student-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .student-item:last-child {
+            border-bottom: none;
+        }
+
+        .student-info h4 {
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .student-info p {
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        .student-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .student-actions button {
+            padding: 0.5rem 1rem;
+            font-size: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background: var(--bg);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .student-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .student-actions {
+                width: 100%;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <div class="logo">☕ English Coffee Time - Profesor</div>
+        <div class="user-menu">
+            <div style="font-size: 14px; font-weight: 500;" id="teacherName">Profesor</div>
+            <button class="btn-logout" onclick="logout()">Salir</button>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div class="welcome-section">
+        <h2>Panel de Profesor</h2>
+        <p>Gestiona grupos de estudiantes y visualiza su progreso en tiempo real</p>
+    </div>
+
+    <h3 class="section-title">Mis Grupos</h3>
+    <button class="btn" onclick="openCreateGroupModal()">+ Crear Nuevo Grupo</button>
+
+    <div class="grid" style="margin-top: 1.5rem;">
+        <div id="groupsList"></div>
+    </div>
+
+    <div id="noGroups" class="empty-state">
+        <p>📁 No tienes grupos aún. Crea uno para comenzar.</p>
+    </div>
+
+</div>
+
+<!-- MODAL: Crear Grupo -->
+<div id="createGroupModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Crear Nuevo Grupo</h2>
+            <button class="close" onclick="closeModal('createGroupModal')">&times;</button>
+        </div>
+        <form onsubmit="createGroup(event)">
+            <div class="form-group">
+                <label for="groupName">Nombre del Grupo</label>
+                <input type="text" id="groupName" required placeholder="Ej: Clase A - Empresa XYZ">
+            </div>
+            <div class="form-group">
+                <label for="groupDescription">Descripción (opcional)</label>
+                <input type="text" id="groupDescription" placeholder="Descripción del grupo">
+            </div>
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('createGroupModal')">Cancelar</button>
+                <button type="submit" class="btn">Crear Grupo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL: Ver Grupo -->
+<div id="viewGroupModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="groupTitle">Nombre del Grupo</h2>
+            <button class="close" onclick="closeModal('viewGroupModal')">&times;</button>
+        </div>
+        
+        <h3 style="color: var(--primary); margin-top: 1.5rem; margin-bottom: 1rem;">Estudiantes en este grupo</h3>
+        <div id="groupStudentsList"></div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+            <button class="btn btn-secondary" onclick="closeModal('viewGroupModal')">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let groups = JSON.parse(localStorage.getItem('teacherGroups')) || [];
+
+    function initDashboard() {
+        const user = JSON.parse(localStorage.getItem('user')) || {};
+        document.getElementById('teacherName').textContent = user.name || 'Profesor';
+        
+        loadGroups();
+    }
+
+    function loadGroups() {
+        const groupsList = document.getElementById('groupsList');
+        const noGroups = document.getElementById('noGroups');
+
+        if (groups.length === 0) {
+            groupsList.innerHTML = '';
+            noGroups.style.display = 'block';
+            return;
+        }
+
+        noGroups.style.display = 'none';
+        groupsList.innerHTML = groups.map((group, index) => `
+            <div class="card">
+                <h3>${group.name}</h3>
+                <p>${group.description || 'Sin descripción'}</p>
+                <p style="color: #10B981; font-weight: 600; margin-bottom: 1rem;">
+                    ${group.students ? group.students.length : 0} estudiantes
+                </p>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-secondary" onclick="viewGroup(${index})">Ver Grupo</button>
+                    <button class="btn btn-secondary" onclick="deleteGroup(${index})">Eliminar</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function openCreateGroupModal() {
+        document.getElementById('createGroupModal').style.display = 'block';
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    function createGroup(event) {
+        event.preventDefault();
+        
+        const name = document.getElementById('groupName').value;
+        const description = document.getElementById('groupDescription').value;
+
+        groups.push({
+            id: Date.now(),
+            name: name,
+            description: description,
+            students: [],
+            created_at: new Date().toISOString()
+        });
+
+        localStorage.setItem('teacherGroups', JSON.stringify(groups));
+        
+        document.getElementById('groupName').value = '';
+        document.getElementById('groupDescription').value = '';
+        closeModal('createGroupModal');
+        
+        loadGroups();
+    }
+
+    function viewGroup(index) {
+        const group = groups[index];
+        document.getElementById('groupTitle').textContent = group.name;
+        
+        const studentsList = document.getElementById('groupStudentsList');
+        if (!group.students || group.students.length === 0) {
+            studentsList.innerHTML = '<p style="color: var(--text-light);">No hay estudiantes en este grupo aún.</p>';
+        } else {
+            studentsList.innerHTML = group.students.map(student => `
+                <div class="student-item">
+                    <div class="student-info">
+                        <h4>${student.name}</h4>
+                        <p>Nivel: ${student.nivel || 'No definido'} | Progreso: ${student.progress ? student.progress.length : 0} módulos</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('viewGroupModal').style.display = 'block';
+    }
+
+    function deleteGroup(index) {
+        if (confirm('¿Estás seguro de que deseas eliminar este grupo?')) {
+            groups.splice(index, 1);
+            localStorage.setItem('teacherGroups', JSON.stringify(groups));
+            loadGroups();
+        }
+    }
+
+    function logout() {
+        if (confirm('¿Estás seguro que deseas salir?')) {
+            localStorage.removeItem('user');
+            window.location.href = '../index.html';
+        }
+    }
+
+    // Cerrar modal al hacer click fuera
+    window.onclick = function(event) {
+        let modal = document.getElementById('createGroupModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+        modal = document.getElementById('viewGroupModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+    initDashboard();
+</script>
+
+</body>
+</html>

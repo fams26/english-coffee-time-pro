@@ -1,0 +1,26 @@
+{
+  "buildCommand": "echo 'Static site, no build needed'",
+  "outputDirectory": ".",
+  "framework": "html",
+  "env": [
+    {
+      "key": "VITE_SUPABASE_URL",
+      "value": ""
+    },
+    {
+      "key": "VITE_SUPABASE_ANON_KEY",
+      "value": ""
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600"
+        }
+      ]
+    }
+  ]
+}
