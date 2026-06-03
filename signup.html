@@ -272,7 +272,7 @@
                 </div>
                 <div class="benefit">
                     <div class="benefit-icon">✓</div>
-                    <div class="benefit-text">100% Personalizado de acuerdo a tu nivel</div>
+                    <div class="benefit-text">100% gratuito</div>
                 </div>
             </div>
         </div>
@@ -330,8 +330,10 @@
     </div>
 </div>
 
+<!-- SCRIPTS EN ORDEN CORRECTO -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
+
 <script>
     let selectedRole = 'student';
 
@@ -365,6 +367,11 @@
         submitBtn.textContent = 'Creando cuenta...';
 
         try {
+            // Verificar que la función exista
+            if (typeof supabaseSignUp === 'undefined') {
+                throw new Error('supabaseSignUp no está definida. Verifica que js/supabase-client.js se cargó correctamente.');
+            }
+
             // Registrar en Supabase
             const result = await supabaseSignUp(email, password, {
                 nombre: name,
@@ -389,6 +396,7 @@
             }, 2000);
 
         } catch (error) {
+            console.error('Error:', error);
             showError(error.message || 'Error al crear cuenta');
         } finally {
             submitBtn.disabled = false;
