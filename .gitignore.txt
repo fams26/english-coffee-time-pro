@@ -1,0 +1,25 @@
+# dependencias
+node_modules/
+
+# archivos de entorno (¡AQUÍ ESTÁ LA PROTECCIÓN!)
+.env
+.env.local
+.env.local.txt
+.env.development.local
+.env.test.local
+.env.production.local
+
+# archivos de construcción (build)
+.next/
+out/
+build/
+dist/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Agrega a .gitignore
+echo ".DS_Store" >> .gitignore
+echo "data/.DS_Store" >> .gitignore
