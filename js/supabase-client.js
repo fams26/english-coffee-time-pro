@@ -1,15 +1,14 @@
 // js/supabase-client.js
-// INSTRUCCIONES:
-// 1. REEMPLAZA TUS_VALORES con tus credenciales de Supabase
-// 2. Obtén SUPABASE_URL y SUPABASE_ANON_KEY de: 
-//    https://app.supabase.com/project/YOUR_PROJECT/settings/api
+// Cliente Supabase - Maneja autenticación y BD
 
-const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co'; // REEMPLAZA
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4'; // REEMPLAZA
+const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
 
 // Crear cliente Supabase
 const { createClient } = window.supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+console.log('✅ Supabase client initialized');
 
 // ============================================
 // FUNCIONES DE AUTENTICACIÓN
@@ -20,34 +19,48 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  */
 async function supabaseSignUp(email, password, userData) {
     try {
+        console.log('📝 Registrando usuario:', email);
+
+        // 1. Crear usuario en Auth
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    nombre: userData.nombre,
+                    role: userData.role
+                }
+            }
+        });
+
+        if (error) {
+            console.error('❌ Error en auth.signUp:', error);
+            throw error;
+        }
+
+        console.log('✅ Usuario creado en auth:', data.user.id);
+
+        // 2. Guardar en tabla users
         const { error: insertError } = await supabaseClient
             .from('users')
             .insert([{
                 id: data.user.id,
                 email: email,
-                // ❌ NO INCLUYAS password
                 name: userData.nombre,
                 role: userData.role,
                 nivel: null
             }]);
 
-        if (error) throw error;
+        if (insertError) {
+            console.error('❌ Error al insertar en users:', insertError);
+            throw insertError;
+        }
 
-        // Guardar usuario en tabla users
-        const { error: insertError } = await supabaseClient
-            .from('users')
-            .insert([{
-                id: data.user.id,
-                email: email,
-                name: userData.nombre,
-                role: userData.role,
-                nivel: null
-            }]);
-
-        if (insertError) throw insertError;
+        console.log('✅ Usuario guardado en tabla users');
 
         return { success: true, user: data.user };
     } catch (error) {
+        console.error('❌ supabaseSignUp error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -57,6 +70,8 @@ async function supabaseSignUp(email, password, userData) {
  */
 async function supabaseSignIn(email, password) {
     try {
+        console.log('🔐 Iniciando sesión:', email);
+
         const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
             password: password
@@ -73,8 +88,10 @@ async function supabaseSignIn(email, password) {
 
         if (userError) throw userError;
 
+        console.log('✅ Sesión iniciada');
         return { success: true, user: userData };
     } catch (error) {
+        console.error('❌ supabaseSignIn error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -86,8 +103,10 @@ async function supabaseSignOut() {
     try {
         const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
+        console.log('✅ Sesión cerrada');
         return { success: true };
     } catch (error) {
+        console.error('❌ supabaseSignOut error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -99,7 +118,10 @@ async function supabaseGetCurrentUser() {
     try {
         const { data: { user }, error } = await supabaseClient.auth.getUser();
         
-        if (error || !user) return null;
+        if (error || !user) {
+            console.log('⚠️ No hay usuario autenticado');
+            return null;
+        }
 
         // Obtener datos del usuario
         const { data: userData, error: userError } = await supabaseClient
@@ -111,6 +133,7 @@ async function supabaseGetCurrentUser() {
         if (userError) return null;
         return userData;
     } catch (error) {
+        console.error('❌ Error getting current user:', error.message);
         return null;
     }
 }
@@ -124,6 +147,8 @@ async function supabaseGetCurrentUser() {
  */
 async function saveinitialTest(studentId, level, score) {
     try {
+        console.log('💾 Guardando test inicial:', level, score);
+
         const { error } = await supabaseClient
             .from('initial_assessments')
             .insert([{
@@ -142,8 +167,10 @@ async function saveinitialTest(studentId, level, score) {
 
         if (updateError) throw updateError;
 
+        console.log('✅ Test inicial guardado');
         return { success: true };
     } catch (error) {
+        console.error('❌ saveinitialTest error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -153,6 +180,8 @@ async function saveinitialTest(studentId, level, score) {
  */
 async function saveModuleProgress(studentId, moduleId, score, completed = false) {
     try {
+        console.log('💾 Guardando progreso de módulo:', score);
+
         const { error } = await supabaseClient
             .from('student_progress')
             .upsert([{
@@ -165,8 +194,10 @@ async function saveModuleProgress(studentId, moduleId, score, completed = false)
             }], { onConflict: 'student_id,module_id' });
 
         if (error) throw error;
+        console.log('✅ Progreso guardado');
         return { success: true };
     } catch (error) {
+        console.error('❌ saveModuleProgress error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -178,16 +209,14 @@ async function getStudentProgress(studentId) {
     try {
         const { data, error } = await supabaseClient
             .from('student_progress')
-            .select(`
-                *,
-                modules(nivel, module_type, nombre)
-            `)
+            .select('*')
             .eq('student_id', studentId)
             .order('fecha_completacion', { ascending: false });
 
         if (error) throw error;
         return { success: true, data: data };
     } catch (error) {
+        console.error('❌ getStudentProgress error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -216,6 +245,7 @@ async function getProgressByLevel(studentId, level) {
             percentage: percentage
         };
     } catch (error) {
+        console.error('❌ getProgressByLevel error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -241,6 +271,7 @@ async function createGroup(teacherId, name, description) {
         if (error) throw error;
         return { success: true, group: data[0] };
     } catch (error) {
+        console.error('❌ createGroup error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -259,6 +290,7 @@ async function getTeacherGroups(teacherId) {
         if (error) throw error;
         return { success: true, groups: data };
     } catch (error) {
+        console.error('❌ getTeacherGroups error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -270,29 +302,14 @@ async function getGroupStudents(groupId) {
     try {
         const { data, error } = await supabaseClient
             .from('group_members')
-            .select(`
-                *,
-                users(id, name, email, nivel)
-            `)
+            .select('*')
             .eq('group_id', groupId);
 
         if (error) throw error;
 
-        // Obtener progreso de cada estudiante
-        const studentsWithProgress = await Promise.all(
-            data.map(async (member) => {
-                const progress = await getStudentProgress(member.users.id);
-                return {
-                    ...member.users,
-                    modules_completed: progress.data ? progress.data.filter(p => p.completado).length : 0,
-                    average_score: progress.data ? 
-                        Math.round(progress.data.reduce((acc, p) => acc + (p.puntuacion || 0), 0) / progress.data.length) : 0
-                };
-            })
-        );
-
-        return { success: true, students: studentsWithProgress };
+        return { success: true, students: data };
     } catch (error) {
+        console.error('❌ getGroupStudents error:', error.message);
         return { success: false, error: error.message };
     }
 }
@@ -312,10 +329,9 @@ async function addStudentToGroup(groupId, studentId) {
         if (error) throw error;
         return { success: true };
     } catch (error) {
+        console.error('❌ addStudentToGroup error:', error.message);
         return { success: false, error: error.message };
     }
 }
 
-// ============================================
-// EXPORTAR FUNCIONES
-// ============================================
+console.log('✅ Todas las funciones supabase cargadas correctamente');
