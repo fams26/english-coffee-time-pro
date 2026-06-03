@@ -11,9 +11,6 @@
             --bg: #F8F7F3;
             --text-dark: #1F2937;
             --text-light: #6B7280;
-            --success: #10B981;
-            --danger: #EF4444;
-            --warning: #F59E0B;
         }
 
         * {
@@ -95,164 +92,31 @@
             font-weight: 700;
         }
 
-        .level-section {
-            margin-bottom: 3rem;
-        }
-
-        .level-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid;
-        }
-
-        .level-section.current .level-header {
-            border-color: var(--primary);
-        }
-
-        .level-section.optional .level-header {
-            border-color: #d1d5db;
-        }
-
-        .level-section.locked .level-header {
-            border-color: var(--danger);
-        }
-
-        .level-header h3 {
-            font-size: 20px;
-            margin: 0;
-        }
-
-        .level-section.current .level-header h3 {
-            color: var(--primary);
-        }
-
-        .level-section.optional .level-header h3 {
-            color: var(--text-light);
-        }
-
-        .level-section.locked .level-header h3 {
-            color: var(--danger);
-        }
-
-        .level-badge {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: auto;
-        }
-
-        .level-badge.current {
-            background: #dbeafe;
-            color: var(--primary);
-        }
-
-        .level-badge.optional {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .level-badge.locked {
-            background: #fee2e2;
-            color: var(--danger);
-        }
-
-        .level-badge.completed {
-            background: #dcfce7;
-            color: var(--success);
-        }
-
-        .level-description {
-            color: var(--text-light);
-            font-size: 14px;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        .completion-status {
-            background: #f3f4f6;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .completion-bar {
-            flex: 1;
-            height: 12px;
-            background: #e5e7eb;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .completion-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            transition: width 0.3s;
-        }
-
-        .completion-text {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--primary);
-            min-width: 60px;
-        }
-
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2rem;
         }
 
         .module-card {
             background: white;
-            border: 2px solid #e5e7eb;
+            border: 1px solid #e5e7eb;
             border-radius: 12px;
             padding: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
-            position: relative;
         }
 
-        .module-card:hover:not(.locked) {
+        .module-card:hover {
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             border-color: var(--primary);
             transform: translateY(-5px);
         }
 
-        .module-card.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-            background: #f9fafb;
-        }
-
-        .module-card.optional {
-            border-color: #d1d5db;
-            opacity: 0.85;
-        }
-
-        .lock-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 28px;
-        }
-
         .module-icon {
             font-size: 40px;
             margin-bottom: 1rem;
-        }
-
-        .module-card.locked .module-icon {
-            opacity: 0.4;
         }
 
         .module-card h4 {
@@ -261,34 +125,10 @@
             font-size: 16px;
         }
 
-        .module-card.optional h4 {
-            color: var(--text-light);
-        }
-
-        .module-card.locked h4 {
-            color: #9ca3af;
-        }
-
         .module-card p {
             color: var(--text-light);
             font-size: 13px;
             margin-bottom: 1rem;
-        }
-
-        .module-tag {
-            display: inline-block;
-            background: #fef3c7;
-            color: #92400e;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .module-tag.required {
-            background: #dbeafe;
-            color: var(--primary);
         }
 
         .progress-bar {
@@ -322,37 +162,10 @@
             cursor: pointer;
             font-weight: 600;
             width: 100%;
-            transition: all 0.3s;
         }
 
         .module-btn:hover {
             background: #1e3a5f;
-        }
-
-        .module-btn.locked {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-
-        .lock-message {
-            color: var(--danger);
-            font-size: 12px;
-            margin-top: 0.5rem;
-            font-weight: 600;
-        }
-
-        .lock-instruction {
-            background: #fee2e2;
-            color: var(--danger);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--danger);
-        }
-
-        .lock-instruction strong {
-            display: block;
-            margin-bottom: 0.5rem;
         }
 
         .loading {
@@ -388,15 +201,6 @@
                 flex-direction: column;
                 gap: 1rem;
             }
-
-            .level-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .level-badge {
-                margin-left: 0;
-            }
         }
     </style>
 </head>
@@ -427,60 +231,11 @@
         </div>
     </div>
 
-    <!-- NIVELES INFERIORES (Opcionales) -->
-    <div class="level-section optional" id="previousSection" style="display: none;">
-        <div class="level-header">
-            <h3>📚 Niveles Anteriores</h3>
-            <span class="level-badge optional">OPCIONAL</span>
-        </div>
-        <p class="level-description">Puedes practicar estos niveles para reforzar tus bases</p>
-        <div class="modules-grid" id="previousModules">
-            <div class="loading">
-                <div class="spinner"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NIVEL ACTUAL (Obligatorio) -->
-    <div class="level-section current">
-        <div class="level-header">
-            <h3>⭐ Tu Nivel Actual: <span id="currentLevelName">-</span></h3>
-            <span class="level-badge current" id="currentBadge">EN PROGRESO</span>
-        </div>
-        <p class="level-description" id="currentLevelDesc">-</p>
-        
-        <!-- Barra de completación -->
-        <div class="completion-status">
-            <div class="completion-bar">
-                <div class="completion-fill" id="completionFill" style="width: 0%"></div>
-            </div>
-            <div class="completion-text" id="completionText">0%</div>
-        </div>
-
-        <!-- Módulos del nivel actual -->
-        <div class="modules-grid" id="currentModules">
-            <div class="loading">
-                <div class="spinner"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- NIVELES SUPERIORES (Bloqueados) -->
-    <div class="level-section locked" id="nextSection" style="display: none;">
-        <div class="level-header">
-            <h3>🔒 Próximos Niveles</h3>
-            <span class="level-badge locked">BLOQUEADO</span>
-        </div>
-
-        <div class="lock-instruction">
-            <strong>📌 Debes completar todos los módulos de <span id="lockCurrentLevel">-</span> para desbloquear.</strong>
-            Tienes <span id="remainingModules">0</span> módulos por completar.
-        </div>
-
-        <div class="modules-grid" id="nextModules">
-            <div class="loading">
-                <div class="spinner"></div>
-            </div>
+    <!-- MÓDULOS -->
+    <div id="modulesSection">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Cargando módulos...</p>
         </div>
     </div>
 </div>
@@ -491,199 +246,106 @@
 <script src="js/modules-functions.js"></script>
 
 <script>
-    const NIVELES_ORDEN = ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1', 'C2'];
-    const NIVEL_DESCRIPCIONES = {
-        'A1': 'Principiante - Aprende las bases fundamentales',
-        'A2': 'Elemental - Comunicación simple y cotidiana',
-        'B1': 'Intermedio - Conversaciones sobre temas variados',
-        'B1+': 'Intermedio Avanzado - Mayor fluidez y comprensión',
-        'B2': 'Intermedio Alto - Discusiones complejas',
-        'C1': 'Avanzado - Expresión fluida y espontánea',
-        'C2': 'Dominio - Maestría del idioma'
-    };
-
     let currentUser = null;
 
+    // Inicializar
     document.addEventListener('DOMContentLoaded', async () => {
+        console.log('📄 Dashboard cargando...');
+        
         currentUser = await supabaseGetCurrentUser();
+        console.log('👤 Usuario:', currentUser);
+        
         if (!currentUser) {
-            window.location.href = 'signin.html';
+            console.log('❌ No hay sesión, redirigiendo...');
+            window.location.href = '../signin.html';
             return;
         }
 
         await loadStudentInfo();
-        await loadModulesHierarchy();
+        await loadModules();
     });
 
     // CARGAR INFO DEL ESTUDIANTE
     async function loadStudentInfo() {
-        document.getElementById('studentName').textContent = currentUser.name || 'Usuario';
+        console.log('📊 Cargando info del estudiante...');
+        
+        document.getElementById('studentName').textContent = currentUser.name || currentUser.email || 'Usuario';
         document.getElementById('studentLevel').textContent = currentUser.nivel || 'No asignado';
-        document.getElementById('currentLevelName').textContent = currentUser.nivel || '-';
-        document.getElementById('currentLevelDesc').textContent = 
-            NIVEL_DESCRIPCIONES[currentUser.nivel] || 'Completa el test';
-        document.getElementById('lockCurrentLevel').textContent = currentUser.nivel;
 
-        const stats = await getStudentStats(currentUser.id);
-        if (stats.success) {
-            document.getElementById('completedTopics').textContent = stats.temasCompletados;
-            document.getElementById('averageScore').textContent = stats.promedioPuntos + '%';
+        // Intentar cargar estadísticas
+        try {
+            if (window.getStudentStats) {
+                const stats = await getStudentStats(currentUser.id);
+                if (stats.success) {
+                    document.getElementById('completedTopics').textContent = stats.temasCompletados || 0;
+                    document.getElementById('averageScore').textContent = (stats.promedioPuntos || 0) + '%';
+                }
+            }
+        } catch (error) {
+            console.warn('⚠️ Error cargando stats:', error);
         }
     }
 
-    // CARGAR MÓDULOS CON SISTEMA DE BLOQUEO
-    async function loadModulesHierarchy() {
+    // CARGAR MÓDULOS
+    async function loadModules() {
+        console.log('📚 Cargando módulos...');
+        
         if (!currentUser.nivel) {
-            document.getElementById('currentModules').innerHTML = 
-                '<div style="grid-column: 1/-1; text-align: center; padding: 2rem;"><h3 style="color: var(--primary); margin-bottom: 1rem;">Sin nivel asignado</h3><p style="color: var(--text-light);">Completa el test de ubicación</p></div>';
+            document.getElementById('modulesSection').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; background: white; border-radius: 12px;">Necesitas completar el test de ubicación primero</div>';
             return;
         }
 
-        const currentLevelIndex = NIVELES_ORDEN.indexOf(currentUser.nivel);
-
-        // Cargar niveles inferiores (opcionales)
-        if (currentLevelIndex > 0) {
-            document.getElementById('previousSection').style.display = 'block';
-            await loadModulesBySection(
-                NIVELES_ORDEN.slice(0, currentLevelIndex),
-                'previousModules',
-                'optional'
-            );
-        }
-
-        // Cargar nivel actual (obligatorio) + calcular si está completo
-        await loadCurrentLevelWithCompletion(currentUser.nivel);
-
-        // Cargar niveles superiores (bloqueados)
-        if (currentLevelIndex < NIVELES_ORDEN.length - 1) {
-            document.getElementById('nextSection').style.display = 'block';
-            await loadModulesBySection(
-                NIVELES_ORDEN.slice(currentLevelIndex + 1),
-                'nextModules',
-                'locked'
-            );
-        }
-    }
-
-    // CARGAR NIVEL ACTUAL CON INFORMACIÓN DE COMPLETACIÓN
-    async function loadCurrentLevelWithCompletion(nivel) {
-        const result = await getModulesByLevel(nivel);
-
-        if (!result.success || !result.data) return;
-
-        const modules = result.data;
-        const container = document.getElementById('currentModules');
-        container.innerHTML = '';
-
-        const moduleIcons = {
-            'reading': '📖',
-            'grammar': '📝',
-            'vocabulary': '📚',
-            'listening': '🎧',
-            'writing': '✍️',
-            'speaking': '🗣️'
-        };
-
-        let completedModules = 0;
-
-        for (const module of modules) {
-            const progress = await getModuleProgress(currentUser.id, module.id);
-            const progressPercent = progress.success ? progress.percentage : 0;
+        try {
+            // Obtener módulos del nivel
+            const modules = await getModulesByLevel(currentUser.nivel);
             
-            // Un módulo está completo si el 100% de sus temas está hecho
-            if (progressPercent === 100) {
-                completedModules++;
+            if (!modules.success || !modules.data || modules.data.length === 0) {
+                document.getElementById('modulesSection').innerHTML = 
+                    '<div style="text-align: center; padding: 2rem; background: white; border-radius: 12px;">No hay módulos disponibles</div>';
+                return;
             }
 
-            const card = document.createElement('div');
-            card.className = 'module-card';
+            const moduleIcons = {
+                'reading': '📖',
+                'grammar': '📝',
+                'vocabulary': '📚',
+                'listening': '🎧',
+                'writing': '✍️',
+                'speaking': '🗣️'
+            };
 
-            const isCompleted = progressPercent === 100;
-            const completedBadge = isCompleted ? '✅ ' : '';
+            let html = '<h3 style="margin-bottom: 1.5rem; color: var(--primary);">Módulos de tu Nivel</h3>';
+            html += '<div class="modules-grid">';
 
-            const content = `
-                <div class="module-icon">${moduleIcons[module.module_type] || '📚'}</div>
-                <h4>${completedBadge}${module.nombre}</h4>
-                <p>${module.descripcion}</p>
-                <span class="module-tag required">REQUERIDO</span>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${progressPercent}%"></div>
-                </div>
-                <div class="progress-text">${progressPercent}% completo</div>
-                <button class="module-btn" onclick="goToModule('${module.id}', '${module.nombre}')">
-                    ${isCompleted ? '✅ Completado' : 'Continuar'}
-                </button>
-            `;
-
-            card.innerHTML = content;
-            container.appendChild(card);
-        }
-
-        // Actualizar barra de completación
-        const completionPercent = Math.round((completedModules / modules.length) * 100);
-        document.getElementById('completionFill').style.width = completionPercent + '%';
-        document.getElementById('completionText').textContent = completionPercent + '%';
-
-        // Actualizar badge
-        if (completionPercent === 100) {
-            document.getElementById('currentBadge').textContent = '✅ COMPLETADO';
-            document.getElementById('currentBadge').style.background = '#dcfce7';
-            document.getElementById('currentBadge').style.color = var('--success');
-        }
-
-        // Actualizar módulos restantes para el bloqueo
-        const remainingModules = modules.length - completedModules;
-        document.getElementById('remainingModules').textContent = remainingModules;
-
-        // Si está completo, desbloquear siguiente nivel automáticamente
-        if (completionPercent === 100) {
-            document.getElementById('nextSection').style.display = 'block';
-        }
-    }
-
-    // CARGAR MÓDULOS POR SECCIÓN (INFERIORES)
-    async function loadModulesBySection(niveles, containerId, status) {
-        const container = document.getElementById(containerId);
-        container.innerHTML = '';
-
-        const moduleIcons = {
-            'reading': '📖',
-            'grammar': '📝',
-            'vocabulary': '📚',
-            'listening': '🎧',
-            'writing': '✍️',
-            'speaking': '🗣️'
-        };
-
-        for (const nivel of niveles) {
-            const result = await getModulesByLevel(nivel);
-
-            if (!result.success || !result.data) continue;
-
-            for (const module of result.data) {
+            for (const module of modules.data) {
                 const progress = await getModuleProgress(currentUser.id, module.id);
                 const progressPercent = progress.success ? progress.percentage : 0;
 
-                const card = document.createElement('div');
-                card.className = `module-card ${status}`;
-
-                const content = `
-                    <div class="module-icon">${moduleIcons[module.module_type] || '📚'}</div>
-                    <h4>${module.nombre}</h4>
-                    <p>${module.descripcion}</p>
-                    <span class="module-tag">Opcional</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                html += `
+                    <div class="module-card">
+                        <div class="module-icon">${moduleIcons[module.module_type] || '📚'}</div>
+                        <h4>${module.nombre}</h4>
+                        <p>${module.descripcion}</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progressPercent}%"></div>
+                        </div>
+                        <div class="progress-text">${progressPercent}% completo</div>
+                        <button class="module-btn" onclick="goToModule('${module.id}', '${module.nombre}')">
+                            Ver Temas
+                        </button>
                     </div>
-                    <div class="progress-text">${progressPercent}% completo</div>
-                    <button class="module-btn" onclick="goToModule('${module.id}', '${module.nombre}')">
-                        Ver Temas
-                    </button>
                 `;
-
-                card.innerHTML = content;
-                container.appendChild(card);
             }
+
+            html += '</div>';
+            document.getElementById('modulesSection').innerHTML = html;
+            console.log('✅ Módulos cargados');
+
+        } catch (error) {
+            console.error('❌ Error cargando módulos:', error);
+            document.getElementById('modulesSection').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; color: red;">Error cargando módulos</div>';
         }
     }
 
@@ -695,7 +357,7 @@
     // LOGOUT
     async function logout() {
         await supabaseSignOut();
-        window.location.href = 'signin.html';
+        window.location.href = '../signin.html';
     }
 </script>
 
