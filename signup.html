@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta - English Coffee Time</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Registrarse - English Coffee Time</title>
     <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --primary: #2C5282;
-            --accent: #D4AF37;
-            --bg-light: #F8F7F3;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg-light);
+            background: var(--bg);
             display: flex;
             min-height: 100vh;
         }
@@ -53,7 +52,6 @@
             font-size: 16px;
             opacity: 0.9;
             margin-bottom: 2rem;
-            line-height: 1.6;
         }
 
         .benefits {
@@ -122,7 +120,6 @@
             border-radius: 8px;
             font-size: 14px;
             font-family: inherit;
-            transition: border-color 0.3s;
         }
 
         .form-group input:focus {
@@ -165,7 +162,6 @@
             font-weight: 600;
             cursor: pointer;
             font-size: 14px;
-            transition: background 0.3s;
         }
 
         .btn-submit:hover {
@@ -175,33 +171,6 @@
         .btn-submit:disabled {
             background: #ccc;
             cursor: not-allowed;
-        }
-
-        .divider {
-            text-align: center;
-            color: var(--text-light);
-            margin: 1.5rem 0;
-            font-size: 12px;
-        }
-
-        .btn-google {
-            width: 100%;
-            padding: 0.75rem;
-            background: white;
-            color: var(--text-dark);
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-google:hover {
-            background: var(--bg-light);
         }
 
         .login-link {
@@ -215,6 +184,29 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+        }
+
+        .role-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .role-btn {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .role-btn.selected {
+            border-color: var(--primary);
+            background: rgba(44, 82, 130, 0.05);
+            color: var(--primary);
         }
 
         .error {
@@ -234,10 +226,6 @@
             border-radius: 8px;
             margin-bottom: 1rem;
             font-size: 13px;
-            display: none;
-        }
-
-        .loading {
             display: none;
         }
 
@@ -262,29 +250,29 @@
     <!-- LEFT SIDE -->
     <div class="left">
         <div>
-            <h1>Domina Inglés</h1>
-            <p>Únete a miles de estudiantes que ya están aprendiendo con English Coffee Time</p>
+            <h1>Aprende Inglés</h1>
+            <p>Únete a nuestra comunidad educativa de aprendices de inglés</p>
             
             <div class="benefits">
                 <div class="benefit">
                     <div class="benefit-icon">✓</div>
-                    <div class="benefit-text"><strong>36 módulos</strong> estructurados</div>
+                    <div class="benefit-text">Test de ubicación gratuito</div>
                 </div>
                 <div class="benefit">
                     <div class="benefit-icon">✓</div>
-                    <div class="benefit-text"><strong>3000+ preguntas</strong> con explicaciones</div>
+                    <div class="benefit-text">6 niveles estructurados</div>
                 </div>
                 <div class="benefit">
                     <div class="benefit-icon">✓</div>
-                    <div class="benefit-text"><strong>Certificados</strong> verificables</div>
+                    <div class="benefit-text">Recursos educativos enlazados</div>
                 </div>
                 <div class="benefit">
                     <div class="benefit-icon">✓</div>
-                    <div class="benefit-text"><strong>Plan personalizado</strong> para ti</div>
+                    <div class="benefit-text">Seguimiento de progreso</div>
                 </div>
                 <div class="benefit">
                     <div class="benefit-icon">✓</div>
-                    <div class="benefit-text"><strong>7 días gratis</strong> sin tarjeta</div>
+                    <div class="benefit-text">100% gratuito</div>
                 </div>
             </div>
         </div>
@@ -294,12 +282,24 @@
     <div class="right">
         <div class="form-container">
             <h2>Crear Cuenta</h2>
-            <p>Empieza tu prueba gratuita de 7 días hoy</p>
+            <p>Comienza tu viaje en inglés hoy</p>
 
             <div class="error" id="errorMsg"></div>
             <div class="success" id="successMsg"></div>
 
             <form id="signupForm">
+                <div class="form-group">
+                    <label>¿Eres estudiante o profesor?</label>
+                    <div class="role-selector">
+                        <button type="button" class="role-btn selected" data-role="student" onclick="selectRole('student')">
+                            👨‍🎓 Estudiante
+                        </button>
+                        <button type="button" class="role-btn" data-role="teacher" onclick="selectRole('teacher')">
+                            👨‍🏫 Profesor
+                        </button>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="name">Nombre Completo</label>
                     <input type="text" id="name" name="name" required placeholder="Tu nombre">
@@ -317,20 +317,11 @@
 
                 <div class="checkbox-group">
                     <input type="checkbox" id="terms" required>
-                    <label for="terms">Acepto los <a href="#" target="_blank">Términos de Servicio</a> y <a href="#" target="_blank">Política de Privacidad</a></label>
+                    <label for="terms">Acepto los <a href="#" target="_blank">términos de servicio</a> y <a href="#" target="_blank">política de privacidad</a></label>
                 </div>
 
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    Crear Cuenta Gratuita
-                    <span class="loading" id="loadingSpinner">⏳</span>
-                </button>
+                <button type="submit" class="btn-submit">Crear Cuenta</button>
             </form>
-
-            <div class="divider">O continúa con</div>
-
-            <button class="btn-google" onclick="signupWithGoogle()">
-                🔵 Continuar con Google
-            </button>
 
             <div class="login-link">
                 ¿Ya tienes cuenta? <a href="signin.html">Inicia Sesión</a>
@@ -339,85 +330,80 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
 <script>
-    // NOTA: Reemplaza estas credenciales con las tuyas de Supabase
-    const SUPABASE_URL = 'https://YOUR-PROJECT.supabase.co';
-    const SUPABASE_KEY = 'YOUR-ANON-KEY';
+    let selectedRole = 'student';
 
-    // Inicializar Supabase (comentado por ahora)
-    // const { createClient } = window.supabase;
-    // const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    function selectRole(role) {
+        selectedRole = role;
+        document.querySelectorAll('.role-btn').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        document.querySelector(`[data-role="${role}"]`).classList.add('selected');
+    }
 
-    // Simulación de registro (mientras configuras Supabase)
     document.getElementById('signupForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const submitBtn = document.getElementById('submitBtn');
         const errorMsg = document.getElementById('errorMsg');
         const successMsg = document.getElementById('successMsg');
+        const submitBtn = document.querySelector('.btn-submit');
 
-        // Limpiar mensajes
         errorMsg.style.display = 'none';
         successMsg.style.display = 'none';
 
-        // Validación básica
         if (password.length < 6) {
             showError('La contraseña debe tener al menos 6 caracteres');
             return;
         }
 
-        // Mostrar loading
         submitBtn.disabled = true;
-        document.getElementById('loadingSpinner').style.display = 'inline';
+        submitBtn.textContent = 'Creando cuenta...';
 
         try {
-            // AQUÍ VA LA INTEGRACIÓN CON SUPABASE
-            // Por ahora, simulamos el registro
+            // Registrar en Supabase
+            const result = await supabaseSignUp(email, password, {
+                nombre: name,
+                role: selectedRole
+            });
 
-            // Simular delay de API
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            if (!result.success) {
+                throw new Error(result.error);
+            }
 
-            // Simular registro exitoso
-            showSuccess('¡Cuenta creada! Redirigiendo al dashboard...');
+            // Guardar en localStorage también (para offline)
+            localStorage.setItem('user', JSON.stringify(result.user));
             
-            // Guardar en localStorage (temporal)
-            localStorage.setItem('user', JSON.stringify({
-                name: name,
-                email: email,
-                created_at: new Date().toISOString()
-            }));
-
-            // Redirigir después de 2 segundos
+            showSuccess('¡Cuenta creada! Redirigiendo...');
+            
             setTimeout(() => {
-                window.location.href = 'app/dashboard.html';
+                if (selectedRole === 'student') {
+                    window.location.href = 'app/initial-test.html';
+                } else {
+                    window.location.href = 'app/dashboard-teacher.html';
+                }
             }, 2000);
 
         } catch (error) {
-            showError(error.message || 'Error al crear cuenta. Intenta de nuevo.');
+            showError(error.message || 'Error al crear cuenta');
         } finally {
             submitBtn.disabled = false;
-            document.getElementById('loadingSpinner').style.display = 'none';
+            submitBtn.textContent = 'Crear Cuenta';
         }
     });
 
     function showError(msg) {
-        const errorMsg = document.getElementById('errorMsg');
-        errorMsg.textContent = msg;
-        errorMsg.style.display = 'block';
+        document.getElementById('errorMsg').textContent = msg;
+        document.getElementById('errorMsg').style.display = 'block';
     }
 
     function showSuccess(msg) {
-        const successMsg = document.getElementById('successMsg');
-        successMsg.textContent = msg;
-        successMsg.style.display = 'block';
-    }
-
-    function signupWithGoogle() {
-        alert('Integración Google Sign-In (próximamente)');
-        // Implementar con Google OAuth
+        document.getElementById('successMsg').textContent = msg;
+        document.getElementById('successMsg').style.display = 'block';
     }
 </script>
 
