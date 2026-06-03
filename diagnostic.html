@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnóstico - English Coffee Time</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #4ec9b0;
+            border-bottom: 2px solid #4ec9b0;
+            padding-bottom: 10px;
+        }
+
+        .check {
+            margin: 20px 0;
+            padding: 10px;
+            border-left: 4px solid #999;
+            background: #252526;
+        }
+
+        .check.success {
+            border-left-color: #6a9955;
+            background: #1a2d1a;
+        }
+
+        .check.error {
+            border-left-color: #f48771;
+            background: #2d1a1a;
+        }
+
+        .check.warning {
+            border-left-color: #dcdcaa;
+            background: #2d2a1a;
+        }
+
+        .status {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .success { color: #6a9955; }
+        .error { color: #f48771; }
+        .warning { color: #dcdcaa; }
+        .info { color: #569cd6; }
+
+        pre {
+            background: #1e1e1e;
+            padding: 10px;
+            overflow-x: auto;
+            border: 1px solid #444;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background: #569cd6;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+        }
+
+        button:hover {
+            background: #4ec9b0;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #252526;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔍 DIAGNÓSTICO - English Coffee Time</h1>
+    
+    <div class="section">
+        <h2>Verificaciones Automáticas</h2>
+        
+        <div class="check" id="check1">
+            <div class="status">⏳ Verificando librerías...</div>
+        </div>
+
+        <div class="check" id="check2">
+            <div class="status">⏳ Verificando Supabase client...</div>
+        </div>
+
+        <div class="check" id="check3">
+            <div class="status">⏳ Verificando funciones...</div>
+        </div>
+
+        <div class="check" id="check4">
+            <div class="status">⏳ Verificando sesión...</div>
+        </div>
+
+        <div class="check" id="check5">
+            <div class="status">⏳ Verificando Base de Datos...</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Información del Sistema</h2>
+        <pre id="systemInfo"></pre>
+    </div>
+
+    <div class="section">
+        <h2>Acciones</h2>
+        <button onclick="testLogin()">🧪 Probar Login</button>
+        <button onclick="clearCache()">🧹 Limpiar Caché</button>
+        <button onclick="goToLogin()">🔐 Ir a Login</button>
+    </div>
+
+    <div class="section">
+        <h2>Consola de Debug</h2>
+        <pre id="console" style="height: 300px; overflow-y: auto;"></pre>
+        <button onclick="clearConsole()">Limpiar Consola</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // Redireccionar console.log a nuestra consola
+    const consoleDiv = document.getElementById('console');
+    const originalLog = console.log;
+    const originalError = console.error;
+    const originalWarn = console.warn;
+
+    function logToDiv(message, type = 'info') {
+        const timestamp = new Date().toLocaleTimeString();
+        const text = `[${timestamp}] ${message}\n`;
+        consoleDiv.textContent += text;
+        consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        originalLog(`[${type}]`, message);
+    }
+
+    console.log = function(...args) {
+        logToDiv(args.join(' '), 'log');
+    };
+
+    console.error = function(...args) {
+        logToDiv(args.join(' '), 'error');
+    };
+
+    console.warn = function(...args) {
+        logToDiv(args.join(' '), 'warn');
+    };
+
+    // Iniciar diagnóstico
+    async function runDiagnostics() {
+        console.log('🚀 Iniciando diagnóstico...');
+
+        // Check 1: Librerías
+        checkLibraries();
+
+        // Check 2: Supabase Client
+        setTimeout(() => checkSupabaseClient(), 500);
+
+        // Check 3: Funciones
+        setTimeout(() => checkFunctions(), 1000);
+
+        // Check 4: Sesión
+        setTimeout(() => checkSession(), 1500);
+
+        // Check 5: BD
+        setTimeout(() => checkDatabase(), 2000);
+
+        // Info del sistema
+        setTimeout(() => showSystemInfo(), 2500);
+    }
+
+    function checkLibraries() {
+        const check = document.getElementById('check1');
+        
+        if (window.supabase) {
+            check.classList.add('success');
+            check.innerHTML = '<div class="status"><span class="success">✅ Librerías Supabase</span> cargadas correctamente</div>';
+            console.log('✅ Supabase library: OK');
+        } else {
+            check.classList.add('error');
+            check.innerHTML = '<div class="status"><span class="error">❌ Librerías Supabase</span> no cargadas</div><p>Error: window.supabase no existe</p>';
+            console.error('❌ Supabase library not found');
+        }
+    }
+
+    function checkSupabaseClient() {
+        const check = document.getElementById('check2');
+        
+        if (window.supabaseClient) {
+            check.classList.add('success');
+            check.innerHTML = '<div class="status"><span class="success">✅ Supabase Client</span> inicializado</div>';
+            console.log('✅ Supabase client: OK');
+        } else if (window.supabase) {
+            check.classList.add('warning');
+            check.innerHTML = '<div class="status"><span class="warning">⚠️ Supabase Client</span> aún no inicializado (cargando js/supabase-client.js)</div>';
+            console.warn('⚠️ supabaseClient not yet loaded');
+            
+            // Intentar cargar
+            loadSupabaseClient();
+        } else {
+            check.classList.add('error');
+            check.innerHTML = '<div class="status"><span class="error">❌ Supabase Client</span> - Error</div><p>js/supabase-client.js no se cargó</p>';
+            console.error('❌ Cannot load supabaseClient');
+        }
+    }
+
+    function loadSupabaseClient() {
+        const script = document.createElement('script');
+        script.src = 'js/supabase-client.js';
+        script.onload = () => {
+            console.log('✅ js/supabase-client.js cargado');
+            checkSupabaseClient();
+        };
+        script.onerror = () => {
+            console.error('❌ Error cargando js/supabase-client.js');
+        };
+        document.head.appendChild(script);
+    }
+
+    function checkFunctions() {
+        const check = document.getElementById('check3');
+        const functions = [
+            'supabaseSignUp',
+            'supabaseSignIn',
+            'supabaseSignOut',
+            'supabaseGetCurrentUser',
+            'supabaseIsAuthenticated'
+        ];
+
+        let allLoaded = true;
+        let missing = [];
+
+        for (const func of functions) {
+            if (typeof window[func] !== 'function') {
+                allLoaded = false;
+                missing.push(func);
+            }
+        }
+
+        if (allLoaded) {
+            check.classList.add('success');
+            check.innerHTML = `<div class="status"><span class="success">✅ Funciones</span> cargadas (${functions.length})</div>`;
+            console.log('✅ Todas las funciones: OK');
+        } else {
+            check.classList.add('error');
+            check.innerHTML = `<div class="status"><span class="error">❌ Funciones</span> faltantes</div><p>Falta: ${missing.join(', ')}</p>`;
+            console.error('❌ Missing functions:', missing);
+        }
+    }
+
+    async function checkSession() {
+        const check = document.getElementById('check4');
+
+        try {
+            if (!window.supabaseClient) {
+                check.classList.add('warning');
+                check.innerHTML = '<div class="status"><span class="warning">⚠️ Sesión</span> - Cliente no cargado</div>';
+                console.warn('⚠️ Client not available yet');
+                return;
+            }
+
+            const { data } = await window.supabaseClient.auth.getSession();
+            
+            if (data.session) {
+                check.classList.add('success');
+                check.innerHTML = `<div class="status"><span class="success">✅ Sesión Activa</span></div><p>Email: ${data.session.user.email}</p>`;
+                console.log('✅ Session active:', data.session.user.email);
+            } else {
+                check.classList.add('warning');
+                check.innerHTML = '<div class="status"><span class="warning">⚠️ Sin Sesión</span></div><p>Usuario no autenticado</p>';
+                console.log('⚠️ No session active');
+            }
+        } catch (error) {
+            check.classList.add('error');
+            check.innerHTML = `<div class="status"><span class="error">❌ Error</span></div><p>${error.message}</p>`;
+            console.error('❌ Session check error:', error);
+        }
+    }
+
+    async function checkDatabase() {
+        const check = document.getElementById('check5');
+
+        try {
+            if (!window.supabaseClient) {
+                check.classList.add('warning');
+                check.innerHTML = '<div class="status"><span class="warning">⚠️ BD</span> - Cliente no cargado</div>';
+                return;
+            }
+
+            const { data, error } = await window.supabaseClient
+                .from('users')
+                .select('COUNT()', { count: 'exact' })
+                .limit(1);
+
+            if (error) {
+                check.classList.add('error');
+                check.innerHTML = `<div class="status"><span class="error">❌ BD Error</span></div><p>${error.message}</p>`;
+                console.error('❌ DB error:', error);
+            } else {
+                check.classList.add('success');
+                check.innerHTML = '<div class="status"><span class="success">✅ Base de Datos</span> conectada</div>';
+                console.log('✅ Database: OK');
+            }
+        } catch (error) {
+            check.classList.add('error');
+            check.innerHTML = `<div class="status"><span class="error">❌ Error</span></div><p>${error.message}</p>`;
+            console.error('❌ DB check error:', error);
+        }
+    }
+
+    function showSystemInfo() {
+        const info = {
+            'User Agent': navigator.userAgent,
+            'Platform': navigator.platform,
+            'Language': navigator.language,
+            'Online': navigator.onLine ? 'Sí' : 'No',
+            'Supabase URL': window.SUPABASE_URL || 'No definida',
+            'Supabase Client': window.supabaseClient ? 'Cargado' : 'No cargado',
+            'Window Functions': {
+                'supabaseSignIn': typeof window.supabaseSignIn,
+                'supabaseGetCurrentUser': typeof window.supabaseGetCurrentUser
+            }
+        };
+
+        document.getElementById('systemInfo').textContent = JSON.stringify(info, null, 2);
+        console.log('📊 System info:', info);
+    }
+
+    async function testLogin() {
+        console.log('🧪 Intentando login de prueba...');
+        
+        if (!window.supabaseSignIn) {
+            console.error('❌ supabaseSignIn no disponible');
+            return;
+        }
+
+        const email = prompt('Email de prueba:');
+        const password = prompt('Contraseña:');
+
+        if (!email || !password) {
+            console.log('⚠️ Cancelado');
+            return;
+        }
+
+        try {
+            const result = await window.supabaseSignIn(email, password);
+            if (result.success) {
+                console.log('✅ Login exitoso:', result.data);
+            } else {
+                console.error('❌ Login falló:', result.error);
+            }
+        } catch (error) {
+            console.error('❌ Error:', error);
+        }
+    }
+
+    function clearCache() {
+        console.log('🧹 Limpiando caché...');
+        localStorage.clear();
+        sessionStorage.clear();
+        console.log('✅ Caché limpiado');
+        console.log('⚠️ Recarga la página (F5)');
+    }
+
+    function clearConsole() {
+        document.getElementById('console').textContent = '';
+        console.log('🧹 Consola limpiada');
+    }
+
+    function goToLogin() {
+        window.location.href = 'signin.html';
+    }
+
+    // Ejecutar diagnóstico cuando carga la página
+    window.addEventListener('load', runDiagnostics);
+
+    console.log('📄 Página de diagnóstico cargada');
+</script>
+
+</body>
+</html>
