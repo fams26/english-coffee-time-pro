@@ -11,7 +11,8 @@
             --bg: #F8F7F3;
             --text-dark: #1F2937;
             --text-light: #6B7280;
-            --border: #E5E7EB;
+            --success: #10B981;
+            --danger: #EF4444;
         }
 
         * {
@@ -29,7 +30,7 @@
         .navbar {
             background: white;
             padding: 1rem 2rem;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #e5e7eb;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -50,118 +51,45 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        .student-info {
+        .header {
             background: white;
-            padding: 1.5rem;
+            padding: 2rem;
             border-radius: 12px;
             margin-bottom: 2rem;
-            border: 1px solid var(--border);
-        }
-
-        .student-info h2 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .student-info p {
-            color: var(--text-light);
-            margin: 0.5rem 0;
-        }
-
-        .level-selector {
+            border: 1px solid #e5e7eb;
             display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .level-btn {
-            padding: 0.75rem 1.5rem;
-            border: 2px solid var(--border);
+        .header h2 {
+            color: var(--primary);
+        }
+
+        .back-btn {
             background: white;
-            color: var(--text-dark);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 0.5rem 1rem;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s;
         }
 
-        .level-btn.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .level-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .module-card {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .module-card:hover {
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .module-card h3 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            font-size: 18px;
-        }
-
-        .module-icon {
-            font-size: 32px;
-            margin-bottom: 1rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: var(--border);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        .progress-text {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 0.5rem;
+        .back-btn:hover {
+            background: rgba(44, 82, 130, 0.05);
         }
 
         .topics-container {
             background: white;
             border-radius: 12px;
             padding: 2rem;
-            border: 1px solid var(--border);
+            border: 1px solid #e5e7eb;
         }
 
         .topics-container h3 {
@@ -176,9 +104,9 @@
         }
 
         .topic-item {
-            padding: 1rem;
+            padding: 1.5rem;
             background: var(--bg);
-            border: 1px solid var(--border);
+            border: 1px solid #e5e7eb;
             border-radius: 8px;
             transition: all 0.3s;
         }
@@ -186,17 +114,25 @@
         .topic-item:hover {
             background: white;
             border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .topic-item h4 {
             color: var(--primary);
             margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .topic-item p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 1rem;
         }
 
         .topic-meta {
             display: flex;
-            gap: 1rem;
-            font-size: 12px;
+            gap: 1.5rem;
+            font-size: 13px;
             color: var(--text-light);
             margin-bottom: 1rem;
             flex-wrap: wrap;
@@ -217,26 +153,34 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
+            transition: all 0.3s;
         }
 
         .topic-btn:hover {
             background: #1e3a5f;
         }
 
+        .topic-btn.completed {
+            background: var(--success);
+        }
+
+        .topic-btn.completed:hover {
+            background: #059669;
+        }
+
         .loading {
             text-align: center;
             padding: 2rem;
-            color: var(--text-light);
         }
 
-        .loading-spinner {
-            border: 4px solid var(--border);
+        .spinner {
+            border: 4px solid var(--bg);
             border-top: 4px solid var(--primary);
             border-radius: 50%;
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 1rem auto;
+            margin: 0 auto;
         }
 
         @keyframes spin {
@@ -244,15 +188,21 @@
             100% { transform: rotate(360deg); }
         }
 
-        .empty-state {
+        .blocked-message {
+            background: #fee2e2;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            padding: 2rem;
+            border-radius: 12px;
             text-align: center;
-            padding: 3rem;
-            color: var(--text-light);
         }
 
-        .empty-state h3 {
-            color: var(--primary);
+        .blocked-message h3 {
             margin-bottom: 1rem;
+        }
+
+        .blocked-message p {
+            margin-bottom: 0.5rem;
         }
 
         @media (max-width: 768px) {
@@ -260,17 +210,10 @@
                 padding: 1rem;
             }
 
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .navbar {
+            .header {
                 flex-direction: column;
                 gap: 1rem;
-            }
-
-            .level-selector {
-                width: 100%;
+                align-items: flex-start;
             }
         }
     </style>
@@ -283,202 +226,183 @@
 </div>
 
 <div class="container">
-    <!-- Información del estudiante -->
-    <div class="student-info" id="studentInfo">
-        <h2>Hola, <span id="studentName">Usuario</span>!</h2>
-        <p>Tu nivel: <strong id="studentLevel">Cargando...</strong></p>
-        <p id="studentProgress">Cargando progreso...</p>
+    <div class="header">
+        <h2 id="moduleTitle">Módulo</h2>
+        <button class="back-btn" onclick="goBack()">← Volver al Dashboard</button>
     </div>
 
-    <!-- Selector de niveles -->
-    <div class="level-selector" id="levelSelector">
-        <!-- Se llenará con JavaScript -->
-    </div>
-
-    <!-- Grid de módulos -->
-    <div class="modules-grid" id="modulesGrid">
-        <div class="loading">
-            <div class="loading-spinner"></div>
-            <p>Cargando módulos...</p>
-        </div>
-    </div>
-
-    <!-- Temas del módulo seleccionado -->
-    <div class="topics-container" id="topicsContainer" style="display: none;">
-        <h3 id="topicsTitle">Temas</h3>
+    <div class="topics-container" id="topicsContainer">
+        <h3>Temas del Módulo</h3>
         <div class="topics-list" id="topicsList">
-            <!-- Se llenará con JavaScript -->
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Cargando temas...</p>
+            </div>
         </div>
+    </div>
+
+    <div class="blocked-message" id="blockedMessage" style="display: none;">
+        <h3>🔒 Este módulo está bloqueado</h3>
+        <p>Debes completar todos los módulos de tu nivel actual para acceder a este contenido.</p>
+        <button class="back-btn" onclick="goBack()" style="margin-top: 1rem; background: var(--danger); color: white; border: none;">
+            Volver al Dashboard
+        </button>
     </div>
 </div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/supabase-client.js"></script>
-<script src="../js/modules-functions.js"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/modules-functions.js"></script>
 
 <script>
-    let currentLevel = 'A1';
-    let currentModule = null;
+    const NIVELES_ORDEN = ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1', 'C2'];
+    let currentUser = null;
+    let moduleId = null;
+    let userLevel = null;
+    let moduleLevel = null;
 
-    // Inicializar
     document.addEventListener('DOMContentLoaded', async () => {
-        await loadStudentInfo();
-        await loadLevels();
-        await loadModules('A1');
-    });
-
-    // Cargar información del estudiante
-    async function loadStudentInfo() {
-        const user = await supabaseGetCurrentUser();
-        if (!user) {
-            window.location.href = '../index.html';
+        currentUser = await supabaseGetCurrentUser();
+        if (!currentUser) {
+            window.location.href = 'signin.html';
             return;
         }
 
-        document.getElementById('studentName').textContent = user.name || 'Usuario';
-        document.getElementById('studentLevel').textContent = user.nivel || 'No asignado';
-    }
+        // Obtener parámetros de URL
+        const params = new URLSearchParams(window.location.search);
+        moduleId = params.get('module');
+        const moduleName = params.get('name');
+        userLevel = params.get('level') || currentUser.nivel;
 
-    // Cargar niveles disponibles
-    async function loadLevels() {
-        const niveles = ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1', 'C2'];
-        const selector = document.getElementById('levelSelector');
-        
-        niveles.forEach(nivel => {
-            const btn = document.createElement('button');
-            btn.className = `level-btn ${nivel === 'A1' ? 'active' : ''}`;
-            btn.textContent = nivel;
-            btn.onclick = () => selectLevel(nivel);
-            selector.appendChild(btn);
-        });
-    }
+        if (!moduleId) {
+            window.location.href = 'dashboard-student.html';
+            return;
+        }
 
-    // Cambiar nivel
-    function selectLevel(nivel) {
-        currentLevel = nivel;
-        document.querySelectorAll('.level-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        loadModules(nivel);
-    }
+        document.getElementById('moduleTitle').textContent = moduleName || 'Módulo';
 
-    // Cargar módulos del nivel
-    async function loadModules(nivel) {
-        const grid = document.getElementById('modulesGrid');
-        grid.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Cargando módulos...</p></div>';
+        // Cargar información del módulo
+        await loadModuleAndVerifyAccess();
+    });
 
+    // CARGAR MÓDULO Y VERIFICAR ACCESO
+    async function loadModuleAndVerifyAccess() {
         try {
-            const { data, error } = await supabaseClient
-                .from('modules')
-                .select('*')
-                .eq('nivel', nivel)
-                .order('module_type');
-
-            if (error) throw error;
-
-            if (!data || data.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><h3>No hay módulos disponibles</h3></div>';
+            const moduleResult = await getModule(moduleId);
+            if (!moduleResult.success) {
+                showError('Error al cargar el módulo');
                 return;
             }
 
-            grid.innerHTML = '';
+            moduleLevel = moduleResult.data.nivel;
 
-            const moduleIcons = {
-                'reading': '📖',
-                'grammar': '📝',
-                'vocabulary': '📚',
-                'listening': '🎧',
-                'writing': '✍️',
-                'speaking': '🗣️'
-            };
+            // VERIFICAR ACCESO
+            const hasAccess = await verifyAccess(userLevel, moduleLevel);
 
-            data.forEach(module => {
-                const card = document.createElement('div');
-                card.className = 'module-card';
-                card.innerHTML = `
-                    <div class="module-icon">${moduleIcons[module.module_type] || '📚'}</div>
-                    <h3>${module.nombre}</h3>
-                    <p style="color: var(--text-light); font-size: 14px; margin-bottom: 1rem;">${module.descripcion}</p>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 0%"></div>
-                    </div>
-                    <div class="progress-text">0% completo</div>
-                    <button class="topic-btn" style="width: 100%; margin-top: 1rem;" onclick="selectModule('${module.id}', '${module.nombre}')">
-                        Ver temas
-                    </button>
-                `;
-                grid.appendChild(card);
-            });
+            if (!hasAccess) {
+                document.getElementById('topicsContainer').style.display = 'none';
+                document.getElementById('blockedMessage').style.display = 'block';
+                return;
+            }
+
+            // Cargar temas
+            await loadTopics();
         } catch (error) {
-            console.error('Error cargando módulos:', error);
-            grid.innerHTML = '<div class="empty-state"><h3>Error al cargar módulos</h3></div>';
+            console.error('Error:', error);
+            showError('Error cargando módulo');
         }
     }
 
-    // Seleccionar módulo y cargar temas
-    async function selectModule(moduleId, moduleName) {
-        currentModule = moduleId;
-        const container = document.getElementById('topicsContainer');
+    // VERIFICAR ACCESO AL MÓDULO
+    async function verifyAccess(userLevel, moduleLevel) {
+        const userIndex = NIVELES_ORDEN.indexOf(userLevel);
+        const moduleIndex = NIVELES_ORDEN.indexOf(moduleLevel);
+
+        // Puede acceder si el módulo es de su nivel o inferior
+        if (moduleIndex <= userIndex) {
+            // Si es nivel superior, debe tener completado su nivel actual
+            if (moduleIndex > userIndex) {
+                const modules = await getModulesByLevel(userLevel);
+                if (!modules.success) return false;
+
+                // Verificar que todos los módulos estén completos
+                for (const mod of modules.data) {
+                    const progress = await getModuleProgress(currentUser.id, mod.id);
+                    if (!progress.success || progress.percentage < 100) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    // CARGAR TEMAS
+    async function loadTopics() {
+        const result = await getTopicsByModule(moduleId);
+
+        if (!result.success || !result.data || result.data.length === 0) {
+            document.getElementById('topicsList').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; color: var(--text-light);">No hay temas disponibles</div>';
+            return;
+        }
+
         const list = document.getElementById('topicsList');
+        list.innerHTML = '';
 
-        document.getElementById('topicsTitle').textContent = `Temas: ${moduleName}`;
-        list.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
-        container.style.display = 'block';
-        
-        // Scroll a los temas
-        setTimeout(() => {
-            container.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+        for (const topic of result.data) {
+            const item = document.createElement('div');
+            item.className = 'topic-item';
 
-        try {
-            const { data, error } = await supabaseClient
-                .from('module_topics')
+            // Obtener progreso del tema
+            const progressResult = await supabaseClient
+                .from('student_progress')
                 .select('*')
-                .eq('module_id', moduleId)
-                .order('orden');
+                .eq('student_id', currentUser.id)
+                .eq('topic_id', topic.id)
+                .single();
 
-            if (error) throw error;
+            const isCompleted = progressResult.data?.completado || false;
 
-            if (!data || data.length === 0) {
-                list.innerHTML = '<div class="empty-state"><p>No hay temas disponibles</p></div>';
-                return;
-            }
-
-            list.innerHTML = '';
-
-            data.forEach(topic => {
-                const item = document.createElement('div');
-                item.className = 'topic-item';
-                item.innerHTML = `
-                    <h4>${topic.titulo}</h4>
-                    <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 14px;">${topic.descripcion}</p>
-                    <div class="topic-meta">
-                        <span>⏱️ ${topic.tiempo_estimado} min</span>
-                        <span>📊 ${topic.dificultad}</span>
-                    </div>
-                    <button class="topic-btn" onclick="openTopic('${topic.id}')">
-                        Empezar tema
-                    </button>
-                `;
-                list.appendChild(item);
-            });
-        } catch (error) {
-            console.error('Error cargando temas:', error);
-            list.innerHTML = '<div class="empty-state"><p>Error al cargar temas</p></div>';
+            item.innerHTML = `
+                <h4>${isCompleted ? '✅ ' : ''}${topic.titulo}</h4>
+                <p>${topic.descripcion}</p>
+                <div class="topic-meta">
+                    <span>⏱️ ${topic.tiempo_estimado} min</span>
+                    <span>📊 ${topic.dificultad}</span>
+                </div>
+                <button class="topic-btn ${isCompleted ? 'completed' : ''}" 
+                    onclick="openTopic('${topic.id}')">
+                    ${isCompleted ? '✅ Completado' : 'Empezar tema'}
+                </button>
+            `;
+            list.appendChild(item);
         }
     }
 
-    // Abrir un tema individual
+    // ABRIR TEMA
     function openTopic(topicId) {
         window.location.href = `topic-viewer.html?id=${topicId}`;
     }
 
-    // Logout
+    // VOLVER AL DASHBOARD
+    function goBack() {
+        window.location.href = 'dashboard-student.html';
+    }
+
+    // LOGOUT
     async function logout() {
         await supabaseSignOut();
-        window.location.href = '../signin.html';
+        window.location.href = 'signin.html';
+    }
+
+    // MOSTRAR ERROR
+    function showError(message) {
+        document.getElementById('topicsList').innerHTML = 
+            `<div style="text-align: center; padding: 2rem; color: var(--danger);">${message}</div>`;
     }
 </script>
 
