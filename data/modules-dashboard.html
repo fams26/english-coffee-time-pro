@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulos - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .navbar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .student-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .student-info h2 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .student-info p {
+            color: var(--text-light);
+            margin: 0.5rem 0;
+        }
+
+        .level-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .level-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .level-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .level-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .module-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 18px;
+        }
+
+        .module-icon {
+            font-size: 32px;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+
+        .topics-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        .topics-container h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 20px;
+        }
+
+        .topics-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .topic-item {
+            padding: 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .topic-item:hover {
+            background: white;
+            border-color: var(--primary);
+        }
+
+        .topic-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .topic-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .topic-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .topic-btn:hover {
+            background: #1e3a5f;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        .loading-spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .empty-state h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .level-selector {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>☕ English Coffee Time</h1>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+    <!-- Información del estudiante -->
+    <div class="student-info" id="studentInfo">
+        <h2>Hola, <span id="studentName">Usuario</span>!</h2>
+        <p>Tu nivel: <strong id="studentLevel">Cargando...</strong></p>
+        <p id="studentProgress">Cargando progreso...</p>
+    </div>
+
+    <!-- Selector de niveles -->
+    <div class="level-selector" id="levelSelector">
+        <!-- Se llenará con JavaScript -->
+    </div>
+
+    <!-- Grid de módulos -->
+    <div class="modules-grid" id="modulesGrid">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Cargando módulos...</p>
+        </div>
+    </div>
+
+    <!-- Temas del módulo seleccionado -->
+    <div class="topics-container" id="topicsContainer" style="display: none;">
+        <h3 id="topicsTitle">Temas</h3>
+        <div class="topics-list" id="topicsList">
+            <!-- Se llenará con JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase-client.js"></script>
+<script src="../js/modules-functions.js"></script>
+
+<script>
+    let currentLevel = 'A1';
+    let currentModule = null;
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', async () => {
+        await loadStudentInfo();
+        await loadLevels();
+        await loadModules('A1');
+    });
+
+    // Cargar información del estudiante
+    async function loadStudentInfo() {
+        const user = await supabaseGetCurrentUser();
+        if (!user) {
+            window.location.href = '../index.html';
+            return;
+        }
+
+        document.getElementById('studentName').textContent = user.name || 'Usuario';
+        document.getElementById('studentLevel').textContent = user.nivel || 'No asignado';
+    }
+
+    // Cargar niveles disponibles
+    async function loadLevels() {
+        const niveles = ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1', 'C2'];
+        const selector = document.getElementById('levelSelector');
+        
+        niveles.forEach(nivel => {
+            const btn = document.createElement('button');
+            btn.className = `level-btn ${nivel === 'A1' ? 'active' : ''}`;
+            btn.textContent = nivel;
+            btn.onclick = () => selectLevel(nivel);
+            selector.appendChild(btn);
+        });
+    }
+
+    // Cambiar nivel
+    function selectLevel(nivel) {
+        currentLevel = nivel;
+        document.querySelectorAll('.level-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        event.target.classList.add('active');
+        loadModules(nivel);
+    }
+
+    // Cargar módulos del nivel
+    async function loadModules(nivel) {
+        const grid = document.getElementById('modulesGrid');
+        grid.innerHTML = '<div class="loading"><div class="loading-spinner"></div><p>Cargando módulos...</p></div>';
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('modules')
+                .select('*')
+                .eq('nivel', nivel)
+                .order('module_type');
+
+            if (error) throw error;
+
+            if (!data || data.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><h3>No hay módulos disponibles</h3></div>';
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            const moduleIcons = {
+                'reading': '📖',
+                'grammar': '📝',
+                'vocabulary': '📚',
+                'listening': '🎧',
+                'writing': '✍️',
+                'speaking': '🗣️'
+            };
+
+            data.forEach(module => {
+                const card = document.createElement('div');
+                card.className = 'module-card';
+                card.innerHTML = `
+                    <div class="module-icon">${moduleIcons[module.module_type] || '📚'}</div>
+                    <h3>${module.nombre}</h3>
+                    <p style="color: var(--text-light); font-size: 14px; margin-bottom: 1rem;">${module.descripcion}</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">0% completo</div>
+                    <button class="topic-btn" style="width: 100%; margin-top: 1rem;" onclick="selectModule('${module.id}', '${module.nombre}')">
+                        Ver temas
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        } catch (error) {
+            console.error('Error cargando módulos:', error);
+            grid.innerHTML = '<div class="empty-state"><h3>Error al cargar módulos</h3></div>';
+        }
+    }
+
+    // Seleccionar módulo y cargar temas
+    async function selectModule(moduleId, moduleName) {
+        currentModule = moduleId;
+        const container = document.getElementById('topicsContainer');
+        const list = document.getElementById('topicsList');
+
+        document.getElementById('topicsTitle').textContent = `Temas: ${moduleName}`;
+        list.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
+        container.style.display = 'block';
+        
+        // Scroll a los temas
+        setTimeout(() => {
+            container.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+
+        try {
+            const { data, error } = await supabaseClient
+                .from('module_topics')
+                .select('*')
+                .eq('module_id', moduleId)
+                .order('orden');
+
+            if (error) throw error;
+
+            if (!data || data.length === 0) {
+                list.innerHTML = '<div class="empty-state"><p>No hay temas disponibles</p></div>';
+                return;
+            }
+
+            list.innerHTML = '';
+
+            data.forEach(topic => {
+                const item = document.createElement('div');
+                item.className = 'topic-item';
+                item.innerHTML = `
+                    <h4>${topic.titulo}</h4>
+                    <p style="color: var(--text-light); margin-bottom: 1rem; font-size: 14px;">${topic.descripcion}</p>
+                    <div class="topic-meta">
+                        <span>⏱️ ${topic.tiempo_estimado} min</span>
+                        <span>📊 ${topic.dificultad}</span>
+                    </div>
+                    <button class="topic-btn" onclick="openTopic('${topic.id}')">
+                        Empezar tema
+                    </button>
+                `;
+                list.appendChild(item);
+            });
+        } catch (error) {
+            console.error('Error cargando temas:', error);
+            list.innerHTML = '<div class="empty-state"><p>Error al cargar temas</p></div>';
+        }
+    }
+
+    // Abrir un tema individual
+    function openTopic(topicId) {
+        window.location.href = `topic-viewer.html?id=${topicId}`;
+    }
+
+    // Logout
+    async function logout() {
+        await supabaseSignOut();
+        window.location.href = '../signin.html';
+    }
+</script>
+
+</body>
+</html>
