@@ -3,59 +3,270 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Coffee Time - CAT Test</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>English Coffee Time - Plataforma Educativa de Inglés</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: white;
+            color: var(--text-dark);
+        }
+
+        /* NAVBAR */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-size: 14px;
+        }
+
+        .btn-nav {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 100%);
+            color: white;
+            padding: 6rem 2rem;
+            text-align: center;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        /* FEATURES */
+        .features {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border-left: 4px solid var(--accent);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav a {
+                margin: 0 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">☕ English Coffee Time</div>
+    <div>
+        <a href="#features">Características</a>
+        <a href="signin.html" class="btn-nav">Iniciar Sesión</a>
+        <a href="signup.html" class="btn-nav">Registrarse</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <h1>Domina Inglés a tu Ritmo</h1>
+    <p>Plataforma educativa gratuita con seguimiento personalizado por tema</p>
+    <div class="hero-buttons">
+        <a href="signup.html" class="btn-primary">Comenzar Ahora</a>
+        <a href="#features" class="btn-secondary">Saber Más</a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
     <div class="container">
-        <div class="hero">
-            <div class="logo-section">
-                <h1 class="main-logo">English Coffee Time</h1>
-                <p class="tagline">CAT TEST · NIVEL MCER</p>
+        <h2 class="section-title">¿Por Qué Elegir English Coffee Time?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Test de Ubicación</h3>
+                <p>Descubre tu nivel MCER (A1-C2) con nuestro test inicial adaptativo</p>
             </div>
-
-            <div class="intro-text">
-                <h2>¿Qué quieres hacer?</h2>
-                <p>Bienvenido a English Coffee Time. Elige tu rol para comenzar.</p>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>6 Niveles Estructurados</h3>
+                <p>Aprende de forma progresiva desde principiante hasta dominio</p>
             </div>
-
-            <div class="options-grid">
-                <div class="option-card">
-                    <div class="option-icon">📝</div>
-                    <h3>Estudiante</h3>
-                    <p>Realiza el test adaptativo de 45 minutos para medir tu nivel de inglés.</p>
-                    <a href="test.html" class="btn btn-primary">Comenzar Test</a>
-                </div>
-
-                <div class="option-card">
-                    <div class="option-icon">📊</div>
-                    <h3>Profesor</h3>
-                    <p>Accede al dashboard para ver resultados de tus estudiantes y planificar clases.</p>
-                    <a href="dashboard.html" class="btn btn-primary">Ver Dashboard</a>
-                </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>6 Módulos por Nivel</h3>
+                <p>Reading, Grammar, Vocabulary, Listening, Writing y Speaking</p>
             </div>
-
-            <div class="info-section">
-                <h3>Sobre este test</h3>
-                <ul class="info-list">
-                    <li><strong>Adaptativo:</strong> El test se ajusta a tu nivel automáticamente</li>
-                    <li><strong>Comprensivo:</strong> Evalúa gramática, vocabulario, fluidez y comprensión</li>
-                    <li><strong>Rápido:</strong> 45 minutos para obtener tu nivel MCER (A1-C2)</li>
-                    <li><strong>Detallado:</strong> Recibe un reporte completo con plan de estudio personalizado</li>
-                </ul>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Recursos Enlazados</h3>
+                <p>Videos, PDFs, ejercicios interactivos y material descargable</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Seguimiento Detallado</h3>
+                <p>Trackea cada tema visto y tu progreso por nivel</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👨‍🏫</div>
+                <h3>Panel de Profesor</h3>
+                <p>Crea grupos, ve qué temas vieron tus estudiantes, planifica clases</p>
             </div>
         </div>
-
-        <footer class="footer">
-            <p>© 2025 English Coffee Time. Todos los derechos reservados.</p>
-            <p style="font-size: 12px; color: var(--color-text-secondary); margin-top: 0.5rem;">
-                Desenvolvido con <span style="color: #D4AF37;">❤️</span> en Costa Rica
-            </p>
-        </footer>
     </div>
-    
-    <!-- Supabase Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 English Coffee Time. Plataforma educativa gratuita.</p>
+    <p style="margin-top: 1rem; font-size: 12px;">
+        <a href="#" style="color: var(--accent); text-decoration: none;">Términos</a> · 
+        <a href="#" style="color: var(--accent); text-decoration: none;">Privacidad</a> · 
+        <a href="mailto:info@englishcoffeetime.com" style="color: var(--accent); text-decoration: none;">Contacto</a>
+    </p>
+</footer>
+
 </body>
 </html>
