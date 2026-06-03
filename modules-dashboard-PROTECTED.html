@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulos - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .navbar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            color: var(--primary);
+        }
+
+        .back-btn {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: rgba(44, 82, 130, 0.05);
+        }
+
+        .topics-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .topics-container h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 20px;
+        }
+
+        .topics-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .topic-item {
+            padding: 1.5rem;
+            background: var(--bg);
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .topic-item:hover {
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .topic-item h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 16px;
+        }
+
+        .topic-item p {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 1rem;
+        }
+
+        .topic-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .topic-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .topic-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .topic-btn:hover {
+            background: #1e3a5f;
+        }
+
+        .topic-btn.completed {
+            background: var(--success);
+        }
+
+        .topic-btn.completed:hover {
+            background: #059669;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--bg);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .blocked-message {
+            background: #fee2e2;
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .blocked-message h3 {
+            margin-bottom: 1rem;
+        }
+
+        .blocked-message p {
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>☕ English Coffee Time</h1>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+    <div class="header">
+        <h2 id="moduleTitle">Módulo</h2>
+        <button class="back-btn" onclick="goBack()">← Volver al Dashboard</button>
+    </div>
+
+    <div class="topics-container" id="topicsContainer">
+        <h3>Temas del Módulo</h3>
+        <div class="topics-list" id="topicsList">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Cargando temas...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="blocked-message" id="blockedMessage" style="display: none;">
+        <h3>🔒 Este módulo está bloqueado</h3>
+        <p>Debes completar todos los módulos de tu nivel actual para acceder a este contenido.</p>
+        <button class="back-btn" onclick="goBack()" style="margin-top: 1rem; background: var(--danger); color: white; border: none;">
+            Volver al Dashboard
+        </button>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/modules-functions.js"></script>
+
+<script>
+    const NIVELES_ORDEN = ['A1', 'A2', 'B1', 'B1+', 'B2', 'C1', 'C2'];
+    let currentUser = null;
+    let moduleId = null;
+    let userLevel = null;
+    let moduleLevel = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        currentUser = await supabaseGetCurrentUser();
+        if (!currentUser) {
+            window.location.href = 'signin.html';
+            return;
+        }
+
+        // Obtener parámetros de URL
+        const params = new URLSearchParams(window.location.search);
+        moduleId = params.get('module');
+        const moduleName = params.get('name');
+        userLevel = params.get('level') || currentUser.nivel;
+
+        if (!moduleId) {
+            window.location.href = 'dashboard-student.html';
+            return;
+        }
+
+        document.getElementById('moduleTitle').textContent = moduleName || 'Módulo';
+
+        // Cargar información del módulo
+        await loadModuleAndVerifyAccess();
+    });
+
+    // CARGAR MÓDULO Y VERIFICAR ACCESO
+    async function loadModuleAndVerifyAccess() {
+        try {
+            const moduleResult = await getModule(moduleId);
+            if (!moduleResult.success) {
+                showError('Error al cargar el módulo');
+                return;
+            }
+
+            moduleLevel = moduleResult.data.nivel;
+
+            // VERIFICAR ACCESO
+            const hasAccess = await verifyAccess(userLevel, moduleLevel);
+
+            if (!hasAccess) {
+                document.getElementById('topicsContainer').style.display = 'none';
+                document.getElementById('blockedMessage').style.display = 'block';
+                return;
+            }
+
+            // Cargar temas
+            await loadTopics();
+        } catch (error) {
+            console.error('Error:', error);
+            showError('Error cargando módulo');
+        }
+    }
+
+    // VERIFICAR ACCESO AL MÓDULO
+    async function verifyAccess(userLevel, moduleLevel) {
+        const userIndex = NIVELES_ORDEN.indexOf(userLevel);
+        const moduleIndex = NIVELES_ORDEN.indexOf(moduleLevel);
+
+        // Puede acceder si el módulo es de su nivel o inferior
+        if (moduleIndex <= userIndex) {
+            // Si es nivel superior, debe tener completado su nivel actual
+            if (moduleIndex > userIndex) {
+                const modules = await getModulesByLevel(userLevel);
+                if (!modules.success) return false;
+
+                // Verificar que todos los módulos estén completos
+                for (const mod of modules.data) {
+                    const progress = await getModuleProgress(currentUser.id, mod.id);
+                    if (!progress.success || progress.percentage < 100) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    // CARGAR TEMAS
+    async function loadTopics() {
+        const result = await getTopicsByModule(moduleId);
+
+        if (!result.success || !result.data || result.data.length === 0) {
+            document.getElementById('topicsList').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; color: var(--text-light);">No hay temas disponibles</div>';
+            return;
+        }
+
+        const list = document.getElementById('topicsList');
+        list.innerHTML = '';
+
+        for (const topic of result.data) {
+            const item = document.createElement('div');
+            item.className = 'topic-item';
+
+            // Obtener progreso del tema
+            const progressResult = await supabaseClient
+                .from('student_progress')
+                .select('*')
+                .eq('student_id', currentUser.id)
+                .eq('topic_id', topic.id)
+                .single();
+
+            const isCompleted = progressResult.data?.completado || false;
+
+            item.innerHTML = `
+                <h4>${isCompleted ? '✅ ' : ''}${topic.titulo}</h4>
+                <p>${topic.descripcion}</p>
+                <div class="topic-meta">
+                    <span>⏱️ ${topic.tiempo_estimado} min</span>
+                    <span>📊 ${topic.dificultad}</span>
+                </div>
+                <button class="topic-btn ${isCompleted ? 'completed' : ''}" 
+                    onclick="openTopic('${topic.id}')">
+                    ${isCompleted ? '✅ Completado' : 'Empezar tema'}
+                </button>
+            `;
+            list.appendChild(item);
+        }
+    }
+
+    // ABRIR TEMA
+    function openTopic(topicId) {
+        window.location.href = `topic-viewer.html?id=${topicId}`;
+    }
+
+    // VOLVER AL DASHBOARD
+    function goBack() {
+        window.location.href = 'dashboard-student.html';
+    }
+
+    // LOGOUT
+    async function logout() {
+        await supabaseSignOut();
+        window.location.href = 'signin.html';
+    }
+
+    // MOSTRAR ERROR
+    function showError(message) {
+        document.getElementById('topicsList').innerHTML = 
+            `<div style="text-align: center; padding: 2rem; color: var(--danger);">${message}</div>`;
+    }
+</script>
+
+</body>
+</html>
