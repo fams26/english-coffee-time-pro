@@ -4,7 +4,7 @@
 // 2. Obtén SUPABASE_URL y SUPABASE_ANON_KEY de: 
 //    https://app.supabase.com/project/YOUR_PROJECT/settings/api
 
-const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co/rest/v1/'; // REEMPLAZA
+const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co'; // REEMPLAZA
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4'; // REEMPLAZA
 
 // Crear cliente Supabase
