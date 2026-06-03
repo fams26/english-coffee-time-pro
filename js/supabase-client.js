@@ -20,16 +20,16 @@ const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  */
 async function supabaseSignUp(email, password, userData) {
     try {
-        const { data, error } = await supabaseClient.auth.signUp({
-            email: email,
-            password: password,
-            options: {
-                data: {
-                    nombre: userData.nombre,
-                    role: userData.role
-                }
-            }
-        });
+        const { error: insertError } = await supabaseClient
+            .from('users')
+            .insert([{
+                id: data.user.id,
+                email: email,
+                // ❌ NO INCLUYAS password
+                name: userData.nombre,
+                role: userData.role,
+                nivel: null
+            }]);
 
         if (error) throw error;
 
