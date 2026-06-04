@@ -22,7 +22,6 @@
             --text-dark: #2c3e50;
             --text-light: #7f8c8d;
             --border-color: #ecf0f1;
-            --success: #10B981;
         }
 
         body {
@@ -45,11 +44,6 @@
             gap: 2rem;
         }
 
-        .header-left {
-            flex: 1;
-            min-width: 300px;
-        }
-
         .header-left h1 {
             font-size: 2.5rem;
             margin-bottom: 0.5rem;
@@ -58,14 +52,8 @@
             gap: 1rem;
         }
 
-        .header-left p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
         .header-right {
             text-align: right;
-            min-width: 250px;
         }
 
         .user-info {
@@ -79,8 +67,6 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
             margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-            font-weight: 500;
         }
 
         .logout-btn {
@@ -91,7 +77,6 @@
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.95rem;
             font-weight: 500;
         }
 
@@ -105,14 +90,9 @@
             padding: 0 1rem 2rem;
         }
 
-        /* Loading Screen */
-        .loading-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 50vh;
-            gap: 1.5rem;
+        .loading {
+            text-align: center;
+            padding: 3rem;
         }
 
         .spinner {
@@ -122,6 +102,7 @@
             border-top: 4px solid #667BC6;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
         }
 
         @keyframes spin {
@@ -129,32 +110,12 @@
             100% { transform: rotate(360deg); }
         }
 
-        .loading-text {
-            font-size: 1.1rem;
-            color: var(--text-light);
-        }
-
-        /* Progress Section */
         .progress-section {
             background: var(--card-bg);
             padding: 2rem;
             border-radius: 12px;
             margin-bottom: 2rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .progress-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--text-dark);
-        }
-
-        .progress-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-item:last-child {
-            margin-bottom: 0;
         }
 
         .progress-label {
@@ -178,12 +139,10 @@
             transition: width 0.3s ease;
         }
 
-        /* Levels Grid */
         .levels-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
-            margin-bottom: 3rem;
         }
 
         .level-card {
@@ -192,8 +151,6 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
         }
 
         .level-card:hover {
@@ -205,36 +162,17 @@
             padding: 1.5rem;
             color: white;
             font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
         }
 
-        .level-header.A1 { background-color: var(--color-A1); }
-        .level-header.A2 { background-color: var(--color-A2); }
-        .level-header.B1 { background-color: var(--color-B1); }
         .level-header.B2 { background-color: var(--color-B2); }
-        .level-header.C1 { background-color: var(--color-C1); }
 
-        .level-info h3 {
+        .level-name {
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
-        .level-badge {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 0.4rem 0.9rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
         .level-content {
             padding: 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
         }
 
         .modules-grid {
@@ -252,13 +190,6 @@
             font-weight: 600;
             text-align: center;
             border-left: 4px solid;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .module-badge:hover {
-            background: #e8e8e8;
-            transform: translateX(3px);
         }
 
         .module-badge.Grammar { border-left-color: #FF6B6B; }
@@ -268,12 +199,6 @@
         .module-badge.Speaking { border-left-color: #667BC6; }
         .module-badge.Vocabulary { border-left-color: #FF6B6B; }
 
-        .module-count {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 0.3rem;
-        }
-
         .view-details-btn {
             width: 100%;
             padding: 0.9rem;
@@ -281,30 +206,10 @@
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
-            transition: opacity 0.3s;
-            color: white;
-            margin-top: auto;
-        }
-
-        .view-details-btn:hover {
-            opacity: 0.9;
-        }
-
-        .current-level .view-details-btn {
             background: linear-gradient(135deg, #667BC6 0%, #45B7D1 100%);
+            color: white;
         }
 
-        .next-level .view-details-btn {
-            background: linear-gradient(135deg, #FFA500 0%, #FF8C42 100%);
-        }
-
-        .locked-level .view-details-btn {
-            background: #cccccc;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -314,17 +219,11 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            animation: fadeIn 0.3s;
             overflow-y: auto;
         }
 
         .modal.show {
             display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal-content {
@@ -334,20 +233,8 @@
             border-radius: 12px;
             width: 90%;
             max-width: 900px;
-            animation: slideIn 0.3s;
             max-height: 85vh;
             overflow-y: auto;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         .close-btn {
@@ -356,7 +243,6 @@
             font-size: 2rem;
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.3s;
             line-height: 1;
         }
 
@@ -366,7 +252,7 @@
 
         .modal-header {
             font-size: 1.8rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: var(--text-dark);
             clear: both;
         }
@@ -396,7 +282,6 @@
             font-weight: 600;
             font-size: 1rem;
             margin-bottom: 0.4rem;
-            color: var(--text-dark);
         }
 
         .competency-descriptor {
@@ -421,7 +306,6 @@
             text-align: center;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 2rem;
@@ -431,19 +315,9 @@
             font-size: 0.9rem;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
-                text-align: center;
-            }
-
-            .header-left h1 {
-                font-size: 1.8rem;
-            }
-
-            .header-right {
-                text-align: center;
             }
 
             .modules-grid {
@@ -453,23 +327,13 @@
             .levels-container {
                 grid-template-columns: 1fr;
             }
-
-            .modal-content {
-                width: 95%;
-                margin: 20% auto;
-                padding: 1.5rem;
-            }
-
-            .competency-item {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header">
-        <div class="header-left">
+        <div>
             <h1>☕ English Coffee Time Pro</h1>
             <p>Tu plataforma de aprendizaje de inglés basada en CEFR</p>
         </div>
@@ -483,20 +347,19 @@
     </div>
 
     <div class="container">
-        <!-- Loading Screen -->
-        <div id="loadingScreen" class="loading-screen">
+        <!-- Loading -->
+        <div id="loadingScreen" class="loading">
             <div class="spinner"></div>
-            <p class="loading-text">Cargando tu progreso...</p>
+            <p>Cargando tu progreso...</p>
         </div>
 
-        <!-- Main Content -->
+        <!-- Content -->
         <div id="mainContent" style="display: none;">
-            <!-- Progress Section -->
             <div class="progress-section">
                 <h2>📊 Tu Progreso General</h2>
-                <div class="progress-item">
+                <div style="margin-bottom: 0;">
                     <div class="progress-label">
-                        <span>Progreso en tu nivel actual</span>
+                        <span>Progreso en B2</span>
                         <span id="totalProgress">0%</span>
                     </div>
                     <div class="progress-bar">
@@ -505,11 +368,8 @@
                 </div>
             </div>
 
-            <!-- Levels -->
-            <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem;">🎓 Tus Módulos</h2>
-            <div class="levels-container" id="levelsContainer">
-                <!-- Se llenará dinámicamente -->
-            </div>
+            <h2 style="margin-bottom: 1.5rem;">🎓 Tus Módulos</h2>
+            <div class="levels-container" id="levelsContainer"></div>
         </div>
     </div>
 
@@ -522,18 +382,103 @@
     </div>
 
     <div class="footer">
-        <p>English Coffee Time Pro © 2025 | Diseño curricular alineado con CEFR | 180+ competencias de aprendizaje</p>
+        <p>English Coffee Time Pro © 2025 | Dashboard Integrado con CEFR</p>
     </div>
 
     <!-- Scripts -->
     <script src="../js/supabase-client.js"></script>
-    <script src="../js/dashboard-functions.js"></script>
     <script>
         // ============================================
-        // VARIABLES GLOBALES
+        // DATOS MÓDULOS B2 (SIMPLIFICADO)
         // ============================================
+        const B2_MODULES = {
+            id: 'B2',
+            name: 'B2 - Intermedio-Alto',
+            description: 'Tienes fluidez y puedes entender textos complejos sobre diversos temas.',
+            color: '#45B7D1',
+            modules: [
+                {
+                    id: 'B2_Grammar',
+                    name: 'Gramática',
+                    type: 'Grammar',
+                    competencies: [
+                        { id: 'B2_G1', title: 'Second Conditional', descriptor: 'Situaciones hipotéticas', context: 'Fantasías y posibilidades' },
+                        { id: 'B2_G2', title: 'Passive Voice (avanzado)', descriptor: 'Voz pasiva en múltiples tiempos', context: 'Escritura formal' },
+                        { id: 'B2_G3', title: 'Modal Verbs (advanced)', descriptor: 'May, Might, Must, Could para deducción', context: 'Inferencias' },
+                        { id: 'B2_G4', title: 'Reported Speech (avanzado)', descriptor: 'Cambios en tiempos y modales', context: 'Discurso indirecto complejo' },
+                        { id: 'B2_G5', title: 'Inverted sentences', descriptor: 'Énfasis con inversión', context: 'Escritura sofisticada' },
+                        { id: 'B2_G6', title: 'Mixed Conditionals', descriptor: 'Combinación de condicionales', context: 'Situaciones complejas' },
+                        { id: 'B2_G7', title: 'Gerunds vs Infinitives', descriptor: 'Uso correcto según contexto', context: 'Expresión precisa' },
+                        { id: 'B2_G8', title: 'Advanced conjunctions', descriptor: 'Although, whereas, whereas, etc', context: 'Argumentación sofisticada' }
+                    ]
+                },
+                {
+                    id: 'B2_Reading',
+                    name: 'Lectura',
+                    type: 'Reading',
+                    competencies: [
+                        { id: 'B2_R1', title: 'Artículos especializados', descriptor: 'Temas técnicos y académicos', context: 'Educación superior' },
+                        { id: 'B2_R2', title: 'Literatura clásica', descriptor: 'Novelas y cuentos completos', context: 'Lectura extensiva' },
+                        { id: 'B2_R3', title: 'Análisis crítico', descriptor: 'Reseñas y crítica literaria', context: 'Pensamiento crítico' },
+                        { id: 'B2_R4', title: 'Documentos formales', descriptor: 'Contratos y legislación', context: 'Contexto profesional' },
+                        { id: 'B2_R5', title: 'Textos persuasivos', descriptor: 'Propaganda y publicidad avanzada', context: 'Análisis de influencia' }
+                    ]
+                },
+                {
+                    id: 'B2_Writing',
+                    name: 'Escritura',
+                    type: 'Writing',
+                    competencies: [
+                        { id: 'B2_W1', title: 'Reportes profesionales', descriptor: 'Informes estructurados', context: 'Ambiente corporativo' },
+                        { id: 'B2_W2', title: 'Ensayos argumentativos', descriptor: 'Tesis y antítesis desarrolladas', context: 'Escritura académica' },
+                        { id: 'B2_W3', title: 'Correspondencia formal', descriptor: 'Cartas de negocio complejas', context: 'Comunicación profesional' },
+                        { id: 'B2_W4', title: 'Revisión y edición', descriptor: 'Corrección de textos propios', context: 'Control de calidad' },
+                        { id: 'B2_W5', title: 'Paráfrasis y síntesis', descriptor: 'Reescritura con vocabulario avanzado', context: 'Procesamiento textual' },
+                        { id: 'B2_W6', title: 'Creative writing', descriptor: 'Historias originales con estructura', context: 'Expresión creativa' }
+                    ]
+                },
+                {
+                    id: 'B2_Listening',
+                    name: 'Escucha',
+                    type: 'Listening',
+                    competencies: [
+                        { id: 'B2_L1', title: 'Conferencias completas', descriptor: 'Seguir sin subtítulos', context: 'Educación formal' },
+                        { id: 'B2_L2', title: 'Películas sin subtítulos', descriptor: 'Entretenimiento sin apoyo', context: 'Inmersión cultural' },
+                        { id: 'B2_L3', title: 'Podcasts especializados', descriptor: 'Temas técnicos y académicos', context: 'Aprendizaje continuo' },
+                        { id: 'B2_L4', title: 'Entrevistas en profundidad', descriptor: 'Matices y preguntas complejas', context: 'Análisis de información' },
+                        { id: 'B2_L5', title: 'Debates y discusiones', descriptor: 'Argumentación hablada', context: 'Pensamiento crítico' },
+                        { id: 'B2_L6', title: 'Acentos diversos', descriptor: 'Múltiples variantes del inglés', context: 'Comunicación global' }
+                    ]
+                },
+                {
+                    id: 'B2_Speaking',
+                    name: 'Expresión Oral',
+                    type: 'Speaking',
+                    competencies: [
+                        { id: 'B2_S1', title: 'Presentaciones formales', descriptor: 'Con estructura y visual support', context: 'Contextos profesionales' },
+                        { id: 'B2_S2', title: 'Debate argumentado', descriptor: 'Defender posiciones complejas', context: 'Pensamiento crítico' },
+                        { id: 'B2_S3', title: 'Negociación profesional', descriptor: 'Llegar a acuerdos complejos', context: 'Negocios internacionales' },
+                        { id: 'B2_S4', title: 'Expresión de sutilezas', descriptor: 'Matices, ironía, sarcasmo', context: 'Comunicación refinada' },
+                        { id: 'B2_S5', title: 'Improvisación controlada', descriptor: 'Hablar sin preparación', context: 'Fluidez natural' },
+                        { id: 'B2_S6', title: 'Presentaciones creativas', descriptor: 'Storytelling profesional', context: 'Influencia y persuasión' }
+                    ]
+                },
+                {
+                    id: 'B2_Vocabulary',
+                    name: 'Vocabulario',
+                    type: 'Vocabulary',
+                    competencies: [
+                        { id: 'B2_V1', title: 'Colocaciones avanzadas', descriptor: 'Combinaciones de palabras naturales', context: 'Expresión nativa' },
+                        { id: 'B2_V2', title: 'Sinónimos y antónimos', descriptor: 'Precisión lexical', context: 'Riqueza expresiva' },
+                        { id: 'B2_V3', title: 'Expresiones idiomáticas', descriptor: 'Más phrasal verbs y idioms', context: 'Comunicación auténtica' },
+                        { id: 'B2_V4', title: 'Vocabulario académico', descriptor: 'Términos de educación formal', context: 'Contextos universitarios' },
+                        { id: 'B2_V5', title: 'Vocabulario profesional', descriptor: 'Jerga de industrias específicas', context: 'Especialización laboral' }
+                    ]
+                }
+            ]
+        };
+
         let currentUser = null;
-        let userLevel = null;
         let studentProgress = {};
 
         // ============================================
@@ -542,51 +487,46 @@
         async function initDashboard() {
             console.log('🚀 Inicializando dashboard...');
             
-            // 1. Verificar autenticación
-            const isAuth = await supabaseIsAuthenticated();
-            if (!isAuth) {
-                console.log('❌ No autenticado, redirigiendo...');
-                window.location.href = 'signin.html';
-                return;
+            try {
+                // Verificar autenticación
+                const isAuth = await supabaseIsAuthenticated();
+                if (!isAuth) {
+                    window.location.href = 'signin.html';
+                    return;
+                }
+
+                // Obtener usuario
+                currentUser = await supabaseGetCurrentUser();
+                if (!currentUser) {
+                    window.location.href = 'signin.html';
+                    return;
+                }
+
+                console.log('✅ Usuario:', currentUser.email, 'Nivel:', currentUser.nivel);
+
+                // Si no tiene nivel, enviar a test
+                if (!currentUser.nivel) {
+                    window.location.href = 'initial-test.html';
+                    return;
+                }
+
+                // Cargar progreso
+                await loadStudentProgress();
+
+                // Renderizar
+                renderDashboard();
+
+                // Mostrar contenido
+                document.getElementById('loadingScreen').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+
+                setupEventListeners();
+            } catch (error) {
+                console.error('❌ Error:', error.message);
+                alert('Error cargando dashboard: ' + error.message);
             }
-
-            // 2. Obtener usuario actual
-            currentUser = await supabaseGetCurrentUser();
-            if (!currentUser) {
-                console.log('❌ No se pudo obtener usuario');
-                window.location.href = 'signin.html';
-                return;
-            }
-
-            console.log('✅ Usuario:', currentUser.email);
-            userLevel = currentUser.nivel;
-
-            // 3. Si no tiene nivel, enviar a test
-            if (!userLevel) {
-                console.log('⚠️ Usuario sin nivel, enviando a test...');
-                window.location.href = 'initial-test.html';
-                return;
-            }
-
-            // 4. Cargar progreso
-            await loadStudentProgress();
-
-            // 5. Renderizar dashboard
-            renderDashboard();
-
-            // 6. Mostrar contenido
-            document.getElementById('loadingScreen').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'block';
-
-            // 7. Setup eventos
-            setupEventListeners();
-
-            console.log('✅ Dashboard listo');
         }
 
-        // ============================================
-        // CARGAR PROGRESO DE SUPABASE
-        // ============================================
         async function loadStudentProgress() {
             console.log('📊 Cargando progreso...');
             
@@ -599,12 +539,11 @@
                     .eq('student_id', currentUser.id);
 
                 if (error) {
-                    console.warn('⚠️ Error cargando progreso:', error.message);
+                    console.warn('⚠️ Error:', error.message);
                     studentProgress = {};
                     return;
                 }
 
-                // Mapeo por competencia_id para acceso rápido
                 studentProgress = {};
                 data.forEach(p => {
                     studentProgress[p.competencia_id] = p;
@@ -613,281 +552,130 @@
                 console.log('✅ Progreso cargado:', Object.keys(studentProgress).length, 'competencias');
             } catch (error) {
                 console.error('❌ Error:', error.message);
-                studentProgress = {};
             }
         }
 
-        // ============================================
-        // RENDERIZAR DASHBOARD
-        // ============================================
         function renderDashboard() {
-            console.log('🎨 Renderizando dashboard...');
-
-            // Actualizar header
             document.getElementById('userName').textContent = currentUser.name || 'Estudiante';
-            document.getElementById('userLevel').textContent = userLevel;
+            document.getElementById('userLevel').textContent = currentUser.nivel;
 
-            // Obtener nivel actual
-            const currentLevelObj = MODULES_DATA.levels.find(l => l.id === userLevel);
-            if (!currentLevelObj) {
-                console.error('❌ Nivel no encontrado');
-                return;
-            }
-
-            // Renderizar nivel actual
-            renderLevel(currentLevelObj, 'current');
-
-            // Calcular progreso
-            updateProgressBar();
-        }
-
-        function renderLevel(level, type = 'current') {
-            const container = document.getElementById('levelsContainer');
-
-            // Calcular competencias completadas
-            const totalCompetencies = level.modules.reduce((sum, m) => sum + m.competencies.length, 0);
-            const completedCount = level.modules.reduce((sum, m) => {
+            const totalComp = B2_MODULES.modules.reduce((sum, m) => sum + m.competencies.length, 0);
+            const completedComp = B2_MODULES.modules.reduce((sum, m) => {
                 return sum + m.competencies.filter(c => {
-                    const prog = studentProgress[c.id];
-                    return prog && prog.completado === true;
+                    const p = studentProgress[c.id];
+                    return p && p.completado === true;
                 }).length;
             }, 0);
 
-            const levelProgress = totalCompetencies > 0 
-                ? Math.round((completedCount / totalCompetencies) * 100)
-                : 0;
-
-            // Crear tarjeta
-            const levelCard = document.createElement('div');
-            levelCard.className = `level-card ${type === 'current' ? 'current-level' : 'next-level'}`;
-
-            levelCard.innerHTML = `
-                <div class="level-header ${level.id}">
-                    <div class="level-info">
-                        <h3>${level.name}</h3>
-                        <p style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">${level.description}</p>
-                    </div>
-                    <div class="level-badge">${levelProgress}%</div>
-                </div>
-                
-                <div class="level-content">
-                    <div class="modules-grid">
-                        ${level.modules.map(module => {
-                            const moduleCompetencies = module.competencies.length;
-                            const moduleCompleted = module.competencies.filter(c => {
-                                const prog = studentProgress[c.id];
-                                return prog && prog.completado === true;
-                            }).length;
-                            
-                            return `
-                                <div class="module-badge ${module.type}" 
-                                     onclick="showModuleDetails('${level.id}', '${module.id}')">
-                                    <div>${module.name}</div>
-                                    <div class="module-count">${moduleCompleted}/${moduleCompetencies}</div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-
-                    <button class="view-details-btn" onclick="showLevelDetails('${level.id}')">
-                        📖 Ver todos los temas →
-                    </button>
-                </div>
-            `;
-
-            container.appendChild(levelCard);
-        }
-
-        // ============================================
-        // ACTUALIZAR BARRA DE PROGRESO
-        // ============================================
-        function updateProgressBar() {
-            const level = MODULES_DATA.levels.find(l => l.id === userLevel);
-            const totalCompetencies = level.modules.reduce((sum, m) => sum + m.competencies.length, 0);
-            const completedCount = level.modules.reduce((sum, m) => {
-                return sum + m.competencies.filter(c => {
-                    const prog = studentProgress[c.id];
-                    return prog && prog.completado === true;
-                }).length;
-            }, 0);
-
-            const percentage = totalCompetencies > 0 
-                ? Math.round((completedCount / totalCompetencies) * 100)
-                : 0;
+            const percentage = totalComp > 0 ? Math.round((completedComp / totalComp) * 100) : 0;
 
             document.getElementById('totalProgress').textContent = percentage + '%';
             document.getElementById('totalProgressBar').style.width = percentage + '%';
+
+            const container = document.getElementById('levelsContainer');
+            container.innerHTML = `
+                <div class="level-card">
+                    <div class="level-header B2">
+                        <div class="level-name">${B2_MODULES.name}</div>
+                        <div>${B2_MODULES.description}</div>
+                    </div>
+                    <div class="level-content">
+                        <div class="modules-grid">
+                            ${B2_MODULES.modules.map(m => `
+                                <div class="module-badge ${m.type}" onclick="showModuleDetails('${m.id}')">
+                                    <div>${m.name}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="view-details-btn" onclick="showAllDetails()">
+                            📖 Ver todos los temas →
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
-        // ============================================
-        // MODALES
-        // ============================================
-        function showLevelDetails(levelId) {
-            const level = MODULES_DATA.levels.find(l => l.id === levelId);
+        function showAllDetails() {
             const modal = document.getElementById('competencyModal');
-            const modalBody = document.getElementById('modalBody');
+            const body = document.getElementById('modalBody');
 
-            let html = `
-                <div class="modal-header" style="color: ${level.color}">
-                    ${level.name} - Todos los Módulos
-                </div>
-                <p style="color: var(--text-light); margin-bottom: 1.5rem;">${level.description}</p>
-            `;
-
-            level.modules.forEach(module => {
-                const totalComp = module.competencies.length;
-                const completedComp = module.competencies.filter(c => {
-                    const prog = studentProgress[c.id];
-                    return prog && prog.completado === true;
-                }).length;
-
+            let html = '<div class="modal-header">' + B2_MODULES.name + '</div>';
+            
+            B2_MODULES.modules.forEach(m => {
                 html += `
                     <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
-                        <h4 style="color: var(--text-dark); margin-bottom: 0.5rem;">📚 ${module.name}</h4>
-                        <p style="color: var(--text-light); font-size: 0.95rem; margin-bottom: 0.8rem;">
-                            <strong>${completedComp}/${totalComp}</strong> competencias completadas
-                        </p>
-                        <button onclick="showModuleDetails('${level.id}', '${module.id}')" style="
+                        <h4 style="color: var(--text-dark); margin-bottom: 0.5rem;">📚 ${m.name}</h4>
+                        <button onclick="showModuleDetails('${m.id}')" style="
                             padding: 0.5rem 1rem;
-                            background: ${level.color};
+                            background: #45B7D1;
                             color: white;
                             border: none;
                             border-radius: 6px;
                             cursor: pointer;
-                            font-weight: 500;
-                            transition: opacity 0.3s;
-                        " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                        ">
                             Ver competencias →
                         </button>
                     </div>
                 `;
             });
 
-            modalBody.innerHTML = html;
+            body.innerHTML = html;
             modal.classList.add('show');
         }
 
-        function showModuleDetails(levelId, moduleId) {
-            const level = MODULES_DATA.levels.find(l => l.id === levelId);
-            const module = level.modules.find(m => m.id === moduleId);
+        function showModuleDetails(moduleId) {
+            const module = B2_MODULES.modules.find(m => m.id === moduleId);
             const modal = document.getElementById('competencyModal');
-            const modalBody = document.getElementById('modalBody');
+            const body = document.getElementById('modalBody');
 
             let html = `
-                <div class="modal-header" style="color: ${level.color}">
-                    ${level.name} → ${module.name}
-                </div>
+                <div class="modal-header">${B2_MODULES.name} → ${module.name}</div>
                 <p style="color: var(--text-light); margin-bottom: 1.5rem;">
-                    <strong>${module.competencies.length}</strong> competencias en este módulo
+                    ${module.competencies.length} competencias
                 </p>
-
                 <div class="competencies-list">
             `;
 
-            module.competencies.forEach(competency => {
-                const progress = studentProgress[competency.id];
-                const isCompleted = progress && progress.completado === true;
-                const status = isCompleted ? '✅' : '❌';
+            module.competencies.forEach(c => {
+                const p = studentProgress[c.id];
+                const status = p && p.completado ? '✅' : '❌';
 
                 html += `
-                    <div class="competency-item" style="border-left-color: ${level.color};">
+                    <div class="competency-item" style="border-left-color: #45B7D1;">
                         <div class="competency-info">
-                            <div class="competency-title">${competency.title}</div>
-                            <div class="competency-descriptor">${competency.descriptor}</div>
-                            <div class="competency-context">📍 ${competency.context}</div>
+                            <div class="competency-title">${c.title}</div>
+                            <div class="competency-descriptor">${c.descriptor}</div>
+                            <div class="competency-context">📍 ${c.context}</div>
                         </div>
                         <div class="competency-status">${status}</div>
                     </div>
                 `;
             });
 
-            html += `</div>`;
-
-            modalBody.innerHTML = html;
+            html += '</div>';
+            body.innerHTML = html;
             modal.classList.add('show');
         }
 
-        // ============================================
-        // EVENT LISTENERS
-        // ============================================
         function setupEventListeners() {
-            // Close modal
             document.querySelector('.close-btn').addEventListener('click', () => {
                 document.getElementById('competencyModal').classList.remove('show');
             });
 
-            // Click outside modal
-            window.addEventListener('click', (event) => {
+            window.addEventListener('click', (e) => {
                 const modal = document.getElementById('competencyModal');
-                if (event.target === modal) {
+                if (e.target === modal) {
                     modal.classList.remove('show');
                 }
             });
 
-            // Logout
             document.getElementById('logoutBtn').addEventListener('click', async () => {
-                console.log('👋 Cerrando sesión...');
                 await supabaseSignOut();
                 window.location.href = 'signin.html';
             });
         }
 
-        // ============================================
-        // MARCAR COMO COMPLETADO
-        // ============================================
-        async function markCompetencyAsCompleted(competencyId) {
-            console.log('✅ Marcando como completado:', competencyId);
-
-            if (!supabaseClient || !currentUser) return;
-
-            try {
-                const existing = studentProgress[competencyId];
-
-                if (existing) {
-                    // Actualizar
-                    const { error } = await supabaseClient
-                        .from('student_progress')
-                        .update({ 
-                            completado: true,
-                            fecha_completacion: new Date().toISOString()
-                        })
-                        .eq('id', existing.id);
-
-                    if (error) throw error;
-                } else {
-                    // Insertar
-                    const { error } = await supabaseClient
-                        .from('student_progress')
-                        .insert([{
-                            student_id: currentUser.id,
-                            competencia_id: competencyId,
-                            nivel_id: userLevel,
-                            completado: true,
-                            fecha_inicio: new Date().toISOString(),
-                            fecha_completacion: new Date().toISOString()
-                        }]);
-
-                    if (error) throw error;
-                }
-
-                // Recargar progreso y re-renderizar
-                await loadStudentProgress();
-                updateProgressBar();
-                document.getElementById('levelsContainer').innerHTML = '';
-                renderLevel(MODULES_DATA.levels.find(l => l.id === userLevel), 'current');
-
-                console.log('✅ Actualizado');
-            } catch (error) {
-                console.error('❌ Error:', error.message);
-            }
-        }
-
-        // ============================================
-        // INICIAR
-        // ============================================
-        document.addEventListener('DOMContentLoaded', () => {
-            initDashboard();
-        });
+        document.addEventListener('DOMContentLoaded', initDashboard);
     </script>
 </body>
 </html>
