@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - English Coffee Time</title>
     <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +21,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #2C5282 0%, #1e3a5f 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -40,13 +48,13 @@
         }
 
         .header h1 {
-            color: #2C5282;
+            color: var(--primary);
             font-size: 28px;
             margin-bottom: 0.5rem;
         }
 
         .header p {
-            color: #6B7280;
+            color: var(--text-light);
             font-size: 14px;
         }
 
@@ -56,7 +64,7 @@
 
         label {
             display: block;
-            color: #1F2937;
+            color: var(--text-dark);
             font-weight: 600;
             margin-bottom: 0.5rem;
             font-size: 14px;
@@ -74,7 +82,7 @@
 
         input:focus {
             outline: none;
-            border-color: #2C5282;
+            border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
         }
 
@@ -86,7 +94,7 @@
         .btn {
             width: 100%;
             padding: 0.75rem;
-            background: #2C5282;
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 8px;
@@ -122,6 +130,21 @@
             display: block;
         }
 
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #16a34a;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+        }
+
         .loading {
             text-align: center;
             display: none;
@@ -130,7 +153,7 @@
 
         .spinner {
             border: 3px solid #f3f4f6;
-            border-top: 3px solid #2C5282;
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
             width: 24px;
             height: 24px;
@@ -150,23 +173,13 @@
         }
 
         .links a {
-            color: #2C5282;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
         }
 
         .links a:hover {
             text-decoration: underline;
-        }
-
-        @media (max-width: 480px) {
-            .card {
-                padding: 1.5rem;
-            }
-
-            .header h1 {
-                font-size: 24px;
-            }
         }
     </style>
 </head>
@@ -180,6 +193,7 @@
     </div>
 
     <div class="error" id="errorMsg"></div>
+    <div class="success" id="successMsg"></div>
 
     <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
@@ -213,7 +227,7 @@
     </form>
 
     <div class="links">
-        <p><a href="signup.html">¿No tienes cuenta? Crea una</a></p>
+        <p>¿No tienes cuenta? <a href="signup.html">Crea una aquí</a></p>
         <p style="margin-top: 1rem;"><a href="index.html">← Volver al inicio</a></p>
     </div>
 </div>
@@ -221,17 +235,21 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-    // Credenciales Supabase
     const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
 
-    // Inicializar Supabase
     const { createClient } = window.supabase;
     const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    console.log('✅ Supabase inicializado en signin.html');
+    // Verificar si ya está logged in
+    window.addEventListener('load', async () => {
+        const { data } = await supabaseClient.auth.getSession();
+        if (data.session) {
+            console.log('👤 Ya tiene sesión, redirigiendo...');
+            window.location.href = 'app/dashboard-student.html';
+        }
+    });
 
-    // Manejar login
     async function handleLogin(event) {
         event.preventDefault();
 
@@ -249,7 +267,6 @@
         try {
             console.log('🔐 Intentando login:', email);
 
-            // Login con Supabase
             const { data, error } = await supabaseClient.auth.signInWithPassword({
                 email: email,
                 password: password
@@ -263,12 +280,12 @@
             }
 
             console.log('✅ Login exitoso');
-            showError('¡Login exitoso! Redirigiendo...');
+            showSuccess('¡Login exitoso! Redirigiendo al dashboard...');
 
-            // Esperar y redirigir
+            // REDIRIGIR AUTOMÁTICAMENTE AL DASHBOARD
             setTimeout(() => {
                 window.location.href = 'app/dashboard-student.html';
-            }, 1000);
+            }, 1500);
 
         } catch (error) {
             console.error('❌ Error:', error.message);
@@ -279,8 +296,18 @@
 
     function showError(message) {
         const div = document.getElementById('errorMsg');
+        const success = document.getElementById('successMsg');
         div.textContent = message;
         div.classList.add('show');
+        success.classList.remove('show');
+    }
+
+    function showSuccess(message) {
+        const div = document.getElementById('successMsg');
+        const error = document.getElementById('errorMsg');
+        div.textContent = message;
+        div.classList.add('show');
+        error.classList.remove('show');
     }
 
     function clearError() {
@@ -299,15 +326,6 @@
             btn.disabled = false;
         }
     }
-
-    // Verificar si ya está logged in
-    window.addEventListener('load', async () => {
-        const { data } = await supabaseClient.auth.getSession();
-        if (data.session) {
-            console.log('👤 Ya tiene sesión, redirigiendo...');
-            window.location.href = 'app/dashboard-student.html';
-        }
-    });
 </script>
 
 </body>

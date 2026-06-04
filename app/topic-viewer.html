@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tema - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .navbar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .breadcrumb {
+            margin-bottom: 2rem;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .breadcrumb a {
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .topic-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .topic-title {
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .topic-description {
+            color: var(--text-light);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .difficulty {
+            display: inline-block;
+            background: #f3f4f6;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-top: 1rem;
+        }
+
+        .section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .resource-card {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        .resource-icon {
+            font-size: 32px;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-type {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        .questions-section {
+            display: none;
+        }
+
+        .questions-section.active {
+            display: block;
+        }
+
+        .question {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-size: 16px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: #f0f4ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: #f0f4ff;
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .option.incorrect {
+            border-color: var(--danger);
+            background: #fef2f2;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1e3a5f;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .result-message {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        .result-details {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 2rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--bg);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .topic-title {
+                font-size: 24px;
+            }
+
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>☕ English Coffee Time</h1>
+    <button onclick="volver()">← Volver</button>
+</div>
+
+<div class="container">
+    <!-- TEMA -->
+    <div class="topic-header" id="topicHeader">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Cargando tema...</p>
+        </div>
+    </div>
+
+    <!-- RECURSOS -->
+    <div class="section" id="resourcesSection" style="display: none;">
+        <div class="section-title">📚 Recursos de Aprendizaje</div>
+        <div class="resources-grid" id="resourcesGrid"></div>
+    </div>
+
+    <!-- PREGUNTAS -->
+    <div class="section" id="questionsSection" style="display: none;">
+        <div class="section-title">❓ Practica con Preguntas</div>
+        <div class="questions-section active" id="questionsList"></div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="result-section" id="resultSection">
+        <h2>¡Excelente!</h2>
+        <div class="result-score" id="resultScore">-</div>
+        <div class="result-message" id="resultMessage"></div>
+        <div class="result-details" id="resultDetails"></div>
+        <button class="btn btn-primary" onclick="completarTema()">
+            Marcar como Completado
+        </button>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="buttons" id="buttons" style="display: none;">
+        <button class="btn btn-secondary" onclick="volver()">Volver al Dashboard</button>
+        <button class="btn btn-primary" id="calificarBtn" onclick="calificar()">Calificar Respuestas</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
+
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+    let currentTopic = null;
+    let currentModule = null;
+    let currentResources = [];
+    let currentQuestions = [];
+    let userAnswers = [];
+    let quizCalified = false;
+
+    // Obtener parámetros
+    const urlParams = new URLSearchParams(window.location.search);
+    const topicId = urlParams.get('topic_id');
+    const moduleId = urlParams.get('module_id');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('📖 Tema cargando...');
+        
+        currentUser = await supabaseGetCurrentUser();
+        if (!currentUser) {
+            window.location.href = '../signin.html';
+            return;
+        }
+
+        await loadTopic();
+    });
+
+    // ============================================
+    // SUPABASE FUNCTIONS
+    // ============================================
+
+    async function supabaseGetCurrentUser() {
+        try {
+            const { data } = await supabaseClient.auth.getSession();
+            if (!data.session) return null;
+
+            const user = data.session.user;
+            const { data: userData } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            return {
+                id: user.id,
+                email: user.email,
+                name: userData?.name,
+                nivel: userData?.nivel
+            };
+        } catch (error) {
+            console.error('Error getting user:', error);
+            return null;
+        }
+    }
+
+    async function loadTopic() {
+        try {
+            if (!topicId) {
+                console.error('❌ No topic_id provided');
+                return;
+            }
+
+            // Obtener tema
+            const { data: topicData, error: topicError } = await supabaseClient
+                .from('module_topics')
+                .select('*')
+                .eq('id', topicId)
+                .single();
+
+            if (topicError) throw topicError;
+            currentTopic = topicData;
+            console.log('✅ Tema cargado:', currentTopic.titulo);
+
+            // Obtener recursos
+            const { data: resourcesData, error: resourcesError } = await supabaseClient
+                .from('topic_resources')
+                .select('*')
+                .eq('topic_id', topicId);
+
+            if (resourcesError) throw resourcesError;
+            currentResources = resourcesData || [];
+
+            // Obtener preguntas
+            const { data: questionsData, error: questionsError } = await supabaseClient
+                .from('questions')
+                .select('*')
+                .eq('topic_id', topicId)
+                .limit(4);
+
+            if (questionsError) throw questionsError;
+            currentQuestions = questionsData || [];
+            userAnswers = new Array(currentQuestions.length).fill(-1);
+
+            renderTopic();
+        } catch (error) {
+            console.error('❌ Error loading topic:', error);
+        }
+    }
+
+    function renderTopic() {
+        // Header
+        let html = `
+            <h1 class="topic-title">${currentTopic.titulo}</h1>
+            <p class="topic-description">${currentTopic.descripcion || 'Aprende este tema'}</p>
+            <span class="difficulty">Dificultad: ${currentTopic.dificultad || 'Media'}</span>
+        `;
+        document.getElementById('topicHeader').innerHTML = html;
+
+        // Recursos
+        if (currentResources.length > 0) {
+            document.getElementById('resourcesSection').style.display = 'block';
+            let resourcesHtml = '';
+
+            const icons = {
+                'video': '🎥',
+                'article': '📄',
+                'podcast': '🎙️',
+                'interactive': '🎮',
+                'image': '🖼️'
+            };
+
+            currentResources.forEach(resource => {
+                resourcesHtml += `
+                    <div class="resource-card">
+                        <div class="resource-icon">${icons[resource.tipo] || '📚'}</div>
+                        <div class="resource-type">${resource.tipo}</div>
+                        <div class="resource-title">${resource.titulo}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('resourcesGrid').innerHTML = resourcesHtml;
+        }
+
+        // Preguntas
+        if (currentQuestions.length > 0) {
+            document.getElementById('questionsSection').style.display = 'block';
+            let questionsHtml = '';
+
+            currentQuestions.forEach((q, index) => {
+                questionsHtml += `
+                    <div class="question">
+                        <div class="question-text">${index + 1}. ${q.pregunta}</div>
+                        <div class="options">
+                            <label class="option" onchange="selectAnswer(${index}, 0)">
+                                <input type="radio" name="q${index}" value="0">
+                                ${q.opcion_a}
+                            </label>
+                            <label class="option" onchange="selectAnswer(${index}, 1)">
+                                <input type="radio" name="q${index}" value="1">
+                                ${q.opcion_b}
+                            </label>
+                            <label class="option" onchange="selectAnswer(${index}, 2)">
+                                <input type="radio" name="q${index}" value="2">
+                                ${q.opcion_c}
+                            </label>
+                            <label class="option" onchange="selectAnswer(${index}, 3)">
+                                <input type="radio" name="q${index}" value="3">
+                                ${q.opcion_d}
+                            </label>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('questionsList').innerHTML = questionsHtml;
+            document.getElementById('buttons').style.display = 'flex';
+        }
+    }
+
+    function selectAnswer(questionIndex, optionIndex) {
+        userAnswers[questionIndex] = optionIndex;
+        console.log('Respuesta guardada:', questionIndex, optionIndex);
+    }
+
+    function calificar() {
+        let correct = 0;
+        const optionLabels = document.querySelectorAll('.option');
+
+        currentQuestions.forEach((q, index) => {
+            const correctOptionIndex = getCorrectOptionIndex(q);
+            if (userAnswers[index] === correctOptionIndex) {
+                correct++;
+            }
+
+            // Marcar visualmente
+            const optionsForQuestion = Array.from(optionLabels).filter((label, i) => {
+                const parent = label.closest('.question');
+                return parent === document.querySelectorAll('.question')[index];
+            });
+
+            optionsForQuestion.forEach((label, i) => {
+                if (i === correctOptionIndex) {
+                    label.classList.add('correct');
+                } else if (userAnswers[index] === i) {
+                    label.classList.add('incorrect');
+                }
+            });
+        });
+
+        const percentage = Math.round((correct / currentQuestions.length) * 100);
+        
+        document.getElementById('resultScore').textContent = percentage + '%';
+        document.getElementById('resultMessage').textContent = 
+            percentage >= 80 ? '¡Excelente!' : percentage >= 60 ? 'Bien' : 'Sigue practicando';
+        document.getElementById('resultDetails').textContent = 
+            `Respondiste correctamente ${correct} de ${currentQuestions.length} preguntas`;
+        
+        document.getElementById('resultSection').classList.add('show');
+        document.getElementById('buttons').style.display = 'none';
+        document.getElementById('calificarBtn').disabled = true;
+
+        quizCalified = true;
+    }
+
+    function getCorrectOptionIndex(question) {
+        const correctAnswer = question.respuesta_correcta;
+        const options = ['opcion_a', 'opcion_b', 'opcion_c', 'opcion_d'];
+        return options.indexOf(correctAnswer);
+    }
+
+    async function completarTema() {
+        console.log('✅ Guardando progreso...');
+        document.getElementById('resultSection').innerHTML = `
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Guardando tu progreso...</p>
+            </div>
+        `;
+
+        try {
+            const percentage = parseInt(document.getElementById('resultScore').textContent);
+
+            // Guardar progreso
+            const { error: progressError } = await supabaseClient
+                .from('student_progress')
+                .upsert([{
+                    student_id: currentUser.id,
+                    topic_id: topicId,
+                    puntuacion: percentage,
+                    completado: true,
+                    fecha_completacion: new Date().toISOString()
+                }], { onConflict: 'student_id,topic_id' });
+
+            if (progressError) throw progressError;
+
+            console.log('✅ Progreso guardado');
+
+            // Verificar si completó el nivel
+            await verificarDesbloqueoSiguienteTema();
+
+            // Mostrar éxito y volver
+            document.getElementById('resultSection').innerHTML = `
+                <h2>🎉 ¡Tema Completado!</h2>
+                <p style="font-size: 18px; color: var(--text-dark); margin: 1rem 0;">
+                    Tu progreso ha sido guardado.
+                </p>
+                <button class="btn btn-primary" onclick="irAlDashboard()" style="width: 100%;">
+                    Volver al Dashboard
+                </button>
+            `;
+
+        } catch (error) {
+            console.error('❌ Error:', error);
+            alert('Error guardando progreso: ' + error.message);
+        }
+    }
+
+    async function verificarDesbloqueoSiguienteTema() {
+        try {
+            // Obtener todos los temas del módulo del nivel
+            const { data: temas } = await supabaseClient
+                .from('module_topics')
+                .select('id')
+                .eq('module_id', moduleId);
+
+            if (!temas) return;
+
+            // Obtener progreso del estudiante en estos temas
+            const { data: progreso } = await supabaseClient
+                .from('student_progress')
+                .select('*')
+                .eq('student_id', currentUser.id)
+                .in('topic_id', temas.map(t => t.id));
+
+            const temasCompletados = progreso ? progreso.filter(p => p.completado).length : 0;
+            const totalTemas = temas.length;
+
+            console.log(`📊 Progreso: ${temasCompletados}/${totalTemas} temas completados`);
+
+            // Si completó TODOS los temas de su nivel, desbloquear siguiente nivel
+            if (temasCompletados === totalTemas) {
+                console.log('🔓 ¡Completaste tu nivel! Desbloqueando siguiente...');
+                // Lógica de desbloqueo se maneja en dashboard
+            }
+        } catch (error) {
+            console.error('Error verificando desbloqueo:', error);
+        }
+    }
+
+    function volver() {
+        window.location.href = 'dashboard-student.html';
+    }
+
+    function irAlDashboard() {
+        window.location.href = 'dashboard-student.html';
+    }
+</script>
+
+</body>
+</html>
