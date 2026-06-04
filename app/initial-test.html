@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Ubicación - English Coffee Time</title>
+    <title>Test de Nivel - English Coffee Time</title>
     <style>
         :root {
             --primary: #2C5282;
@@ -12,6 +12,7 @@
             --text-dark: #1F2937;
             --text-light: #6B7280;
             --success: #10B981;
+            --danger: #EF4444;
         }
 
         * {
@@ -23,13 +24,16 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
-            min-height: 100vh;
+            color: var(--text-dark);
         }
 
         .navbar {
             background: white;
             padding: 1rem 2rem;
             border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .navbar h1 {
@@ -38,13 +42,17 @@
         }
 
         .container {
-            max-width: 800px;
-            margin: 2rem auto;
+            max-width: 700px;
+            margin: 0 auto;
             padding: 2rem;
         }
 
         .progress-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
             margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
         }
 
         .progress-bar {
@@ -53,20 +61,39 @@
             background: #e5e7eb;
             border-radius: 10px;
             overflow: hidden;
+            margin-bottom: 1rem;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
             transition: width 0.3s;
         }
 
-        .question-card {
+        .progress-text {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .question-section {
             background: white;
-            border-radius: 12px;
             padding: 2rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+        }
+
+        .question-number {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
         .question-text {
@@ -77,7 +104,8 @@
         }
 
         .options {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 1rem;
         }
 
@@ -92,120 +120,98 @@
 
         .option:hover {
             border-color: var(--primary);
-            background: rgba(44, 82, 130, 0.05);
+            background: #f0f4ff;
         }
 
         .option input[type="radio"] {
             margin-right: 0.5rem;
-            cursor: pointer;
         }
 
         .option.selected {
             border-color: var(--primary);
-            background: rgba(44, 82, 130, 0.1);
+            background: #f0f4ff;
         }
 
         .buttons {
             display: flex;
             gap: 1rem;
             margin-top: 2rem;
-            justify-content: center;
         }
 
-        button {
-            padding: 0.75rem 2rem;
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
             border: none;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s;
+            font-size: 14px;
         }
 
-        .btn-next {
+        .btn-primary {
             background: var(--primary);
             color: white;
         }
 
-        .btn-next:hover {
+        .btn-primary:hover:not(:disabled) {
             background: #1e3a5f;
         }
 
-        .btn-next:disabled {
-            background: #ccc;
+        .btn-secondary {
+            background: #e5e7eb;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
             cursor: not-allowed;
         }
 
-        .btn-prev {
+        .result-section {
             background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-
-        .btn-prev:hover {
-            background: rgba(44, 82, 130, 0.05);
-        }
-
-        /* RESULTADO */
-        .result-container {
-            display: none;
-            text-align: center;
-            background: white;
-            border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            text-align: center;
+            display: none;
         }
 
-        .result-container.show {
+        .result-section.show {
             display: block;
-        }
-
-        .result-icon {
-            font-size: 64px;
-            margin-bottom: 1rem;
         }
 
         .result-level {
             font-size: 48px;
             font-weight: 700;
-            color: var(--accent);
+            color: var(--primary);
             margin: 1rem 0;
         }
 
         .result-description {
-            color: var(--text-light);
             font-size: 16px;
-            margin-bottom: 2rem;
-        }
-
-        .level-details {
-            background: var(--bg);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .level-details h3 {
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .level-details p {
             color: var(--text-light);
-            font-size: 14px;
+            margin-bottom: 2rem;
             line-height: 1.6;
         }
 
-        .btn-continue {
-            background: var(--success);
+        .result-btn {
+            background: var(--primary);
             color: white;
             padding: 1rem 2rem;
-            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
         }
 
-        .btn-continue:hover {
-            background: #059669;
+        .result-btn:hover {
+            background: #1e3a5f;
         }
 
         .loading {
@@ -220,294 +226,365 @@
             width: 40px;
             height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 1rem;
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .question-section {
+                padding: 1.5rem;
+            }
+
+            .result-level {
+                font-size: 36px;
+            }
+        }
     </style>
 </head>
 <body>
 
 <div class="navbar">
-    <h1>☕ English Coffee Time - Test de Ubicación</h1>
+    <h1>☕ English Coffee Time</h1>
+    <span id="logout-btn" style="cursor: pointer; color: var(--primary); font-weight: 600;">Logout</span>
 </div>
 
 <div class="container">
-    <!-- TEST SECTION -->
-    <div id="testSection">
-        <!-- Progress Bar -->
-        <div class="progress-section">
-            <p style="margin-bottom: 0.5rem; color: var(--text-light); font-size: 14px;">
-                Pregunta <span id="currentQuestion">1</span> de 30
-            </p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-            </div>
+    <!-- PROGRESO -->
+    <div class="progress-section">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
         </div>
-
-        <!-- Question Card -->
-        <div class="question-card">
-            <div class="question-text" id="questionText">Cargando pregunta...</div>
-            <div class="options" id="optionsContainer">
-                <!-- Opciones se llenan con JavaScript -->
-            </div>
-        </div>
-
-        <!-- Buttons -->
-        <div class="buttons">
-            <button class="btn-prev" id="prevBtn" onclick="previousQuestion()" style="display: none;">
-                ← Anterior
-            </button>
-            <button class="btn-next" id="nextBtn" onclick="nextQuestion()" disabled>
-                Siguiente →
-            </button>
+        <div class="progress-text">
+            Pregunta <span id="currentQuestion">1</span> de 30
         </div>
     </div>
 
-    <!-- RESULT SECTION -->
-    <div id="resultSection" class="result-container">
-        <div class="result-icon">🎉</div>
+    <!-- PREGUNTAS -->
+    <div id="questionsContainer"></div>
+
+    <!-- RESULTADO -->
+    <div class="result-section" id="resultSection">
         <h2>¡Test Completado!</h2>
+        <p style="color: var(--text-light); margin: 1rem 0;">Tu nivel de inglés es:</p>
         <div class="result-level" id="resultLevel">-</div>
-        <p class="result-description" id="resultDescription">-</p>
-        
-        <div class="level-details">
-            <h3 id="levelName">-</h3>
-            <p id="levelDescription">-</p>
-        </div>
+        <div class="result-description" id="resultDescription"></div>
+        <button class="result-btn" onclick="goToDashboard()">Ir a Dashboard</button>
+    </div>
 
-        <div class="loading" id="savingIndicator" style="display: none;">
-            <div class="spinner"></div>
-            <p>Guardando tu nivel...</p>
-        </div>
-
-        <button class="btn-continue" id="continueBtn" onclick="goToDashboard()" style="display: none;">
-            Ir a Módulos de Mi Nivel →
-        </button>
+    <!-- CARGANDO -->
+    <div class="loading" id="loadingSection" style="display: none;">
+        <div class="spinner"></div>
+        <p>Guardando resultado...</p>
     </div>
 </div>
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/supabase-client.js"></script>
 
 <script>
-    // PREGUNTAS DEL TEST (30 preguntas)
+    // ============================================
+    // CONFIGURACIÓN SUPABASE
+    // ============================================
+
+    const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
+
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    console.log('✅ Supabase inicializado en test');
+
+    // ============================================
+    // PREGUNTAS DEL TEST (30 PREGUNTAS)
+    // ============================================
+
     const questions = [
-        // A1 (0-5)
-        { q: "I ___ from Spain", o: ["am", "is", "are", "be"], c: 0 },
-        { q: "She ___ a teacher", o: ["am", "is", "are", "be"], c: 1 },
-        { q: "What is your name? - ___ John", o: ["I am", "You are", "He is", "It is"], c: 0 },
-        { q: "They ___ students", o: ["am", "is", "are", "be"], c: 2 },
-        { q: "___ you speak English?", o: ["Do", "Does", "Did", "Will"], c: 0 },
-        { q: "I like ___", o: ["to swimming", "swimming", "to swim", "swim"], c: 1 },
+        // A1 (Beginner)
+        { id: 1, question: "What is your name?", options: ["My name is John", "I am teacher", "Yes, I am", "Go to home"], correct: 0, level: "A1" },
+        { id: 2, question: "Choose the correct form: 'I ___ a student'", options: ["am", "is", "are", "be"], correct: 0, level: "A1" },
+        { id: 3, question: "What does 'hello' mean?", options: ["Goodbye", "A greeting", "Thank you", "Please"], correct: 1, level: "A1" },
+        { id: 4, question: "She ___ to school every day.", options: ["go", "goes", "going", "gone"], correct: 1, level: "A1" },
+        { id: 5, question: "Which is a number?", options: ["Red", "Five", "Happy", "Big"], correct: 1, level: "A1" },
 
-        // A2 (6-15)
-        { q: "She has ___ the book", o: ["read", "reads", "reading", "to read"], c: 0 },
-        { q: "They ___ to the beach yesterday", o: ["go", "goes", "went", "going"], c: 2 },
-        { q: "I would like ___ coffee", o: ["a", "an", "the", "some"], c: 3 },
-        { q: "If I ___ you, I would help", o: ["was", "were", "am", "be"], c: 1 },
-        { q: "Despite ___ tired, she continued", o: ["being", "be", "is", "was"], c: 0 },
-        { q: "The meeting ___ until 3 PM", o: ["lasts", "lasted", "will last", "has lasted"], c: 2 },
-        { q: "I would rather ___ at home", o: ["stay", "to stay", "staying", "stayed"], c: 0 },
-        { q: "He's been working ___", o: ["hardly for two hours", "for hardly two hours", "hardly two hours", "two hours hardly"], c: 0 },
-        { q: "She's not only intelligent ___ also creative", o: ["but", "and", "or", "nor"], c: 0 },
+        // A2 (Elementary)
+        { id: 6, question: "If I ___ you were in trouble, I would help you.", options: ["knew", "know", "known", "knowing"], correct: 0, level: "A2" },
+        { id: 7, question: "What time does the shop open?", options: ["No, it doesn't", "It's 9 o'clock", "Yes, it is", "Very much"], correct: 1, level: "A2" },
+        { id: 8, question: "Have you ___ been to Paris?", options: ["ever", "never", "just", "already"], correct: 0, level: "A2" },
+        { id: 9, question: "This book is ___ than that one.", options: ["more interesting", "interesting more", "the interesting", "most interesting"], correct: 0, level: "A2" },
+        { id: 10, question: "She asked me if I ___ help her.", options: ["could", "can", "will", "would can"], correct: 0, level: "A2" },
 
-        // B1 (16-23)
-        { q: "I ___ this project for 3 hours", o: ["have worked", "have been working", "am working", "worked"], c: 1 },
-        { q: "The economic crisis ___ by several factors", o: ["was caused", "caused", "has caused", "was causing"], c: 0 },
-        { q: "Her argument ___ as convincing", o: ["was regarded", "regarded", "was regarding", "regarding"], c: 0 },
-        { q: "What ___ if you had more time?", o: ["would you do", "you would do", "will you do", "you do"], c: 0 },
-        { q: "The policy has been ___", o: ["implemented", "implementing", "implement", "to implement"], c: 0 },
+        // B1 (Intermediate)
+        { id: 11, question: "By the time you arrive, I ___ dinner.", options: ["will have finished", "will finish", "finish", "have finished"], correct: 0, level: "B1" },
+        { id: 12, question: "Despite ___ tired, she continued working.", options: ["being", "be", "was", "to be"], correct: 0, level: "B1" },
+        { id: 13, question: "He suggested that she ___ more careful.", options: ["be", "is", "be being", "was"], correct: 0, level: "B1" },
+        { id: 14, question: "The project was ___ before the deadline.", options: ["completed", "completing", "complete", "to complete"], correct: 0, level: "B1" },
+        { id: 15, question: "I would have called you if I ___ your number.", options: ["had known", "knew", "have known", "would know"], correct: 0, level: "B1" },
 
-        // B1+ (24-27)
-        { q: "Unless you ___ harder, you won't succeed", o: ["work", "worked", "will work", "would work"], c: 0 },
-        { q: "Had I known, I ___ differently", o: ["would have acted", "would act", "acted", "will act"], c: 0 },
-        { q: "Not only ___ intelligent, but also kind", o: ["is she", "she is", "she was", "is intelligent"], c: 0 },
-        { q: "The more you practice, ___ you become", o: ["the better", "better", "the best", "best"], c: 0 },
+        // B2 (Upper Intermediate)
+        { id: 16, question: "The speaker ___ the importance of regular exercise.", options: ["emphasized", "emphasize", "emphasizing", "to emphasize"], correct: 0, level: "B2" },
+        { id: 17, question: "This approach is ___ to that one.", options: ["synonymous", "analogous", "anonymous", "ambiguous"], correct: 1, level: "B2" },
+        { id: 18, question: "His ___ to detail has earned him respect.", options: ["attention", "attend", "attentive", "attentively"], correct: 0, level: "B2" },
+        { id: 19, question: "The evidence is ___ inconsistent to be ignored.", options: ["too", "so", "such", "very"], correct: 0, level: "B2" },
+        { id: 20, question: "She spoke with such ___ that no one dared interrupt.", options: ["authority", "authorize", "authoritative", "authored"], correct: 0, level: "B2" },
 
-        // B2+ (28-29)
-        { q: "His argument was couched in ___ language", o: ["ambiguous", "ambiguity", "ambiguously", "ambiguousness"], c: 0 },
-        { q: "The phenomenon ___ considerable scholarly attention", o: ["has engendered", "has been engendered", "engenders", "has engendering"], c: 0 }
+        // C1 (Advanced)
+        { id: 21, question: "The ___ of her argument was evident in its logical structure.", options: ["robustness", "robust", "robustly", "robustify"], correct: 0, level: "C1" },
+        { id: 22, question: "His ___ for the subject matter was unmistakable.", options: ["erudition", "erudite", "eruditely", "unerudite"], correct: 0, level: "C1" },
+        { id: 23, question: "The treaty aimed to ___ the historical grievances.", options: ["ameliorate", "amelioration", "ameliorative", "poorly"], correct: 0, level: "C1" },
+        { id: 24, question: "Her ___ demeanor belied her inner turbulence.", options: ["insouciant", "insouciance", "insouciantly", "concerned"], correct: 0, level: "C1" },
+        { id: 25, question: "The author's ___ style made the complex subject accessible.", options: ["pellucid", "opaque", "lucidly", "clearly"], correct: 0, level: "C1" },
+
+        // C2 (Proficiency)
+        { id: 26, question: "The ___ nature of his observations revealed deep philosophical insight.", options: ["perspicacious", "perspicacity", "perspicaciously", "obvious"], correct: 0, level: "C2" },
+        { id: 27, question: "Her speech was an ___ of eloquence and profound knowledge.", options: ["apotheosis", "apogee", "epiphany", "peak"], correct: 0, level: "C2" },
+        { id: 28, question: "The ___ of the manuscript raised questions about its authenticity.", options: ["provenance", "provender", "providence", "provenience"], correct: 0, level: "C2" },
+        { id: 29, question: "His ___ critique was both devastating and intellectually rigorous.", options: ["trenchant", "trendy", "trenched", "entrenched"], correct: 0, level: "C2" },
+        { id: 30, question: "The philosopher's ___ arguments challenged conventional wisdom.", options: ["recondite", "reconditioned", "recorded", "reconciled"], correct: 0, level: "C2" }
     ];
 
-    // DESCRIPCIONES DE NIVELES
-    const levelDescriptions = {
-        'A1': {
-            name: 'Nivel A1 - Principiante',
-            desc: 'Puedes usar frases simples y cotidianas. Entiendes palabras básicas y expresiones familiares.'
-        },
-        'A2': {
-            name: 'Nivel A2 - Elemental',
-            desc: 'Puedes comunicarte en tareas simples. Entiendes el tema general de conversaciones cotidianas.'
-        },
-        'B1': {
-            name: 'Nivel B1 - Intermedio',
-            desc: 'Puedes mantener conversaciones sobre temas que te interesan. Comprendes lo esencial de discusiones claras.'
-        },
-        'B1+': {
-            name: 'Nivel B1+ - Intermedio Avanzado',
-            desc: 'Puedes expresarte con relativa fluidez. Comprendes discursos complejos sobre temas variados.'
-        },
-        'B2': {
-            name: 'Nivel B2 - Intermedio Alto',
-            desc: 'Puedes discutir temas complejos y expresar opiniones. Comprendes argumentos principales en textos complejos.'
-        },
-        'C1': {
-            name: 'Nivel C1 - Avanzado',
-            desc: 'Puedes expresarte con fluidez y espontaneidad. Comprendes textos largos y exigentes.'
-        },
-        'C2': {
-            name: 'Nivel C2 - Dominio',
-            desc: 'Dominas prácticamente todos los aspectos del idioma. Te expresas con precisión y matices.'
-        }
-    };
+    // ============================================
+    // VARIABLES GLOBALES
+    // ============================================
 
     let currentQuestion = 0;
-    let answers = new Array(30).fill(null);
+    let answers = [];
     let currentUser = null;
 
-    // Inicializar
+    // ============================================
+    // INICIALIZAR
+    // ============================================
+
     document.addEventListener('DOMContentLoaded', async () => {
+        console.log('📝 Test inicializando...');
+        
         currentUser = await supabaseGetCurrentUser();
+        console.log('👤 Usuario:', currentUser);
+        
         if (!currentUser) {
-            window.location.href = 'signin.html';
+            window.location.href = '../signin.html';
             return;
         }
 
-        loadQuestion(0);
+        renderQuestion();
+        setupLogout();
     });
 
-    function loadQuestion(index) {
-        currentQuestion = index;
-        const question = questions[index];
+    // ============================================
+    // FUNCIONES SUPABASE
+    // ============================================
 
-        document.getElementById('currentQuestion').textContent = index + 1;
-        document.getElementById('questionText').textContent = question.q;
-
-        const optionsContainer = document.getElementById('optionsContainer');
-        optionsContainer.innerHTML = '';
-
-        question.o.forEach((option, i) => {
-            const div = document.createElement('div');
-            div.className = 'option' + (answers[index] === i ? ' selected' : '');
-            div.innerHTML = `
-                <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
-                    <input type="radio" name="answer" value="${i}" 
-                        ${answers[index] === i ? 'checked' : ''} 
-                        onchange="selectAnswer(${i})">
-                    <span>${option}</span>
-                </label>
-            `;
-            optionsContainer.appendChild(div);
-        });
-
-        // Actualizar barra de progreso
-        const progress = ((index + 1) / 30) * 100;
-        document.getElementById('progressFill').style.width = progress + '%';
-
-        // Botones
-        document.getElementById('prevBtn').style.display = index > 0 ? 'block' : 'none';
-        document.getElementById('nextBtn').disabled = answers[index] === null;
-        document.getElementById('nextBtn').textContent = index === 29 ? 'Completar Test' : 'Siguiente →';
-    }
-
-    function selectAnswer(i) {
-        answers[currentQuestion] = i;
-        document.querySelectorAll('.option').forEach((opt, idx) => {
-            opt.classList.toggle('selected', idx === i);
-        });
-        document.getElementById('nextBtn').disabled = false;
-    }
-
-    function previousQuestion() {
-        if (currentQuestion > 0) {
-            loadQuestion(currentQuestion - 1);
-        }
-    }
-
-    function nextQuestion() {
-        if (currentQuestion < 29) {
-            loadQuestion(currentQuestion + 1);
-        } else {
-            completeTest();
-        }
-    }
-
-    // CALCULAR NIVEL
-    function calculateLevel() {
-        let score = 0;
-        answers.forEach((answer, index) => {
-            if (answer === questions[index].c) {
-                score++;
-            }
-        });
-
-        // Score = 0-30
-        // A1: 0-5, A2: 6-15, B1: 16-23, B1+: 24-27, B2+: 28-30
-        if (score <= 5) return 'A1';
-        if (score <= 15) return 'A2';
-        if (score <= 23) return 'B1';
-        if (score <= 27) return 'B1+';
-        if (score <= 29) return 'B2';
-        return 'C1';
-    }
-
-    // COMPLETAR TEST
-    async function completeTest() {
-        const nivel = calculateLevel();
-        const score = answers.filter((a, i) => a === questions[i].c).length;
-
-        // Mostrar resultado
-        showResult(nivel);
-
-        // Guardar en BD
-        await saveTestResult(nivel, score);
-    }
-
-    function showResult(nivel) {
-        const info = levelDescriptions[nivel];
-        document.getElementById('testSection').style.display = 'none';
-        document.getElementById('resultSection').classList.add('show');
-        document.getElementById('resultLevel').textContent = nivel;
-        document.getElementById('levelName').textContent = info.name;
-        document.getElementById('levelDescription').textContent = info.desc;
-        document.getElementById('resultDescription').textContent = 'Tu nivel ha sido determinado. Ahora puedes comenzar a aprender.';
-    }
-
-    // GUARDAR EN BD
-    async function saveTestResult(nivel, score) {
-        document.getElementById('savingIndicator').style.display = 'block';
-
+    async function supabaseGetCurrentUser() {
         try {
-            // Guardar test
-            await saveinitialTest(currentUser.id, nivel, score);
+            const { data } = await supabaseClient.auth.getSession();
+            if (!data.session) return null;
 
-            // Actualizar usuario con el nivel
-            const { error } = await supabaseClient
+            const user = data.session.user;
+            const { data: userData } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            return {
+                id: user.id,
+                email: user.email,
+                name: userData?.name || 'Usuario'
+            };
+        } catch (error) {
+            console.error('Error getting user:', error);
+            return null;
+        }
+    }
+
+    async function saveTestResult(nivel, puntuacion) {
+        try {
+            // Guardar en initial_assessments
+            const { error: testError } = await supabaseClient
+                .from('initial_assessments')
+                .insert([{
+                    student_id: currentUser.id,
+                    nivel_estimado: nivel,
+                    puntuacion: puntuacion,
+                    fecha: new Date().toISOString()
+                }]);
+
+            if (testError) throw testError;
+
+            // Actualizar nivel en tabla users
+            const { error: userError } = await supabaseClient
                 .from('users')
                 .update({ nivel: nivel })
                 .eq('id', currentUser.id);
 
-            if (error) throw error;
+            if (userError) throw userError;
 
-            console.log('✅ Nivel guardado:', nivel);
-
-            // Mostrar botón
-            document.getElementById('savingIndicator').style.display = 'none';
-            document.getElementById('continueBtn').style.display = 'block';
+            console.log('✅ Test guardado:', nivel, puntuacion);
+            return { success: true };
         } catch (error) {
-            console.error('❌ Error guardando:', error);
-            document.getElementById('savingIndicator').innerHTML = '<p>Error al guardar. Intenta de nuevo.</p>';
+            console.error('❌ Error guardando test:', error);
+            return { success: false, error: error.message };
         }
     }
 
-    // IR AL DASHBOARD
+    // ============================================
+    // RENDERIZAR PREGUNTA
+    // ============================================
+
+    function renderQuestion() {
+        const container = document.getElementById('questionsContainer');
+        
+        if (currentQuestion >= questions.length) {
+            showResult();
+            return;
+        }
+
+        const q = questions[currentQuestion];
+        const progress = ((currentQuestion + 1) / questions.length) * 100;
+
+        document.getElementById('progressBar').style.width = progress + '%';
+        document.getElementById('currentQuestion').textContent = currentQuestion + 1;
+
+        let html = `
+            <div class="question-section active">
+                <div class="question-number">Pregunta ${currentQuestion + 1}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+        `;
+
+        q.options.forEach((option, index) => {
+            const isSelected = answers[currentQuestion] === index;
+            html += `
+                <label class="option ${isSelected ? 'selected' : ''}">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="${index}"
+                        ${isSelected ? 'checked' : ''}
+                        onchange="selectAnswer(${index})"
+                    >
+                    ${option}
+                </label>
+            `;
+        });
+
+        html += `
+                </div>
+                <div class="buttons">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
+                        ← Anterior
+                    </button>
+                    <button class="btn btn-primary" onclick="nextQuestion()">
+                        ${currentQuestion === questions.length - 1 ? 'Terminar' : 'Siguiente'} →
+                    </button>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+    }
+
+    function selectAnswer(index) {
+        answers[currentQuestion] = index;
+        console.log('Respuesta:', currentQuestion, index);
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            renderQuestion();
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function nextQuestion() {
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            renderQuestion();
+            window.scrollTo(0, 0);
+        } else {
+            finishTest();
+        }
+    }
+
+    // ============================================
+    // CALCULAR RESULTADO
+    // ============================================
+
+    function calculateLevel() {
+        let correct = 0;
+
+        answers.forEach((answer, index) => {
+            if (answer === questions[index].correct) {
+                correct++;
+            }
+        });
+
+        const percentage = (correct / questions.length) * 100;
+        console.log('📊 Resultado:', correct, '/', questions.length, '=', percentage + '%');
+
+        let level;
+        if (percentage >= 90) level = 'C2';
+        else if (percentage >= 80) level = 'C1';
+        else if (percentage >= 70) level = 'B2';
+        else if (percentage >= 60) level = 'B1';
+        else if (percentage >= 50) level = 'A2';
+        else level = 'A1';
+
+        return { level, percentage: Math.round(percentage), correct };
+    }
+
+    const levelDescriptions = {
+        'A1': 'Principiante absoluto. Acabas de comenzar tu viaje en inglés. ¡Felicitaciones!',
+        'A2': 'Principiante. Comprendes frases simples y puedes comunicarte en situaciones básicas.',
+        'B1': 'Intermedio. Puedes expresar opiniones y hablar sobre experiencias pasadas.',
+        'B2': 'Intermedio-Alto. Tienes fluidez y puedes entender textos complejos.',
+        'C1': 'Avanzado. Dominas el idioma y puedes expresar ideas sofisticadas.',
+        'C2': 'Dominio Completo. Eres prácticamente un hablante nativo de inglés.'
+    };
+
+    async function finishTest() {
+        document.getElementById('questionsContainer').innerHTML = '';
+        document.getElementById('loadingSection').style.display = 'block';
+
+        const { level, percentage, correct } = calculateLevel();
+
+        // Guardar en BD
+        const result = await saveTestResult(level, percentage);
+
+        document.getElementById('loadingSection').style.display = 'none';
+
+        if (!result.success) {
+            alert('Error guardando resultado: ' + result.error);
+            return;
+        }
+
+        // Mostrar resultado
+        document.getElementById('resultLevel').textContent = level;
+        document.getElementById('resultDescription').textContent = 
+            levelDescriptions[level] + '\n\nPuntuación: ' + percentage + '% (' + correct + '/30 correctas)';
+        document.getElementById('resultSection').classList.add('show');
+    }
+
+    function showResult() {
+        finishTest();
+    }
+
     function goToDashboard() {
         window.location.href = 'dashboard-student.html';
+    }
+
+    function setupLogout() {
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await supabaseClient.auth.signOut();
+            window.location.href = '../signin.html';
+        });
     }
 </script>
 
