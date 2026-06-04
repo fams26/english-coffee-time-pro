@@ -306,47 +306,47 @@
     // ============================================
 
     const questions = [
-        // A1 (Beginner)
-        { id: 1, question: "What is your name?", options: ["My name is John", "I am teacher", "Yes, I am", "Go to home"], correct: 0, level: "A1" },
-        { id: 2, question: "Choose the correct form: 'I ___ a student'", options: ["am", "is", "are", "be"], correct: 0, level: "A1" },
-        { id: 3, question: "What does 'hello' mean?", options: ["Goodbye", "A greeting", "Thank you", "Please"], correct: 1, level: "A1" },
-        { id: 4, question: "She ___ to school every day.", options: ["go", "goes", "going", "gone"], correct: 1, level: "A1" },
-        { id: 5, question: "Which is a number?", options: ["Red", "Five", "Happy", "Big"], correct: 1, level: "A1" },
-
-        // A2 (Elementary)
-        { id: 6, question: "If I ___ you were in trouble, I would help you.", options: ["knew", "know", "known", "knowing"], correct: 0, level: "A2" },
-        { id: 7, question: "What time does the shop open?", options: ["No, it doesn't", "It's 9 o'clock", "Yes, it is", "Very much"], correct: 1, level: "A2" },
-        { id: 8, question: "Have you ___ been to Paris?", options: ["ever", "never", "just", "already"], correct: 0, level: "A2" },
-        { id: 9, question: "This book is ___ than that one.", options: ["more interesting", "interesting more", "the interesting", "most interesting"], correct: 0, level: "A2" },
-        { id: 10, question: "She asked me if I ___ help her.", options: ["could", "can", "will", "would can"], correct: 0, level: "A2" },
-
-        // B1 (Intermediate)
-        { id: 11, question: "By the time you arrive, I ___ dinner.", options: ["will have finished", "will finish", "finish", "have finished"], correct: 0, level: "B1" },
-        { id: 12, question: "Despite ___ tired, she continued working.", options: ["being", "be", "was", "to be"], correct: 0, level: "B1" },
-        { id: 13, question: "He suggested that she ___ more careful.", options: ["be", "is", "be being", "was"], correct: 0, level: "B1" },
-        { id: 14, question: "The project was ___ before the deadline.", options: ["completed", "completing", "complete", "to complete"], correct: 0, level: "B1" },
-        { id: 15, question: "I would have called you if I ___ your number.", options: ["had known", "knew", "have known", "would know"], correct: 0, level: "B1" },
-
-        // B2 (Upper Intermediate)
-        { id: 16, question: "The speaker ___ the importance of regular exercise.", options: ["emphasized", "emphasize", "emphasizing", "to emphasize"], correct: 0, level: "B2" },
-        { id: 17, question: "This approach is ___ to that one.", options: ["synonymous", "analogous", "anonymous", "ambiguous"], correct: 1, level: "B2" },
-        { id: 18, question: "His ___ to detail has earned him respect.", options: ["attention", "attend", "attentive", "attentively"], correct: 0, level: "B2" },
-        { id: 19, question: "The evidence is ___ inconsistent to be ignored.", options: ["too", "so", "such", "very"], correct: 0, level: "B2" },
-        { id: 20, question: "She spoke with such ___ that no one dared interrupt.", options: ["authority", "authorize", "authoritative", "authored"], correct: 0, level: "B2" },
-
-        // C1 (Advanced)
-        { id: 21, question: "The ___ of her argument was evident in its logical structure.", options: ["robustness", "robust", "robustly", "robustify"], correct: 0, level: "C1" },
-        { id: 22, question: "His ___ for the subject matter was unmistakable.", options: ["erudition", "erudite", "eruditely", "unerudite"], correct: 0, level: "C1" },
-        { id: 23, question: "The treaty aimed to ___ the historical grievances.", options: ["ameliorate", "amelioration", "ameliorative", "poorly"], correct: 0, level: "C1" },
-        { id: 24, question: "Her ___ demeanor belied her inner turbulence.", options: ["insouciant", "insouciance", "insouciantly", "concerned"], correct: 0, level: "C1" },
-        { id: 25, question: "The author's ___ style made the complex subject accessible.", options: ["pellucid", "opaque", "lucidly", "clearly"], correct: 0, level: "C1" },
-
-        // C2 (Proficiency)
-        { id: 26, question: "The ___ nature of his observations revealed deep philosophical insight.", options: ["perspicacious", "perspicacity", "perspicaciously", "obvious"], correct: 0, level: "C2" },
-        { id: 27, question: "Her speech was an ___ of eloquence and profound knowledge.", options: ["apotheosis", "apogee", "epiphany", "peak"], correct: 0, level: "C2" },
-        { id: 28, question: "The ___ of the manuscript raised questions about its authenticity.", options: ["provenance", "provender", "providence", "provenience"], correct: 0, level: "C2" },
-        { id: 29, question: "His ___ critique was both devastating and intellectually rigorous.", options: ["trenchant", "trendy", "trenched", "entrenched"], correct: 0, level: "C2" },
-        { id: 30, question: "The philosopher's ___ arguments challenged conventional wisdom.", options: ["recondite", "reconditioned", "recorded", "reconciled"], correct: 0, level: "C2" }
+        // A1 - Principiante (Preguntas 1-5)
+        { id: 1, question: "What is your name?", options: ["My name is John", "I am teacher", "Yes, I am", "Go home"], correct: 0, level: "A1" },
+        { id: 2, question: "She ___ from Mexico.", options: ["is", "are", "am", "be"], correct: 0, level: "A1" },
+        { id: 3, question: "What time is it?", options: ["It is 3 o'clock", "Yes, it is", "I am fine", "Very good"], correct: 0, level: "A1" },
+        { id: 4, question: "I ___ coffee every day.", options: ["drink", "drinks", "drinking", "drank"], correct: 0, level: "A1" },
+        { id: 5, question: "Where do you live?", options: ["I live in a house", "I am happy", "Yes, I do", "Very much"], correct: 0, level: "A1" },
+     
+        // A2 - Elemental (Preguntas 6-10)
+        { id: 6, question: "Have you ___ been to Paris?", options: ["ever", "never", "just", "already"], correct: 0, level: "A2" },
+        { id: 7, question: "If I had money, I ___ a car.", options: ["would buy", "buy", "bought", "will buy"], correct: 0, level: "A2" },
+        { id: 8, question: "This book is ___ than that one.", options: ["more interesting", "interesting", "most interesting", "the interesting"], correct: 0, level: "A2" },
+        { id: 9, question: "She asked me ___ I could help her.", options: ["if", "whether", "to", "that"], correct: 0, level: "A2" },
+        { id: 10, question: "How long have you ___ here?", options: ["been", "are", "being", "be"], correct: 0, level: "A2" },
+     
+        // B1 - Intermedio (Preguntas 11-15)
+        { id: 11, question: "By next year, I ___ English for 5 years.", options: ["will have studied", "will study", "have studied", "study"], correct: 0, level: "B1" },
+        { id: 12, question: "The manager suggested that she ___ more careful.", options: ["be", "is", "was", "being"], correct: 0, level: "B1" },
+        { id: 13, question: "Despite ___ tired, he finished the project.", options: ["being", "be", "was", "to be"], correct: 0, level: "B1" },
+        { id: 14, question: "I would have gone if I ___ about the party.", options: ["had known", "knew", "have known", "would know"], correct: 0, level: "B1" },
+        { id: 15, question: "The project was ___ last week.", options: ["completed", "completing", "complete", "to complete"], correct: 0, level: "B1" },
+     
+        // B2 - Intermedio-Alto (Preguntas 16-20)
+        { id: 16, question: "The speaker ___ the importance of exercise.", options: ["emphasized", "emphasize", "emphasizing", "to emphasize"], correct: 0, level: "B2" },
+        { id: 17, question: "This method is ___ to the previous one.", options: ["similar", "same", "alike", "equal"], correct: 0, level: "B2" },
+        { id: 18, question: "Her ___ to detail helped her succeed.", options: ["attention", "attentive", "attend", "attentively"], correct: 0, level: "B2" },
+        { id: 19, question: "The evidence is ___ strong to ignore.", options: ["too", "so", "such", "very"], correct: 0, level: "B2" },
+        { id: 20, question: "He spoke with great ___.", options: ["authority", "authorize", "authoritative", "authored"], correct: 0, level: "B2" },
+     
+        // C1 - Avanzado (Preguntas 21-25)
+        { id: 21, question: "The ___ of her argument was clear.", options: ["validity", "valid", "validly", "validate"], correct: 0, level: "C1" },
+        { id: 22, question: "His ___ knowledge impressed everyone.", options: ["extensive", "extent", "extend", "extension"], correct: 0, level: "C1" },
+        { id: 23, question: "The treaty aimed to ___ past conflicts.", options: ["ameliorate", "amelioration", "worse", "bad"], correct: 0, level: "C1" },
+        { id: 24, question: "Her calm ___ hid her anxiety.", options: ["demeanor", "behavior", "attitude", "manner"], correct: 0, level: "C1" },
+        { id: 25, question: "The author's ___ style made it easy to understand.", options: ["clear", "lucid", "obvious", "simple"], correct: 0, level: "C1" },
+     
+        // C2 - Dominio (Preguntas 26-30)
+        { id: 26, question: "His ___ observations showed deep thinking.", options: ["astute", "smart", "clever", "wise"], correct: 0, level: "C2" },
+        { id: 27, question: "The book was a ___ of knowledge.", options: ["repository", "store", "collection", "set"], correct: 0, level: "C2" },
+        { id: 28, question: "The ___ of the painting raised questions.", options: ["authenticity", "genuine", "real", "true"], correct: 0, level: "C2" },
+        { id: 29, question: "His criticism was both harsh and ___.", options: ["rigorous", "strict", "hard", "tough"], correct: 0, level: "C2" },
+        { id: 30, question: "The philosopher's ___ arguments changed thinking.", options: ["penetrating", "sharp", "deep", "profound"], correct: 0, level: "C2" }
     ];
 
     // ============================================
