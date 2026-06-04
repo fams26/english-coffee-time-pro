@@ -49,6 +49,12 @@
             margin-bottom: 2rem;
         }
 
+        .question-number {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
         .question-text {
             font-size: 1.1rem;
             color: #2c3e50;
@@ -170,7 +176,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>☕ Prueba de Nivel</h1>
+        <h1>☕ Prueba de Nivel CEFR</h1>
         <p>Responde estas preguntas para determinar tu nivel de inglés</p>
     </div>
 
@@ -196,7 +202,7 @@
         <div class="success">
             <h2 style="margin-bottom: 1rem;">✅ Prueba completada</h2>
             <p>Tu nivel estimado: <strong id="estimatedLevel">B1</strong></p>
-            <p style="margin-top: 1rem; color: #2c3e50;">Redirigiendo al dashboard...</p>
+            <p style="margin-top: 1rem; color: #2c3e50;">Redirigiendo al dashboard en 3 segundos...</p>
         </div>
     </div>
 </div>
@@ -205,10 +211,11 @@
 <script src="../js/supabase-client.js"></script>
 
 <script>
-    console.log('✅ initial-test.html cargado');
+    console.log('✅ initial-test-EXPANDED.html cargado');
 
-    // Preguntas de ejemplo (debería venir de BD)
+    // 30+ Preguntas CEFR
     const questions = [
+        // A1 NIVEL (1-8)
         {
             text: "¿Cuál es el significado de 'Hello'?",
             options: ["Adiós", "Hola", "Gracias", "Por favor"],
@@ -222,11 +229,93 @@
             level: "A1"
         },
         {
+            text: "¿Cuál es el pronombre correcto? 'My name ___ John'",
+            options: ["are", "is", "am", "be"],
+            correct: 1,
+            level: "A1"
+        },
+        {
+            text: "¿Cuál es el artículo correcto? '___ apple is red'",
+            options: ["The", "A", "An", "Some"],
+            correct: 1,
+            level: "A1"
+        },
+        {
+            text: "¿Cuál es el plural de 'cat'?",
+            options: ["cates", "cats", "catis", "cat's"],
+            correct: 1,
+            level: "A1"
+        },
+        {
+            text: "¿Qué número es 'five'?",
+            options: ["4", "5", "6", "15"],
+            correct: 1,
+            level: "A1"
+        },
+        {
+            text: "Completa: 'She ___ a teacher'",
+            options: ["are", "is", "am", "be"],
+            correct: 1,
+            level: "A1"
+        },
+        {
+            text: "¿Cuál es el color opuesto a 'black'?",
+            options: ["gray", "white", "red", "blue"],
+            correct: 1,
+            level: "A1"
+        },
+
+        // A2 NIVEL (9-16)
+        {
             text: "¿Cuál es el gerundio de 'run'?",
             options: ["running", "runned", "runing", "runs"],
             correct: 0,
             level: "A2"
         },
+        {
+            text: "Pasado simple de 'go': 'I ___ to the store'",
+            options: ["go", "goed", "went", "goes"],
+            correct: 2,
+            level: "A2"
+        },
+        {
+            text: "¿Cuál es el correcto? 'There ___ many books'",
+            options: ["is", "are", "am", "be"],
+            correct: 1,
+            level: "A2"
+        },
+        {
+            text: "Completa: 'Can you ___ me?'",
+            options: ["helping", "help", "helps", "helped"],
+            correct: 1,
+            level: "A2"
+        },
+        {
+            text: "¿Qué significa 'some'?",
+            options: ["ninguno", "alguno/a", "mucho", "poco"],
+            correct: 1,
+            level: "A2"
+        },
+        {
+            text: "Completa: 'I ___ breakfast this morning'",
+            options: ["eat", "ate", "eaten", "eating"],
+            correct: 1,
+            level: "A2"
+        },
+        {
+            text: "¿Cuál es la comparación? 'This book is ___ that one'",
+            options: ["more interesting", "more interesting than", "interestinger", "interested"],
+            correct: 1,
+            level: "A2"
+        },
+        {
+            text: "Preposición: 'I'm interested ___ music'",
+            options: ["in", "at", "on", "for"],
+            correct: 0,
+            level: "A2"
+        },
+
+        // B1 NIVEL (17-24)
         {
             text: "Elige el verbo correcto: 'If I ___ money, I would travel'",
             options: ["have", "had", "would have", "will have"],
@@ -234,9 +323,83 @@
             level: "B1"
         },
         {
-            text: "¿Cuál es la voz pasiva de 'They build houses'?",
-            options: ["Houses are built by them", "Houses are build by them", "Houses build by them", "Houses is built by them"],
+            text: "Completa: 'I wish I ___ speak Spanish'",
+            options: ["can", "could", "can't", "couldn't"],
+            correct: 1,
+            level: "B1"
+        },
+        {
+            text: "Pasado perfecto: 'By the time she arrived, I ___'",
+            options: ["left", "had left", "have left", "was leaving"],
+            correct: 1,
+            level: "B1"
+        },
+        {
+            text: "¿Cuál es el significado de 'nonetheless'?",
+            options: ["algo diferente", "sin embargo", "además", "antes bien"],
+            correct: 1,
+            level: "B1"
+        },
+        {
+            text: "Passive voice: 'The house ___ built in 2000'",
+            options: ["is", "was", "has been", "had been"],
+            correct: 1,
+            level: "B1"
+        },
+        {
+            text: "Reported speech: 'He said he ___ tired'",
+            options: ["is", "was", "has been", "would be"],
+            correct: 1,
+            level: "B1"
+        },
+        {
+            text: "Relative clause: 'The person ___ I met yesterday is a teacher'",
+            options: ["who", "which", "that", "whom"],
             correct: 0,
+            level: "B1"
+        },
+        {
+            text: "Phrasal verb: 'I had to ___ my appointment'",
+            options: ["call off", "call on", "call up", "call out"],
+            correct: 0,
+            level: "B1"
+        },
+
+        // B2 NIVEL (25-30)
+        {
+            text: "Second conditional: 'If I were you, I ___'",
+            options: ["would go", "will go", "go", "would have gone"],
+            correct: 0,
+            level: "B2"
+        },
+        {
+            text: "Voz pasiva avanzada: '_____ been stolen'",
+            options: ["The car is", "The car has", "The car was", "The car have"],
+            correct: 1,
+            level: "B2"
+        },
+        {
+            text: "Modal verb: 'He ___ have done it, but I'm not sure'",
+            options: ["could", "must", "might", "should"],
+            correct: 2,
+            level: "B2"
+        },
+        {
+            text: "Inversion: '___ he known, he would have helped'",
+            options: ["If", "Had", "Should", "Were"],
+            correct: 1,
+            level: "B2"
+        },
+        {
+            text: "Gerundio vs Infinitivo: 'I avoid ___ sugar'",
+            options: ["to eat", "eating", "eat", "eaten"],
+            correct: 1,
+            level: "B2"
+        },
+        {
+            text: "Conectores avanzados: '_____ his experience, he got the job'",
+            options: ["Although", "Despite", "However", "Furthermore"],
+            correct: 1,
             level: "B2"
         }
     ];
@@ -282,7 +445,7 @@
 
         let html = `
             <div class="question-container">
-                <div style="color: #7f8c8d; margin-bottom: 1rem;">
+                <div class="question-number">
                     Pregunta ${currentQuestion + 1} de ${questions.length}
                 </div>
                 <div class="question-text">${q.text}</div>
@@ -330,27 +493,33 @@
     }
 
     async function finishTest() {
-        console.log('✅ Test completado. Respuestas:', answers);
+        console.log('✅ Test completado. Total preguntas:', questions.length);
 
-        // Calcular nivel
-        let correctCount = 0;
+        // Calcular scores por nivel
+        let a1 = 0, a2 = 0, b1 = 0, b2 = 0;
         answers.forEach((ans, idx) => {
             if (ans === questions[idx].correct) {
-                correctCount++;
+                if (questions[idx].level === 'A1') a1++;
+                else if (questions[idx].level === 'A2') a2++;
+                else if (questions[idx].level === 'B1') b1++;
+                else if (questions[idx].level === 'B2') b2++;
             }
         });
 
-        const percentage = (correctCount / questions.length) * 100;
+        // Determinar nivel
         let level = 'A1';
-        if (percentage >= 80) level = 'B2';
-        else if (percentage >= 60) level = 'B1';
-        else if (percentage >= 40) level = 'A2';
+        if (b2 >= 4) level = 'B2';
+        else if (b1 >= 4) level = 'B1';
+        else if (a2 >= 5) level = 'A2';
 
-        console.log('📊 Nivel: ' + level + ' (' + percentage + '%)');
+        const percentage = Math.round(((a1 + a2 + b1 + b2) / questions.length) * 100);
+
+        console.log('📊 Resultados - A1: ' + a1 + ', A2: ' + a2 + ', B1: ' + b1 + ', B2: ' + b2);
+        console.log('📊 Nivel determinado: ' + level + ' (' + percentage + '%)');
 
         // Guardar en BD
         try {
-            await saveinitialTest(currentUser.id, level, Math.round(percentage));
+            await saveinitialTest(currentUser.id, level, percentage);
             console.log('✅ Guardado en BD');
         } catch (error) {
             console.warn('⚠️ Error guardando:', error);
@@ -362,7 +531,7 @@
                 .from('users')
                 .update({ nivel: level })
                 .eq('id', currentUser.id);
-            console.log('✅ Nivel actualizado');
+            console.log('✅ Nivel actualizado:', level);
         } catch (error) {
             console.warn('⚠️ Error actualizando nivel:', error);
         }
@@ -374,7 +543,7 @@
 
         setTimeout(() => {
             window.location.href = 'dashboard-student.html';
-        }, 2000);
+        }, 3000);
     }
 
     document.addEventListener('DOMContentLoaded', init);
