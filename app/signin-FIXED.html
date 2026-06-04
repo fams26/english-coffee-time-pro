@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - English Coffee Time</title>
+    <title>Sign In - English Coffee Time</title>
     <style>
         * {
             margin: 0;
@@ -21,7 +21,7 @@
             padding: 1rem;
         }
 
-        .signup-container {
+        .login-container {
             background: white;
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
@@ -30,18 +30,18 @@
             padding: 2rem;
         }
 
-        .signup-header {
+        .login-header {
             text-align: center;
             margin-bottom: 2rem;
         }
 
-        .signup-header h1 {
+        .login-header h1 {
             font-size: 2rem;
             color: #667BC6;
             margin-bottom: 0.5rem;
         }
 
-        .signup-header p {
+        .login-header p {
             color: #7f8c8d;
             font-size: 0.95rem;
         }
@@ -72,7 +72,11 @@
             box-shadow: 0 0 0 3px rgba(102, 123, 198, 0.1);
         }
 
-        .signup-btn {
+        .form-group input::placeholder {
+            color: #b0b9c6;
+        }
+
+        .login-btn {
             width: 100%;
             padding: 0.9rem;
             background: linear-gradient(135deg, #667BC6 0%, #45B7D1 100%);
@@ -85,28 +89,28 @@
             transition: opacity 0.3s;
         }
 
-        .signup-btn:hover {
+        .login-btn:hover {
             opacity: 0.9;
         }
 
-        .signup-btn:disabled {
+        .login-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        .signin-link {
+        .signup-link {
             text-align: center;
             margin-top: 1.5rem;
             color: #7f8c8d;
         }
 
-        .signin-link a {
+        .signup-link a {
             color: #667BC6;
             text-decoration: none;
             font-weight: 600;
         }
 
-        .signin-link a:hover {
+        .signup-link a:hover {
             text-decoration: underline;
         }
 
@@ -155,26 +159,16 @@
 </head>
 <body>
 
-<div class="signup-container">
-    <div class="signup-header">
+<div class="login-container">
+    <div class="login-header">
         <h1>☕ English Coffee Time</h1>
-        <p>Crea tu cuenta para empezar a aprender</p>
+        <p>Ingresa a tu plataforma de aprendizaje</p>
     </div>
 
     <div id="errorMessage" class="error-message"></div>
     <div id="successMessage" class="success-message"></div>
 
-    <form id="signupForm" onsubmit="handleSignup(event)">
-        <div class="form-group">
-            <label for="name">Nombre Completo</label>
-            <input 
-                type="text" 
-                id="name" 
-                placeholder="Tu nombre" 
-                required
-            >
-        </div>
-
+    <form id="loginForm" onsubmit="handleLogin(event)">
         <div class="form-group">
             <label for="email">Email</label>
             <input 
@@ -193,93 +187,77 @@
                 id="password" 
                 placeholder="••••••••" 
                 required
-                autocomplete="new-password"
+                autocomplete="current-password"
             >
         </div>
 
-        <div class="form-group">
-            <label for="password2">Confirmar Contraseña</label>
-            <input 
-                type="password" 
-                id="password2" 
-                placeholder="••••••••" 
-                required
-                autocomplete="new-password"
-            >
-        </div>
-
-        <button type="submit" class="signup-btn" id="signupBtn">
-            Crear Cuenta
+        <button type="submit" class="login-btn" id="loginBtn">
+            Ingresar
         </button>
     </form>
 
     <div class="loading" id="loadingIndicator">
         <div class="spinner"></div>
-        <p>Creando cuenta...</p>
+        <p>Autenticando...</p>
     </div>
 
-    <div class="signin-link">
-        ¿Ya tienes cuenta? <a href="signin.html">Inicia sesión aquí</a>
+    <div class="signup-link">
+        ¿No tienes cuenta? <a href="signup.html">Regístrate aquí</a>
     </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../js/supabase-client.js"></script>
 
 <script>
-    console.log('📄 Sign Up cargado');
+    console.log('📄 Sign In cargado');
 
-    const signupForm = document.getElementById('signupForm');
-    const signupBtn = document.getElementById('signupBtn');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
     const errorMessage = document.getElementById('errorMessage');
     const successMessage = document.getElementById('successMessage');
     const loadingIndicator = document.getElementById('loadingIndicator');
 
-    async function handleSignup(event) {
+    async function handleLogin(event) {
         event.preventDefault();
         
-        const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
-        const password2 = document.getElementById('password2').value;
 
+        console.log('🔐 Intentando login:', email);
+
+        // Mostrar loading
+        loginBtn.disabled = true;
+        loadingIndicator.style.display = 'block';
         errorMessage.style.display = 'none';
         successMessage.style.display = 'none';
 
-        if (password !== password2) {
-            errorMessage.textContent = '❌ Las contraseñas no coinciden';
-            errorMessage.style.display = 'block';
-            return;
-        }
-
-        console.log('📝 Registrando:', email);
-
-        signupBtn.disabled = true;
-        loadingIndicator.style.display = 'block';
-
         try {
-            const result = await supabaseSignUp(email, password, { name });
+            // Usar función global de supabase-client.js
+            const result = await supabaseSignIn(email, password);
 
             if (result.success) {
-                console.log('✅ Registro exitoso');
-                successMessage.textContent = '✅ Cuenta creada. Redirigiendo a inicio de sesión...';
+                console.log('✅ Login exitoso');
+                successMessage.textContent = '✅ Ingreso exitoso. Redirigiendo...';
                 successMessage.style.display = 'block';
                 
+                // Esperar 1 segundo y redirigir
                 setTimeout(() => {
-                    window.location.href = 'signin.html';
-                }, 2000);
+                    window.location.href = 'dashboard-student.html';
+                }, 1000);
             } else {
-                console.error('❌ Error:', result.error);
-                errorMessage.textContent = '❌ ' + (result.error || 'Error al registrarse');
+                console.error('❌ Error de login:', result.error);
+                errorMessage.textContent = '❌ ' + (result.error || 'Error al ingresar');
                 errorMessage.style.display = 'block';
-                signupBtn.disabled = false;
+                loginBtn.disabled = false;
                 loadingIndicator.style.display = 'none';
             }
         } catch (error) {
-            console.error('❌ Error:', error.message);
+            console.error('❌ Error inesperado:', error.message);
             errorMessage.textContent = '❌ Error: ' + error.message;
             errorMessage.style.display = 'block';
-            signupBtn.disabled = false;
+            loginBtn.disabled = false;
             loadingIndicator.style.display = 'none';
         }
     }
