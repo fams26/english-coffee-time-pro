@@ -211,7 +211,7 @@
 <script src="../js/supabase-client.js"></script>
 
 <script>
-    console.log('✅ initial-test-EXPANDED.html cargado');
+    console.log('✅ initial-test.html cargado');
 
     // 30+ Preguntas CEFR
     const questions = [
@@ -495,26 +495,37 @@
     async function finishTest() {
         console.log('✅ Test completado. Total preguntas:', questions.length);
 
-        // Calcular scores por nivel
-        let a1 = 0, a2 = 0, b1 = 0, b2 = 0;
+        // Calcular scores por nivel con LÓGICA MEJORADA
+        let levelScores = { A1: 0, A2: 0, B1: 0, B2: 0 };
+        let levelCounts = { A1: 0, A2: 0, B1: 0, B2: 0 };
+
         answers.forEach((ans, idx) => {
+            const level = questions[idx].level;
+            levelCounts[level]++;
             if (ans === questions[idx].correct) {
-                if (questions[idx].level === 'A1') a1++;
-                else if (questions[idx].level === 'A2') a2++;
-                else if (questions[idx].level === 'B1') b1++;
-                else if (questions[idx].level === 'B2') b2++;
+                levelScores[level]++;
             }
         });
 
-        // Determinar nivel
+        // Calcular porcentajes
+        const percentages = {
+            A1: (levelScores.A1 / levelCounts.A1) * 100,
+            A2: (levelScores.A2 / levelCounts.A2) * 100,
+            B1: (levelScores.B1 / levelCounts.B1) * 100,
+            B2: (levelScores.B2 / levelCounts.B2) * 100
+        };
+
+        console.log('📊 Porcentajes:', percentages);
+
+        // NUEVA LÓGICA: Asignar el nivel más BAJO donde tiene 70% o más
         let level = 'A1';
-        if (b2 >= 4) level = 'B2';
-        else if (b1 >= 4) level = 'B1';
-        else if (a2 >= 5) level = 'A2';
+        if (percentages.A1 >= 70) level = 'A2';
+        if (percentages.A2 >= 70) level = 'B1';
+        if (percentages.B1 >= 70) level = 'B2';
 
-        const percentage = Math.round(((a1 + a2 + b1 + b2) / questions.length) * 100);
+        const totalCorrect = levelScores.A1 + levelScores.A2 + levelScores.B1 + levelScores.B2;
+        const percentage = Math.round((totalCorrect / questions.length) * 100);
 
-        console.log('📊 Resultados - A1: ' + a1 + ', A2: ' + a2 + ', B1: ' + b1 + ', B2: ' + b2);
         console.log('📊 Nivel determinado: ' + level + ' (' + percentage + '%)');
 
         // Guardar en BD
