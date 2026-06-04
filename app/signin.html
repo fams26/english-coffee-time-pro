@@ -246,7 +246,7 @@
         const { data } = await supabaseClient.auth.getSession();
         if (data.session) {
             console.log('👤 Ya tiene sesión, redirigiendo...');
-            window.location.href = 'app/dashboard-student.html';
+            window.location.href = 'dashboard-student.html';
         }
     });
 
