@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Nivel - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+            --success: #10B981;
+            --danger: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .progress-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .question-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+        }
+
+        .question-number {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .option {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: var(--primary);
+            background: #f0f4ff;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 0.5rem;
+        }
+
+        .option.selected {
+            border-color: var(--primary);
+            background: #f0f4ff;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1e3a5f;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .result-level {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+
+        .result-description {
+            font-size: 16px;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .result-btn {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .result-btn:hover {
+            background: #1e3a5f;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--bg);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .question-section {
+                padding: 1.5rem;
+            }
+
+            .result-level {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>☕ English Coffee Time</h1>
+    <span id="logout-btn" style="cursor: pointer; color: var(--primary); font-weight: 600;">Logout</span>
+</div>
+
+<div class="container">
+    <!-- PROGRESO -->
+    <div class="progress-section">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-text">
+            Pregunta <span id="currentQuestion">1</span> de 30
+        </div>
+    </div>
+
+    <!-- PREGUNTAS -->
+    <div id="questionsContainer"></div>
+
+    <!-- RESULTADO -->
+    <div class="result-section" id="resultSection">
+        <h2>¡Test Completado!</h2>
+        <p style="color: var(--text-light); margin: 1rem 0;">Tu nivel de inglés es:</p>
+        <div class="result-level" id="resultLevel">-</div>
+        <div class="result-description" id="resultDescription"></div>
+        <button class="result-btn" onclick="goToDashboard()">Ir a Dashboard</button>
+    </div>
+
+    <!-- CARGANDO -->
+    <div class="loading" id="loadingSection" style="display: none;">
+        <div class="spinner"></div>
+        <p>Guardando resultado...</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // ============================================
+    // CONFIGURACIÓN SUPABASE
+    // ============================================
+
+    const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
+
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    console.log('✅ Supabase inicializado en test');
+
+    // ============================================
+    // PREGUNTAS DEL TEST (30 PREGUNTAS)
+    // ============================================
+
+    const questions = [
+        // A1 (Beginner)
+        { id: 1, question: "What is your name?", options: ["My name is John", "I am teacher", "Yes, I am", "Go to home"], correct: 0, level: "A1" },
+        { id: 2, question: "Choose the correct form: 'I ___ a student'", options: ["am", "is", "are", "be"], correct: 0, level: "A1" },
+        { id: 3, question: "What does 'hello' mean?", options: ["Goodbye", "A greeting", "Thank you", "Please"], correct: 1, level: "A1" },
+        { id: 4, question: "She ___ to school every day.", options: ["go", "goes", "going", "gone"], correct: 1, level: "A1" },
+        { id: 5, question: "Which is a number?", options: ["Red", "Five", "Happy", "Big"], correct: 1, level: "A1" },
+
+        // A2 (Elementary)
+        { id: 6, question: "If I ___ you were in trouble, I would help you.", options: ["knew", "know", "known", "knowing"], correct: 0, level: "A2" },
+        { id: 7, question: "What time does the shop open?", options: ["No, it doesn't", "It's 9 o'clock", "Yes, it is", "Very much"], correct: 1, level: "A2" },
+        { id: 8, question: "Have you ___ been to Paris?", options: ["ever", "never", "just", "already"], correct: 0, level: "A2" },
+        { id: 9, question: "This book is ___ than that one.", options: ["more interesting", "interesting more", "the interesting", "most interesting"], correct: 0, level: "A2" },
+        { id: 10, question: "She asked me if I ___ help her.", options: ["could", "can", "will", "would can"], correct: 0, level: "A2" },
+
+        // B1 (Intermediate)
+        { id: 11, question: "By the time you arrive, I ___ dinner.", options: ["will have finished", "will finish", "finish", "have finished"], correct: 0, level: "B1" },
+        { id: 12, question: "Despite ___ tired, she continued working.", options: ["being", "be", "was", "to be"], correct: 0, level: "B1" },
+        { id: 13, question: "He suggested that she ___ more careful.", options: ["be", "is", "be being", "was"], correct: 0, level: "B1" },
+        { id: 14, question: "The project was ___ before the deadline.", options: ["completed", "completing", "complete", "to complete"], correct: 0, level: "B1" },
+        { id: 15, question: "I would have called you if I ___ your number.", options: ["had known", "knew", "have known", "would know"], correct: 0, level: "B1" },
+
+        // B2 (Upper Intermediate)
+        { id: 16, question: "The speaker ___ the importance of regular exercise.", options: ["emphasized", "emphasize", "emphasizing", "to emphasize"], correct: 0, level: "B2" },
+        { id: 17, question: "This approach is ___ to that one.", options: ["synonymous", "analogous", "anonymous", "ambiguous"], correct: 1, level: "B2" },
+        { id: 18, question: "His ___ to detail has earned him respect.", options: ["attention", "attend", "attentive", "attentively"], correct: 0, level: "B2" },
+        { id: 19, question: "The evidence is ___ inconsistent to be ignored.", options: ["too", "so", "such", "very"], correct: 0, level: "B2" },
+        { id: 20, question: "She spoke with such ___ that no one dared interrupt.", options: ["authority", "authorize", "authoritative", "authored"], correct: 0, level: "B2" },
+
+        // C1 (Advanced)
+        { id: 21, question: "The ___ of her argument was evident in its logical structure.", options: ["robustness", "robust", "robustly", "robustify"], correct: 0, level: "C1" },
+        { id: 22, question: "His ___ for the subject matter was unmistakable.", options: ["erudition", "erudite", "eruditely", "unerudite"], correct: 0, level: "C1" },
+        { id: 23, question: "The treaty aimed to ___ the historical grievances.", options: ["ameliorate", "amelioration", "ameliorative", "poorly"], correct: 0, level: "C1" },
+        { id: 24, question: "Her ___ demeanor belied her inner turbulence.", options: ["insouciant", "insouciance", "insouciantly", "concerned"], correct: 0, level: "C1" },
+        { id: 25, question: "The author's ___ style made the complex subject accessible.", options: ["pellucid", "opaque", "lucidly", "clearly"], correct: 0, level: "C1" },
+
+        // C2 (Proficiency)
+        { id: 26, question: "The ___ nature of his observations revealed deep philosophical insight.", options: ["perspicacious", "perspicacity", "perspicaciously", "obvious"], correct: 0, level: "C2" },
+        { id: 27, question: "Her speech was an ___ of eloquence and profound knowledge.", options: ["apotheosis", "apogee", "epiphany", "peak"], correct: 0, level: "C2" },
+        { id: 28, question: "The ___ of the manuscript raised questions about its authenticity.", options: ["provenance", "provender", "providence", "provenience"], correct: 0, level: "C2" },
+        { id: 29, question: "His ___ critique was both devastating and intellectually rigorous.", options: ["trenchant", "trendy", "trenched", "entrenched"], correct: 0, level: "C2" },
+        { id: 30, question: "The philosopher's ___ arguments challenged conventional wisdom.", options: ["recondite", "reconditioned", "recorded", "reconciled"], correct: 0, level: "C2" }
+    ];
+
+    // ============================================
+    // VARIABLES GLOBALES
+    // ============================================
+
+    let currentQuestion = 0;
+    let answers = [];
+    let currentUser = null;
+
+    // ============================================
+    // INICIALIZAR
+    // ============================================
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('📝 Test inicializando...');
+        
+        currentUser = await supabaseGetCurrentUser();
+        console.log('👤 Usuario:', currentUser);
+        
+        if (!currentUser) {
+            window.location.href = '../signin.html';
+            return;
+        }
+
+        renderQuestion();
+        setupLogout();
+    });
+
+    // ============================================
+    // FUNCIONES SUPABASE
+    // ============================================
+
+    async function supabaseGetCurrentUser() {
+        try {
+            const { data } = await supabaseClient.auth.getSession();
+            if (!data.session) return null;
+
+            const user = data.session.user;
+            const { data: userData } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            return {
+                id: user.id,
+                email: user.email,
+                name: userData?.name || 'Usuario'
+            };
+        } catch (error) {
+            console.error('Error getting user:', error);
+            return null;
+        }
+    }
+
+    async function saveTestResult(nivel, puntuacion) {
+        try {
+            // Guardar en initial_assessments
+            const { error: testError } = await supabaseClient
+                .from('initial_assessments')
+                .insert([{
+                    student_id: currentUser.id,
+                    nivel_estimado: nivel,
+                    puntuacion: puntuacion,
+                    fecha: new Date().toISOString()
+                }]);
+
+            if (testError) throw testError;
+
+            // Actualizar nivel en tabla users
+            const { error: userError } = await supabaseClient
+                .from('users')
+                .update({ nivel: nivel })
+                .eq('id', currentUser.id);
+
+            if (userError) throw userError;
+
+            console.log('✅ Test guardado:', nivel, puntuacion);
+            return { success: true };
+        } catch (error) {
+            console.error('❌ Error guardando test:', error);
+            return { success: false, error: error.message };
+        }
+    }
+
+    // ============================================
+    // RENDERIZAR PREGUNTA
+    // ============================================
+
+    function renderQuestion() {
+        const container = document.getElementById('questionsContainer');
+        
+        if (currentQuestion >= questions.length) {
+            showResult();
+            return;
+        }
+
+        const q = questions[currentQuestion];
+        const progress = ((currentQuestion + 1) / questions.length) * 100;
+
+        document.getElementById('progressBar').style.width = progress + '%';
+        document.getElementById('currentQuestion').textContent = currentQuestion + 1;
+
+        let html = `
+            <div class="question-section active">
+                <div class="question-number">Pregunta ${currentQuestion + 1}</div>
+                <div class="question-text">${q.question}</div>
+                <div class="options">
+        `;
+
+        q.options.forEach((option, index) => {
+            const isSelected = answers[currentQuestion] === index;
+            html += `
+                <label class="option ${isSelected ? 'selected' : ''}">
+                    <input 
+                        type="radio" 
+                        name="answer" 
+                        value="${index}"
+                        ${isSelected ? 'checked' : ''}
+                        onchange="selectAnswer(${index})"
+                    >
+                    ${option}
+                </label>
+            `;
+        });
+
+        html += `
+                </div>
+                <div class="buttons">
+                    <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled' : ''}>
+                        ← Anterior
+                    </button>
+                    <button class="btn btn-primary" onclick="nextQuestion()">
+                        ${currentQuestion === questions.length - 1 ? 'Terminar' : 'Siguiente'} →
+                    </button>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+    }
+
+    function selectAnswer(index) {
+        answers[currentQuestion] = index;
+        console.log('Respuesta:', currentQuestion, index);
+    }
+
+    function previousQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            renderQuestion();
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function nextQuestion() {
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            renderQuestion();
+            window.scrollTo(0, 0);
+        } else {
+            finishTest();
+        }
+    }
+
+    // ============================================
+    // CALCULAR RESULTADO
+    // ============================================
+
+    function calculateLevel() {
+        let correct = 0;
+
+        answers.forEach((answer, index) => {
+            if (answer === questions[index].correct) {
+                correct++;
+            }
+        });
+
+        const percentage = (correct / questions.length) * 100;
+        console.log('📊 Resultado:', correct, '/', questions.length, '=', percentage + '%');
+
+        let level;
+        if (percentage >= 90) level = 'C2';
+        else if (percentage >= 80) level = 'C1';
+        else if (percentage >= 70) level = 'B2';
+        else if (percentage >= 60) level = 'B1';
+        else if (percentage >= 50) level = 'A2';
+        else level = 'A1';
+
+        return { level, percentage: Math.round(percentage), correct };
+    }
+
+    const levelDescriptions = {
+        'A1': 'Principiante absoluto. Acabas de comenzar tu viaje en inglés. ¡Felicitaciones!',
+        'A2': 'Principiante. Comprendes frases simples y puedes comunicarte en situaciones básicas.',
+        'B1': 'Intermedio. Puedes expresar opiniones y hablar sobre experiencias pasadas.',
+        'B2': 'Intermedio-Alto. Tienes fluidez y puedes entender textos complejos.',
+        'C1': 'Avanzado. Dominas el idioma y puedes expresar ideas sofisticadas.',
+        'C2': 'Dominio Completo. Eres prácticamente un hablante nativo de inglés.'
+    };
+
+    async function finishTest() {
+        document.getElementById('questionsContainer').innerHTML = '';
+        document.getElementById('loadingSection').style.display = 'block';
+
+        const { level, percentage, correct } = calculateLevel();
+
+        // Guardar en BD
+        const result = await saveTestResult(level, percentage);
+
+        document.getElementById('loadingSection').style.display = 'none';
+
+        if (!result.success) {
+            alert('Error guardando resultado: ' + result.error);
+            return;
+        }
+
+        // Mostrar resultado
+        document.getElementById('resultLevel').textContent = level;
+        document.getElementById('resultDescription').textContent = 
+            levelDescriptions[level] + '\n\nPuntuación: ' + percentage + '% (' + correct + '/30 correctas)';
+        document.getElementById('resultSection').classList.add('show');
+    }
+
+    function showResult() {
+        finishTest();
+    }
+
+    function goToDashboard() {
+        window.location.href = 'dashboard-student.html';
+    }
+
+    function setupLogout() {
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await supabaseClient.auth.signOut();
+            window.location.href = '../signin.html';
+        });
+    }
+</script>
+
+</body>
+</html>

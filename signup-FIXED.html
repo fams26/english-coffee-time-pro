@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, #1e3a5f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(44, 82, 130, 0.1);
+        }
+
+        input:disabled {
+            background: #f3f4f6;
+            cursor: not-allowed;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover:not(:disabled) {
+            background: #1e3a5f;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #EF4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #EF4444;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            display: none;
+            padding: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 0.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 14px;
+        }
+
+        .links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div class="header">
+        <div class="logo">☕</div>
+        <h1>English Coffee Time</h1>
+        <p>Crea tu cuenta para comenzar</p>
+    </div>
+
+    <div class="error" id="errorMsg"></div>
+
+    <form id="signupForm" onsubmit="handleSignup(event)">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input 
+                type="text" 
+                id="name" 
+                placeholder="Tu nombre"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input 
+                type="email" 
+                id="email" 
+                placeholder="tu@email.com"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input 
+                type="password" 
+                id="password" 
+                placeholder="••••••••"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirmar Contraseña</label>
+            <input 
+                type="password" 
+                id="confirmPassword" 
+                placeholder="••••••••"
+                required
+            >
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Creando cuenta...</p>
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">
+            Crear Cuenta
+        </button>
+    </form>
+
+    <div class="links">
+        <p>¿Ya tienes cuenta? <a href="signin.html">Inicia sesión</a></p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
+
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function handleSignup(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (!name || !email || !password) {
+            showError('Completa todos los campos');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            showError('Las contraseñas no coinciden');
+            return;
+        }
+
+        if (password.length < 6) {
+            showError('La contraseña debe tener al menos 6 caracteres');
+            return;
+        }
+
+        showLoading(true);
+        clearError();
+
+        try {
+            console.log('📝 Creando cuenta:', email);
+
+            // Registrar en Auth
+            const { data, error } = await supabaseClient.auth.signUp({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                console.error('❌ Error:', error.message);
+                showError(error.message);
+                showLoading(false);
+                return;
+            }
+
+            const userId = data.user.id;
+            console.log('✅ Usuario creado:', userId);
+
+            // Guardar en tabla users
+            const { error: insertError } = await supabaseClient
+                .from('users')
+                .insert([{
+                    id: userId,
+                    email: email,
+                    name: name,
+                    role: 'student',
+                    nivel: null
+                }]);
+
+            if (insertError) {
+                console.error('❌ Error en tabla users:', insertError.message);
+                showError('Error creando perfil: ' + insertError.message);
+                showLoading(false);
+                return;
+            }
+
+            console.log('✅ Signup exitoso, redirigiendo a test...');
+            showError('¡Cuenta creada! Redirigiendo al test...');
+            
+            // REDIRIGIR AUTOMÁTICAMENTE AL TEST
+            setTimeout(() => {
+                window.location.href = 'app/initial-test.html';
+            }, 1500);
+
+        } catch (error) {
+            console.error('❌ Error:', error.message);
+            showError('Error inesperado: ' + error.message);
+            showLoading(false);
+        }
+    }
+
+    function showError(message) {
+        const div = document.getElementById('errorMsg');
+        div.textContent = message;
+        div.classList.add('show');
+    }
+
+    function clearError() {
+        document.getElementById('errorMsg').classList.remove('show');
+    }
+
+    function showLoading(show) {
+        const loading = document.getElementById('loading');
+        const btn = document.getElementById('submitBtn');
+
+        if (show) {
+            loading.style.display = 'block';
+            btn.disabled = true;
+        } else {
+            loading.style.display = 'none';
+            btn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>

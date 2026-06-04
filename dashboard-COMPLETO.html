@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - English Coffee Time</title>
+    <style>
+        :root {
+            --primary: #2C5282;
+            --accent: #D4AF37;
+            --bg: #F8F7F3;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .navbar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .header-section h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .user-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .info-label {
+            color: var(--text-light);
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .module-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .module-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+
+        .module-icon {
+            font-size: 40px;
+            margin-bottom: 1rem;
+        }
+
+        .module-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .module-card p {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .module-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .module-btn:hover {
+            background: #1e3a5f;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--bg);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>☕ English Coffee Time</h1>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+    <div class="header-section">
+        <h2>Bienvenido, <span id="studentName">Usuario</span></h2>
+        <div class="user-info">
+            <div class="info-card">
+                <div class="info-label">Tu Nivel</div>
+                <div class="info-value" id="studentLevel">-</div>
+            </div>
+            <div class="info-card">
+                <div class="info-label">Estado</div>
+                <div class="info-value" id="status">Listo</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modulesSection">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Cargando módulos...</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // ============================================
+    // CONFIGURACIÓN SUPABASE - EMBEBIDO
+    // ============================================
+    
+    const SUPABASE_URL = 'https://yddwapikukyiwzwxbpkb.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZHdhcGlrdWt5aXd6d3hicGtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MzEyMDMsImV4cCI6MjA5NjAwNzIwM30.QfE53nsb-VTUfGEOSuS-6Bks5GSlFYyXaeppwgBNXN4';
+
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    console.log('✅ Supabase inicializado en dashboard');
+
+    // ============================================
+    // FUNCIONES SUPABASE - EMBEBIDAS
+    // ============================================
+
+    async function supabaseGetCurrentUser() {
+        try {
+            const { data } = await supabaseClient.auth.getSession();
+            if (!data.session) return null;
+
+            const user = data.session.user;
+            const { data: userData } = await supabaseClient
+                .from('users')
+                .select('*')
+                .eq('id', user.id)
+                .single();
+
+            return {
+                id: user.id,
+                email: user.email,
+                name: userData?.name || 'Usuario',
+                nivel: userData?.nivel || 'No asignado'
+            };
+        } catch (error) {
+            console.error('Error getting user:', error);
+            return null;
+        }
+    }
+
+    async function getModulesByLevel(nivel) {
+        try {
+            const { data } = await supabaseClient
+                .from('modules')
+                .select('*')
+                .eq('nivel', nivel)
+                .order('module_type');
+            return { success: true, data: data || [] };
+        } catch (error) {
+            console.error('Error getting modules:', error);
+            return { success: false, data: [] };
+        }
+    }
+
+    // ============================================
+    // LÓGICA DEL DASHBOARD
+    // ============================================
+
+    let currentUser = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        console.log('📄 Dashboard cargando...');
+        
+        currentUser = await supabaseGetCurrentUser();
+        console.log('👤 Usuario:', currentUser);
+        
+        if (!currentUser) {
+            console.log('❌ No hay sesión, redirigiendo...');
+            window.location.href = '../signin.html';
+            return;
+        }
+
+        loadStudentInfo();
+        loadModules();
+    });
+
+    async function loadStudentInfo() {
+        console.log('📊 Cargando info del estudiante...');
+        
+        document.getElementById('studentName').textContent = currentUser.name || 'Usuario';
+        document.getElementById('studentLevel').textContent = currentUser.nivel || 'No asignado';
+    }
+
+    async function loadModules() {
+        console.log('📚 Cargando módulos...');
+        
+        if (!currentUser.nivel) {
+            document.getElementById('modulesSection').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; background: white; border-radius: 12px;">Necesitas completar el test de ubicación primero</div>';
+            return;
+        }
+
+        const result = await getModulesByLevel(currentUser.nivel);
+        
+        if (!result.success || !result.data || result.data.length === 0) {
+            document.getElementById('modulesSection').innerHTML = 
+                '<div style="text-align: center; padding: 2rem; background: white; border-radius: 12px;">No hay módulos disponibles</div>';
+            return;
+        }
+
+        const moduleIcons = {
+            'reading': '📖',
+            'grammar': '📝',
+            'vocabulary': '📚',
+            'listening': '🎧',
+            'writing': '✍️',
+            'speaking': '🗣️'
+        };
+
+        let html = '<h3 style="margin-bottom: 1.5rem; color: var(--primary);">Módulos de tu Nivel (' + currentUser.nivel + ')</h3>';
+        html += '<div class="modules-grid">';
+
+        for (const module of result.data) {
+            html += `
+                <div class="module-card">
+                    <div class="module-icon">${moduleIcons[module.module_type] || '📚'}</div>
+                    <h4>${module.nombre}</h4>
+                    <p>${module.descripcion || 'Módulo de ' + currentUser.nivel}</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text">0% completo</div>
+                    <button class="module-btn" onclick="goToModule('${module.id}', '${module.nombre}')">
+                        Ver Temas
+                    </button>
+                </div>
+            `;
+        }
+
+        html += '</div>';
+        document.getElementById('modulesSection').innerHTML = html;
+        console.log('✅ Módulos cargados:', result.data.length);
+    }
+
+    function goToModule(moduleId, moduleName) {
+        alert('Módulo: ' + moduleName + '\nProximamente: Ver temas de este módulo');
+    }
+
+    async function logout() {
+        await supabaseClient.auth.signOut();
+        window.location.href = '../signin.html';
+    }
+</script>
+
+</body>
+</html>
