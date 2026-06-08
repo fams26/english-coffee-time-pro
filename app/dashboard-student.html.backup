@@ -46,7 +46,6 @@
             padding: 0.6rem 1.5rem;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.3s;
         }
 
         .logout-btn:hover {
@@ -122,7 +121,7 @@
 
         .modules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
@@ -145,13 +144,6 @@
             color: white;
             font-weight: bold;
             font-size: 1.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .module-icon {
-            font-size: 2rem;
         }
 
         .module-header.Grammar { background-color: var(--color-A1); }
@@ -163,51 +155,31 @@
 
         .module-content {
             padding: 1.5rem;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
         }
 
         .competencies-list {
-            flex: 1;
             margin-bottom: 1rem;
-            max-height: 200px;
-            overflow-y: auto;
         }
 
         .competency-item {
             background: #f8f9fa;
-            padding: 0.8rem;
-            margin-bottom: 0.6rem;
-            border-radius: 6px;
+            padding: 0.6rem 0.8rem;
+            margin-bottom: 0.4rem;
+            border-radius: 4px;
             font-size: 0.9rem;
             border-left: 3px solid #667BC6;
-            line-height: 1.4;
-        }
-
-        .competency-item strong {
-            display: block;
-            margin-bottom: 0.3rem;
-            color: #2c3e50;
-        }
-
-        .competency-item small {
-            color: #7f8c8d;
-            display: block;
         }
 
         .module-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #ecf0f1;
+            padding: 0 1.5rem 1.5rem;
         }
 
         .competency-count {
             color: #7f8c8d;
             font-size: 0.9rem;
-            font-weight: 600;
         }
 
         .view-btn {
@@ -219,7 +191,6 @@
             cursor: pointer;
             font-weight: 600;
             font-size: 0.9rem;
-            transition: opacity 0.3s;
         }
 
         .view-btn:hover {
@@ -241,16 +212,6 @@
             text-align: center;
         }
 
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: #7f8c8d;
-        }
-
-        .empty-state p {
-            margin-top: 0.5rem;
-        }
-
         @media (max-width: 768px) {
             .modules-grid {
                 grid-template-columns: 1fr;
@@ -259,17 +220,6 @@
             .header {
                 flex-direction: column;
                 gap: 1rem;
-                text-align: center;
-            }
-
-            .user-info {
-                text-align: center;
-            }
-
-            .module-header {
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: center;
             }
         }
     </style>
@@ -313,11 +263,7 @@
             <!-- Modules -->
             <h2 class="section-title">🎓 Tus Módulos (Nivel <span id="levelDisplay">A1</span>)</h2>
             <div class="modules-grid" id="modulesContainer">
-                <!-- Se llena dinámicamente desde Supabase -->
-            </div>
-
-            <div id="emptyState" class="empty-state" style="display: none;">
-                <p>📚 No hay módulos disponibles en este momento</p>
+                <!-- Se llena dinámicamente -->
             </div>
         </div>
 
@@ -334,21 +280,58 @@
     <script src="../js/supabase-client.js"></script>
 
     <script>
-        console.log('✅ dashboard-student-DINAMICO.html cargado');
+        console.log('✅ dashboard-student-MEJORADO.html cargado');
 
-        // Iconos para cada módulo
-        const MODULE_ICONS = {
-            Grammar: '📝',
-            Reading: '📖',
-            Writing: '✍️',
-            Listening: '🎧',
-            Speaking: '🗣️',
-            Vocabulary: '📚'
+        // Currículo CEFR completo
+        const CURRICULUM = {
+            A1: {
+                name: 'A1 - Elemental',
+                modules: {
+                    Grammar: ['Present Simple', 'To Be', 'Pronouns', 'Articles', 'Plural'],
+                    Reading: ['Keywords', 'Short Phrases', 'Basic Instructions', 'Personal Info', 'Short Descriptions'],
+                    Writing: ['Copy Words', 'Simple Sentences', 'Personal Data', 'Greetings', 'Simple Lists', 'Postcards'],
+                    Listening: ['Isolated Words', 'Numbers', 'Short Instructions', 'Greetings', 'Simple Announcements', 'Simple Dialogues'],
+                    Speaking: ['Basic Pronunciation', 'Self Introduction', 'Simple Questions', 'Numbers', 'Simple Instructions', 'Short Answers'],
+                    Vocabulary: ['Colors', 'Numbers', 'Family', 'Professions', 'Food', 'Clothing', 'Places', 'Time']
+                }
+            },
+            A2: {
+                name: 'A2 - Elemental Superior',
+                modules: {
+                    Grammar: ['Past Simple Regular', 'Past Simple Irregular', 'Present Continuous', 'There is/are', 'Can/Could', 'Some/Any', 'Comparatives', 'Prepositions'],
+                    Reading: ['Informal Emails', 'Short Stories', 'Menus', 'Advertising', 'Schedules', 'Person Description', 'Reviews'],
+                    Writing: ['Simple Emails', 'Paragraphs', 'Descriptions', 'Place Description', 'Postcards', 'Routines'],
+                    Listening: ['Familiar Conversations', 'Clear Instructions', 'Announcements', 'Oral Descriptions', 'Dates', 'Dialogues'],
+                    Speaking: ['Personal Conversation', 'Past Experiences', 'Future Plans', 'Shopping', 'Directions', 'Opinions'],
+                    Vocabulary: ['Weather', 'Pets', 'Sports', 'Furniture', 'Travel', 'Emotions', 'Money', 'Health']
+                }
+            },
+            B1: {
+                name: 'B1 - Intermedio',
+                modules: {
+                    Grammar: ['Present Perfect Simple', 'Present Perfect Continuous', 'First Conditional', 'Modal Verbs', 'Passive Voice', 'Reported Speech', 'Relative Clauses', 'Connectors'],
+                    Reading: ['News Articles', 'Opinion Essays', 'Interviews', 'Product Descriptions', 'Literature', 'Formal Emails'],
+                    Writing: ['Persuasive Essays', 'Formal Letters', 'Event Descriptions', 'Connected Paragraphs', 'Summaries', 'Instructions'],
+                    Listening: ['Semi-structured Interviews', 'Presentations', 'Films with Subtitles', 'Phone Messages', 'Complex Instructions', 'Natural Dialogues'],
+                    Speaking: ['Personal Presentations', 'Arguments', 'Storytelling', 'Clarification', 'Negotiations', 'Emotions'],
+                    Vocabulary: ['Current Topics', 'Education', 'Relationships', 'Business', 'Phrasal Verbs']
+                }
+            },
+            B2: {
+                name: 'B2 - Intermedio-Alto',
+                modules: {
+                    Grammar: ['Second Conditional', 'Advanced Passive', 'Advanced Modals', 'Advanced Reported Speech', 'Inverted Sentences', 'Mixed Conditionals', 'Gerunds/Infinitives', 'Conjunctions'],
+                    Reading: ['Specialized Articles', 'Classic Literature', 'Critical Analysis', 'Formal Documents', 'Persuasive Texts'],
+                    Writing: ['Professional Reports', 'Argumentative Essays', 'Formal Correspondence', 'Text Revision', 'Paraphrasing', 'Creative Writing'],
+                    Listening: ['Complete Lectures', 'Films without Subtitles', 'Specialized Podcasts', 'In-depth Interviews', 'Debates', 'Diverse Accents'],
+                    Speaking: ['Formal Presentations', 'Argumentative Debate', 'Professional Negotiation', 'Nuances', 'Improvisation', 'Creative Presentations'],
+                    Vocabulary: ['Advanced Collocations', 'Synonyms/Antonyms', 'Idioms', 'Academic', 'Professional']
+                }
+            }
         };
 
         let currentUser = null;
         let userLevel = null;
-        let modules = {};
 
         async function init() {
             try {
@@ -373,104 +356,50 @@
                     return;
                 }
 
-                // Cargar competencias desde Supabase
-                await loadCompetencies();
                 render();
-
                 document.getElementById('loadingScreen').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
-
             } catch (error) {
                 console.error('❌ Error:', error);
                 showError(error.message);
             }
         }
 
-        async function loadCompetencies() {
-            console.log(`📥 Cargando competencias para nivel ${userLevel}...`);
-
-            try {
-                const { data, error } = await supabaseClient
-                    .from('competencies')
-                    .select('*')
-                    .eq('nivel', userLevel)
-                    .order('modulo')
-                    .order('orden');
-
-                if (error) throw error;
-
-                if (!data || data.length === 0) {
-                    console.warn('⚠️ No hay competencias para nivel', userLevel);
-                    document.getElementById('emptyState').style.display = 'block';
-                    return;
-                }
-
-                // Agrupar por módulo
-                modules = {};
-                data.forEach(comp => {
-                    if (!modules[comp.modulo]) {
-                        modules[comp.modulo] = [];
-                    }
-                    modules[comp.modulo].push(comp);
-                });
-
-                console.log('✅ Competencias cargadas:', Object.keys(modules));
-
-            } catch (error) {
-                console.error('❌ Error cargando competencias:', error);
-                throw error;
-            }
-        }
-
         function render() {
-            // Actualizar info del usuario
+            const levelData = CURRICULUM[userLevel];
+
             document.getElementById('userName').textContent = currentUser.name || currentUser.email;
             document.getElementById('userLevel').textContent = userLevel;
             document.getElementById('levelDisplay').textContent = userLevel;
 
-            // Progreso (placeholder)
+            // Progreso
+            let totalCompetencies = 0;
+            Object.values(levelData.modules).forEach(competencies => {
+                totalCompetencies += competencies.length;
+            });
+
             document.getElementById('totalProgress').textContent = '0%';
             document.getElementById('totalProgressBar').style.width = '0%';
 
-            // Renderizar módulos
+            // Módulos
             const container = document.getElementById('modulesContainer');
             container.innerHTML = '';
 
-            // Orden de módulos
             const moduleOrder = ['Grammar', 'Reading', 'Writing', 'Listening', 'Speaking', 'Vocabulary'];
 
             moduleOrder.forEach(moduleType => {
-                const competencies = modules[moduleType];
+                const competencies = levelData.modules[moduleType];
                 
-                if (!competencies) {
-                    console.log(`⏭️  Saltando ${moduleType} - no hay competencias`);
-                    return;
-                }
-
                 const card = document.createElement('div');
                 card.className = 'module-card';
 
-                // Mostrar primeras 3 competencias en preview
-                const previewCompetencies = competencies.slice(0, 3);
-                let competenciesHTML = previewCompetencies.map(c => `
-                    <div class="competency-item">
-                        <strong>${c.competencia}</strong>
-                        <small>${c.descriptores ? c.descriptores.substring(0, 60) + '...' : ''}</small>
-                    </div>
-                `).join('');
-
-                if (competencies.length > 3) {
-                    competenciesHTML += `
-                        <div class="competency-item" style="font-style: italic; border-left-color: #bbb;">
-                            <small>+${competencies.length - 3} más...</small>
-                        </div>
-                    `;
-                }
+                let competenciesHTML = competencies.map(c => 
+                    `<div class="competency-item">✓ ${c}</div>`
+                ).join('');
 
                 card.innerHTML = `
                     <div class="module-header ${moduleType}">
-                        <div>${moduleType}</div>
-                        <div class="module-icon">${MODULE_ICONS[moduleType] || '📚'}</div>
+                        ${moduleType}
                     </div>
                     <div class="module-content">
                         <div class="competencies-list">
@@ -490,18 +419,8 @@
         }
 
         function viewModule(moduleType) {
-            const competencies = modules[moduleType];
-            if (!competencies) {
-                alert('No hay competencias para este módulo');
-                return;
-            }
-
-            console.log(`📖 Ver módulo: ${moduleType}`);
-            console.log(`Competencias:`, competencies);
-
-            // Por ahora mostrar alert, luego navegará a una página de módulo
-            const competencyNames = competencies.map(c => `• ${c.competencia}`).join('\n');
-            alert(`Módulo: ${moduleType}\n\nTemas (${competencies.length}):\n\n${competencyNames}`);
+            console.log('📖 Ver módulo:', moduleType);
+            alert(`Módulo: ${moduleType}\n\nTemas: ${CURRICULUM[userLevel].modules[moduleType].join(', ')}`);
         }
 
         async function logout() {
@@ -519,6 +438,5 @@
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
-
 </body>
 </html>

@@ -1,0 +1,309 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    GUÍA DE IMPLEMENTACIÓN COMPLETA                        ║
+║         Importar CSV a Supabase y Refactorizar Dashboard Dinámico         ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════
+FASE 1: PREPARACIÓN EN SUPABASE
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 1.1: Crear la tabla en Supabase
+────────────────────────────────────────
+
+1. Ve a tu proyecto Supabase: https://app.supabase.com
+2. Abre el "SQL Editor"
+3. Copia y pega TODO el contenido de: `01_create_competencies_table.sql`
+4. Click en "▶ Run" (ejecutar)
+
+✅ Deberías ver el mensaje: "PostgreSQL query successful"
+
+Si necesitas verificar que se creó:
+- Ve a "Table Editor"
+- Deberías ver la tabla "competencies" en la lista
+- Haz click para verificar que tiene las columnas:
+  id, nivel, modulo, competencia, descriptores, contextos_uso, orden, created_at, updated_at
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FASE 2: IMPORTAR DATOS DEL CSV
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 2.1: Preparar el entorno local
+────────────────────────────────────
+
+1. En tu terminal, navega a la raíz del proyecto:
+   cd /ruta/a/tu/proyecto
+
+2. Instala las dependencias necesarias:
+   npm install @supabase/supabase-js csv-parse dotenv
+
+3. Verifica que el archivo CSV está en la raíz:
+   ls Temas_Competencias_por_Nivel_Modulo.csv
+   
+   Si no está, cópialo:
+   cp /mnt/project/Temas_Competencias_por_Nivel_Modulo.csv ./
+
+
+PASO 2.2: Configurar variables de entorno
+──────────────────────────────────────────
+
+1. Abre tu terminal en la raíz del proyecto
+
+2. Crea un archivo `.env` (si no existe):
+   touch .env
+
+3. Abre `.env` en tu editor (VSCode, etc) y pega:
+
+   VITE_SUPABASE_URL=https://xxxxxxxxxxxx.supabase.co
+   VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+   ⚠️ Dónde obtener estas claves:
+   - Ve a Supabase → Tu proyecto → Settings → API
+   - Copia "Project URL" en VITE_SUPABASE_URL
+   - Copia "anon" key en VITE_SUPABASE_ANON_KEY
+
+4. Guarda el archivo
+
+
+PASO 2.3: Copiar el script de importación
+──────────────────────────────────────────
+
+1. Copia el archivo `import-competencies.js` a la raíz del proyecto:
+   cp /mnt/project/import-competencies.js ./
+
+2. Convierte el archivo a módulo (agregar package.json):
+   
+   Abre package.json y verifica que tiene:
+   "type": "module"
+   
+   Si no lo tiene, agrégalo en la sección raíz.
+
+
+PASO 2.4: Ejecutar la importación
+──────────────────────────────────
+
+1. En terminal, desde la raíz del proyecto:
+   node import-competencies.js
+
+2. Deberías ver salida como:
+   🚀 Iniciando importación de competencias...
+   
+   📂 Leyendo archivo CSV...
+   ✅ CSV parseado. Total de filas: 175
+   🗑️  Limpiando tabla competencies...
+   ✓ Insertado lote 0-50/175
+   ✓ Insertado lote 50-100/175
+   ✓ Insertado lote 100-150/175
+   ✓ Insertado lote 150-175/175
+   
+   📊 RESUMEN:
+   ✅ Insertados: 175
+   ❌ Fallidos: 0
+   📈 Total: 175
+   
+   📈 Distribución por nivel:
+   A1: 28 competencias
+   A2: 28 competencias
+   B1: 28 competencias
+   B2: 24 competencias
+   C1: 37 competencias
+   
+   ✅ Importación completada
+
+✅ Si ves esto, ¡LA IMPORTACIÓN FUE EXITOSA!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FASE 3: VERIFICAR DATOS EN SUPABASE
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 3.1: Verificar en la consola
+──────────────────────────────────
+
+1. Ve a Supabase → Tu proyecto → Table Editor
+2. Haz click en "competencies"
+3. Deberías ver todas las filas (175 total)
+4. Filtra por nivel:
+   - Click en "Nivel" → Filter → equals → "A1"
+   - Deberías ver 28 filas de A1
+   - Intenta con A2, B1, B2, C1
+
+PASO 3.2: Verificar con SQL query
+──────────────────────────────────
+
+En SQL Editor, ejecuta:
+
+-- Contar por nivel
+SELECT nivel, modulo, COUNT(*) as cantidad
+FROM competencies
+GROUP BY nivel, modulo
+ORDER BY nivel, modulo;
+
+Deberías ver algo como:
+
+nivel │ modulo      │ cantidad
+──────┼─────────────┼──────────
+ A1   │ Grammar     │  5
+ A1   │ Listening   │  5
+ A1   │ Reading     │  5
+ A1   │ Speaking    │  5
+ A1   │ Vocabulary  │  8
+ A1   │ Writing     │  5
+ A2   │ Grammar     │  8
+ ...
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FASE 4: REFACTORIZAR DASHBOARD
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 4.1: Reemplazar el archivo del dashboard
+──────────────────────────────────────────────
+
+1. Backup del anterior (por si acaso):
+   cp app/dashboard-student.html app/dashboard-student.html.bak
+
+2. Copia el nuevo dashboard dinámico:
+   cp dashboard-student-DINAMICO.html app/dashboard-student.html
+
+   ⚠️ IMPORTANTE: Reemplaza el archivo existente, no lo renombres
+
+PASO 4.2: Probar localmente (opcional)
+───────────────────────────────────────
+
+1. Si tienes servidor local:
+   npm run dev
+
+2. O simplemente despliega a Vercel (ver PASO 4.3)
+
+
+PASO 4.3: Desplegar a Vercel
+──────────────────────────────
+
+1. Commit y push a GitHub:
+   git add .
+   git commit -m "feat: Importar competencias de CSV a Supabase y refactorizar dashboard dinámico"
+   git push
+
+2. Vercel auto-despliega (o manual en https://vercel.com)
+
+3. Espera ~1-2 minutos
+
+4. Prueba en: https://english-coffee-time-pro.vercel.app/signup.html
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FASE 5: PRUEBAS END-TO-END
+═══════════════════════════════════════════════════════════════════════════════
+
+PASO 5.1: Crear usuario de prueba
+──────────────────────────────────
+
+1. Abre https://english-coffee-time-pro.vercel.app/signup.html
+2. Regístrate con:
+   Email: testA1@test.com
+   Password: Test123456!
+
+3. Haz click en "Registrarse"
+
+PASO 5.2: Hacer el test de nivel
+─────────────────────────────────
+
+1. Deberías ser redirigido a `/app/initial-test.html`
+2. Contesta las preguntas intentando sacar A1 (responde solo las primeras preguntas correctamente)
+3. Click "Terminar"
+
+PASO 5.3: Ver el dashboard dinámico
+────────────────────────────────────
+
+1. Deberías ver el dashboard con:
+   - Header con "Nivel: A1"
+   - Módulos: Grammar, Reading, Writing, Listening, Speaking, Vocabulary
+   - Cada módulo mostrando:
+     ✓ Nombre del módulo
+     ✓ Primeras 3 competencias con descripciones
+     ✓ Contador de temas totales (ej: "28 temas")
+     ✓ Botón "Ver →"
+
+2. Haz click en "Ver →" en Grammar:
+   Deberías ver un alert con todas las competencias de Grammar
+
+✅ Si ves esto, ¡TODO FUNCIONA CORRECTAMENTE!
+
+
+═══════════════════════════════════════════════════════════════════════════════
+FASE 6: PRUEBAS CON OTROS NIVELES (Opcional)
+═══════════════════════════════════════════════════════════════════════════════
+
+Para simular otros niveles sin hacer el test completo:
+
+1. En Supabase → Table Editor → users
+2. Busca tu usuario (testA1@test.com)
+3. Edita la columna "nivel" manualmente:
+   - Cambia de A1 a B1 (u otro nivel)
+   - Click en el icono de guardar
+
+4. Regresa al dashboard (sin logout):
+   https://english-coffee-time-pro.vercel.app/app/dashboard-student.html
+
+5. Recarga la página (F5)
+
+6. Deberías ver ahora los módulos de B1 en lugar de A1 ✅
+
+
+═══════════════════════════════════════════════════════════════════════════════
+SOLUCIÓN DE PROBLEMAS
+═══════════════════════════════════════════════════════════════════════════════
+
+❌ ERROR: "VITE_SUPABASE_URL not configured"
+─────────────────────────────────────────────
+Solución:
+- Verifica que .env existe en la raíz
+- Verifica que tiene VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY
+- Las claves son correctas (cópiadas de Supabase Settings → API)
+
+❌ ERROR: "competencies table not found"
+────────────────────────────────────────
+Solución:
+- Ve a Supabase SQL Editor
+- Ejecuta el script 01_create_competencies_table.sql nuevamente
+- Verifica en Table Editor que aparece "competencies"
+
+❌ ERROR: "CSV file not found"
+──────────────────────────────
+Solución:
+- Verifica que Temas_Competencias_por_Nivel_Modulo.csv está en la raíz
+- Ejecuta: ls Temas_Competencias_por_Nivel_Modulo.csv
+- Si no está, cópialo desde /mnt/project/
+
+❌ El dashboard no muestra módulos
+──────────────────────────────────
+Solución:
+- Abre la consola del navegador (F12)
+- Busca mensajes de error
+- Verifica que tu usuario tiene un "nivel" asignado en Supabase
+- Verifica que existen competencias para ese nivel en la BD
+
+❌ Error: "Column 'nivel' not found"
+─────────────────────────────────────
+Solución:
+- La tabla no se creó correctamente
+- Vuelve a FASE 1 y ejecuta el script SQL completo
+
+
+═══════════════════════════════════════════════════════════════════════════════
+PRÓXIMOS PASOS DESPUÉS DE ESTO
+═══════════════════════════════════════════════════════════════════════════════
+
+Una vez que todo funcione:
+
+1. ✅ Crear tabla `module_questions` para preguntas por tema
+2. ✅ Crear página `module-player.html` para resolver preguntas
+3. ✅ Crear tabla `student_progress` para rastrear avance
+4. ✅ Dashboard con progreso real actualizado en tiempo real
+5. ✅ Teacher dashboard con reportes
+
+═══════════════════════════════════════════════════════════════════════════════
+
+¿Necesitas ayuda? Revisa la consola del navegador (F12) para ver logs detallados.
+
